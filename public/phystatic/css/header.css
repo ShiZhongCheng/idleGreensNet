@@ -1,0 +1,65 @@
+
+/*清除浮动*/
+.clear-float{
+	clear: both;
+}
+
+body{
+	background: #e9ecf3;
+}
+.navbar{
+	background: #fff;
+    margin-bottom: 0; 
+}
+.logo{
+	height: 50px;
+}
+
+/*当前位置*/
+.breadcrumb{
+	margin-bottom: 0;
+	height: 50px;
+	background: #fff;
+	color: #5e5e5e;
+	line-height: 50px;
+	padding: 0;
+	padding-left: 15px;
+}
+
+/*头部右侧功能区*/
+.header-right{
+	margin-right: 50px;
+	float: right;
+}
+
+/*加载效果*/
+.loading{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: #fff;
+	z-index: 999;
+}
+.loading-fa{
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	top: 50%;
+	left: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+	font-size: 50px;
+	line-height: 100px;
+	text-align: center;
+}
+
+/*弹框样式*/
+.alert-content{
+	position: fixed;
+	top: 30px;
+	right: 30px;
+	width: 290px;
+	z-index: 9998;
+}

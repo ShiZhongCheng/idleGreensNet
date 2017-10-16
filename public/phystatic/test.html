@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jQuery与PHP实现Ajax长轮询</title>
+    <script src="http://sources.ikeepstudying.com/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+    polling();
+    function polling(){   
+        $.ajax({   
+            type:"POST",   
+            dataType:"json",   
+            url:"test.php",   
+            timeout:10000,     //ajax请求超时时间10秒   
+            data:{time:"6"}, //6秒后无论结果服务器都返回数据   
+            success:function(data,textStatus){
+                //从服务器得到数据，显示数据并继续查询     
+                if(data.success=="1"){     
+                     $("#msg").append("<br>[有数据]"+data.text);     
+                     polling();
+                }     
+                 //未从服务器得到数据，继续查询     
+                if(data.success=="0"){     
+                    $("#msg").append("<br>[无数据]");     
+                    polling();
+                }
+            },
+             //Ajax请求超时，继续查询
+             error:function(XMLHttpRequest,textStatus,errorThrown){
+                if(textStatus=="parsererror"){
+                    $("#msg").append("<br>[超时]");
+                    polling();
+                }
+             }
+            });
+    }
+    </script>
+</head>
+<body>
+    <div id="msg"></div>
+    <input id="btn" type="button" value="测试" />
+</body>
+</html>

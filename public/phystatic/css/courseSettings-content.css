@@ -1,0 +1,14 @@
+.courseSettings-content{
+	margin: 20px 20px 0 0;
+	float: right;
+	min-height: 300px;
+}
+.panel-default{
+	border-radius: 5px;
+}
+
+/*图片上传插件样式修改*/
+.upload_preview{
+	/*position: absolute;*/
+    width: 100%;
+}

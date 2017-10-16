@@ -1,0 +1,44 @@
+/*首页内容*/
+.index-content{
+	margin: 20px 20px 0 0;
+	float: right;
+}
+
+/*图表统计*/
+.chart{
+	width: 100%;
+}
+.chart49-panel{
+	width: 49%;
+	float: left;
+	border-radius: 5px;
+}
+.margin2-left{
+	margin-left: 2%;
+}
+.index-content .chart .panel-body{
+	height: 300px;
+}
+
+/*当前通告*/
+.notice{
+	width: 100%;
+	margin-top: 20px;
+	border-radius: 5px;
+}
+.notice74-panel{
+	float: left;
+	width: 74%;
+	border-radius: 5px 5px 0 0;
+}
+.notice24-panel{
+	float: left;
+	width: 24%;
+	border-radius: 5px;
+}
+.notice24-panel .panel-body{
+	padding: 0px;
+}
+.notice24-panel .carousel-inner,.notice24-panel .carousel-inner .item img{
+	min-height: 220px;
+}

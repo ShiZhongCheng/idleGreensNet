@@ -1,0 +1,37 @@
+
+.pictureSettings-content{
+	margin: 20px 20px 0 0;
+	float: right;
+}
+.panel-default{
+	border-radius: 5px;
+}
+
+/*轮播图面板*/
+.panel-carousel .carousel-img{
+	width: 300px;
+	height: 200px;
+}
+
+/*小程序"我的"背景图和小程序"课前必看"的背景图*/
+.backgroundMap{
+	width: 100%;
+	margin-top: 20px;
+}
+.panel49{
+	width: 49%;
+	float: left;
+}
+.panelMarginLeft2{
+	margin-left: 2%;
+}
+.table-img{
+	width: 300px;
+	height: 200px;
+}
+
+/*图片上传插件样式修改*/
+.upload_preview{
+	position: absolute;
+    width: 96%;
+}
