@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="__ROOT__/phystatic/css/bootstrap.min.css">
+	<script src="__ROOT__/phystatic/js/jquery.min.js"></script>
+	<script src="__ROOT__/phystatic/js/bootstrap.min.js"></script>
+	<!-- 自定义css -->
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/login.css">
+</head>
+<body>
+	<div class="login-content">
+		<!-- logo图 -->
+		<div class="logo-img">
+			<div id="logo">
+				<img style="width: 160px;" src="__ROOT__/phystatic/images/logo.png" alt="logo">
+			</div>
+			<p class="logo-title">杭电物理实验中心</p>
+		</div>
+		<!-- 表单 -->
+		<div class="login-form-content">
+			<form action="#">
+				<input id="name" class="form-input" required="true" name="admin-name" type="text" placeholder="请输入账号"></input>
+				<input id="password" class="form-input" required="true" name="admin-password" type="password" placeholder="请输入密码"></input>
+				<input class="form-checkbox" name="admin-rember" type="checkbox">一周内免登录</input>
+				<button class="form-button" onclick="loginSure()" type="button">登录</button>
+			</form>
+		</div>
+		<!-- 日期 -->
+		<div class="date-content">
+			<div class="date-nowday">{$date}</div>
+		</div>
+	</div>
+
+	<!-- 弹框位置 -->
+	<div class="alert-content">
+	</div>
+
+	<!-- js -->
+	<script type="text/javascript">
+		// 回车键按下时
+		$(window).keydown(function(event){
+			if (event.keyCode == 13) {
+				loginSure();
+			}
+		});
+		// 登录按钮点击
+		function loginSure() {
+			var admin_name = $("#name").val();
+			var admin_password = $("#password").val();
+			// 判断是否为选择状态
+			var admin_rember = $(".form-checkbox").is(':checked');
+			// 账号和密码都不为空时
+			if (admin_name != "" && admin_password != "") {
+				// 登录
+				loginSave(admin_name,admin_password,admin_rember);
+			}else{
+				if (admin_name == "") {addAlert("提醒！","账号为空，请重新输入");}
+				if (admin_password == "") {addAlert("提醒！","密码为空，请重新输入");}
+			}
+		}
+
+		// 登录函数
+		function loginSave(admin_name,admin_password,admin_rember) {
+			$.ajax({
+			   type: "POST",
+			   url: "__ROOT__/api/myfunction/loinSave",
+			   data: {"zhanghao":admin_name,"password":admin_password,"remberPassword":admin_rember},
+			   dataType: "json",
+			   success: function(msg){
+				   	if (msg == "success") {
+				   		addAlert("恭喜！","登录成功");
+				   		window.location.href="__ROOT__/api/admin"; 
+				   	}else if (msg == "fail"){
+				   		addAlert("提醒！","登录失败，请重新登录");
+				   	}else if (msg == "not"){
+				   		addAlert("提醒！","账号或密码错误，请重新输入");
+				   	}
+			   },
+			   error: function (msg) {
+				   	addAlert("提醒！","登录失败，请重新登录");
+			   } 
+			});
+		}
+
+		// 添加弹框函数
+		function addAlert(title,content) {
+			// 所要添加弹框的字符串内容
+			var cla = "cla"+getNowFormatDate();
+			var appendContent = '<div class="alert alert-warning '+cla+'">'+
+									'<a href="#" class="close" data-dismiss="alert">&times;</a>'+
+									'<strong>'+title+'</strong>'+content+
+								'</div>';
+		    // 判断当前有多少个弹框
+		    var index = $('.alert-content').children('.alert').length;
+		    // 如果个数大于等于3，让第一个弹框消失然后在添加弹框，弹框显示总数为3
+			if (index >= 3) {
+				$('.alert-content .alert:first').fadeOut("slow");
+				$('.alert-content .alert:first').remove();
+			}
+			// 添加弹框
+			$(".alert-content").append(appendContent);
+			// 30秒后让此弹框消失
+			setTimeout("closeAlert('"+cla+"')",6000);
+		}
+		// 弹框消失函数
+		function closeAlert(cla) {
+			// 取得最后一个弹框,然后让其消失
+			$("."+cla).fadeOut("slow");
+			$("."+cla).remove();
+		}
+		// 获取当前时间函数
+		function getNowFormatDate() {
+		    var date = new Date();
+		    var seperator1 = "";
+		    var seperator2 = "";
+		    var month = date.getMonth() + 1;
+		    var strDate = date.getDate();
+		    if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (strDate >= 0 && strDate <= 9) {
+		        strDate = "0" + strDate;
+		    }
+		    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+		            + seperator1 + date.getHours() + seperator2 + date.getMinutes()
+		            + seperator2 + date.getSeconds();
+		    return currentdate;
+		}
+		// bootstrap 弹框点击关闭
+		$(function(){
+			$(".close").click(function(){
+				$(this).alert();
+			});
+		});  
+	</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<title>{$title}</title>
+	<style type="text/css">
+	/*我的代养，我是代养人*/
+	.pi_right{
+		padding: 0;
+		background: rgba(0,0,0,0);
+	}
+	.pi_right,.supplier{
+		width: 790px;
+	}
+	.adoption{
+		width: 790px;
+		border-radius: 5px;
+	}
+	.adoption ul{
+		border: 0;
+	}
+
+	/*信息列表*/
+	.content_list_show{
+		width: 770px;
+		padding: 10px;
+		background: #fff;
+		min-height: 430px;
+		margin-top: 10px;
+		border-radius: 5px;
+		text-align: center;
+		line-height: 430px;
+		font-size: 18px;
+		position: relative;
+	}
+	.content_list_bottom{
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		width: 770px;
+		height: 50px;
+		line-height: 50px;
+		font-size: 12px;
+		text-align: left;
+		border: 1px solid #E1E6EB;
+	}
+	.sign_have_read{
+		margin-left: 20px;
+	}
+	.sign_have_read button{
+		padding: 6px 2px 6px 3px;
+		margin-left: 10px;
+	}
+	.content_list_show ul li{
+		width: 760px;
+		padding: 0 5px 0 5px;
+		height: 36px;
+		line-height: 36px;
+		list-style: none;
+		float: left;
+	    border-left: 1px solid #E1E6EB;
+	    border-right: 1px solid #E1E6EB;
+	    border-bottom: 1px solid #E1E6EB;
+	    text-align: left;
+	}
+	.content_list_show_firstLi{
+		color: #999;
+	    background-color: #F5F6FA;
+	    border-top: 1px solid #E1E6EB;
+	}
+	.content_list_show_firstLi .cls_title_title{
+		cursor: default;
+	}
+	.content_list_show_firstLi .cls_title_title:hover{
+		color: #999;
+		text-decoration: none;
+	}
+	.cls_title{
+		float: left;
+		font-size: 12px;
+		line-height: 36px;
+	}
+	.cls_title_title{
+		width: 450px;
+		cursor: pointer;
+	}
+	.cls_title_title:hover{
+		color: blue;
+		text-decoration: underline;
+	}
+	.cls_title_time{
+		width: 200px;
+	}
+	.cls_title_type{
+		width: 110px;
+	}
+
+	/*具体消息展示*/
+	.mesg_show_box{
+		width: 100%;
+		border: 1px solid #E1E6EB;
+		border-radius: 5px;
+	}
+	.mesg_show_title{
+		height: 53px;
+		line-height: 35px;
+		padding: 10px 0 10px 0;
+		position: relative;
+	}
+	.return_back{
+		position: absolute;
+		top: 10px;
+		left: 10px;
+	}
+	.mesg_show_time{
+		font-size: 12px;
+		line-height: 12px;
+	}
+	.mesg_show_content{
+		font-size: 14px;
+	    line-height: 24px;
+	    margin-top: 10px;
+	    width: 650px;
+	    margin: 0 auto;
+	    padding: 20px 30px 20px 30px;
+	    border-top: 1px solid #E1E6EB;
+		text-indent: 24px; 
+		text-align: left;
+	}
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$userMesg.head_image_url}">
+				</div>
+				<div class="nick_name">{$userMesg.nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<a href="__ROOT__/account"><li>资料与账号</li></a>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li class="choosed"><i></i>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<a href="__ROOT__/supplier"><li>我是供应商</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function adoption" id="supplier_function">
+					<ul>
+						{eq name="title" value="未读消息"}
+						<a href="__ROOT__/innerMsg/unread"><li class="selected"><i></i>未读消息</li></a>
+						<a href="__ROOT__/innerMsg/read"><li>已读消息</li></a>
+						{else/}
+						<a href="__ROOT__/innerMsg/unread"><li>未读消息</li></a>
+						<a href="__ROOT__/innerMsg/read"><li class="selected"><i></i>已读消息</li></a>
+						{/eq}
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 资料与账号内容区 -->
+				<div class="content_list_show" id="mesg_list">
+					<ul id="mesg">
+						<li class="content_list_show_firstLi">
+							<div class="cls_title cls_title_title">
+								<input name="chooseNotice[]" onclick="selectAll(this)" type="checkbox" value="" />
+								<span>标题内容</span>
+							</div>
+							<div class="cls_title cls_title_time">提交时间</div>
+							<div class="cls_title cls_title_type">类型</div>
+						</li>
+						<form id="noticeForm" enctype="multipart/form-data" method="post">
+						{volist name="noticeData" id="ntd" empty="还没有消息哦"}
+						<li>
+							<div class="cls_title cls_title_title">
+								<input class="chooseNotice" name="chooseNotice[]" type="checkbox" value="{$ntd.id}" />
+								<span onclick="mesgShow( {$ntd.id} )">{$ntd.title}</span>
+							</div>
+							<div class="cls_title cls_title_time">{$ntd.time}</div>
+							{switch name="ntd.type" }
+							    {case value="1"}<div class="cls_title cls_title_type">来自供应大厅</div>{/case}
+							    {case value="2"}<div class="cls_title cls_title_type">代养订单申请</div>{/case}
+							    {case value="4"}<div class="cls_title cls_title_type">代养成长记录</div>{/case}
+							{/switch}
+						</li>
+						{/volist}
+						{eq name="title" value="未读消息"}
+						<input type="hidden" name="operation" value="markread"></input>
+						{else/}
+						<input type="hidden" name="operation" value="delete"></input>
+						{/eq}
+						</form>
+						<div style="clear: both;"></div>
+					</ul>
+					<div class="content_list_bottom">
+						<div class="sign_have_read">
+							<input name="chooseNotice[]" onclick="selectAll(this)" type="checkbox" value="" />
+							{eq name="title" value="未读消息"}
+							<button onclick="getFormInfo()">标记为已经读</button>
+							{else/}
+							<button onclick="getFormInfo()">刷除消息</button>
+							{/eq}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 复选框全选
+		function selectAll(obj){
+			var checklist = document.getElementsByName ("chooseNotice[]");
+			if( obj.checked )
+			{
+				for(var i=0;i<checklist.length;i++)
+				{
+					checklist[i].checked = 1;
+				} 
+			}else{
+			    for(var j=0;j<checklist.length;j++)
+			    {
+			        checklist[j].checked = 0;
+			    }
+			}
+	    }
+
+	    function getFormInfo(){ 
+	    	if(confirm("确定要执行此操作吗")){
+	    		var formData = new FormData( $( "#noticeForm" )[0] );  
+			    // formData.append("operation", "markread");
+				$.ajax({  
+				  url: '__ROOT__/index/enter/noticeHandle' ,  
+				  type: 'POST',  
+				  data: formData,  
+				  async: false,  
+				  cache: false,  
+				  contentType: false,  
+				  processData: false,  
+				  dataType: 'json',
+				  success: function (returndata) {  
+				  	  if (returndata == 1) {
+					    location.reload();
+				      } else{
+				      	alert("请先选择消息");
+				      }
+				  },  
+				  error: function (returndata) {  
+				      console.log("错误");  
+				  }  
+				});  
+		    }
+		}
+
+		// 查看具体信息
+		function mesgShow( id ) {
+			$.ajax({
+			   type: "POST",
+			   url: "__ROOT__/index/enter/getSpecificNotice",
+			   dataType: 'json',
+			   data: {"id":id},
+			   success: function(msg){
+				   	// 代养订单通知
+				   	if (msg.type == 2 ) {
+					   	var appendData = '<div class="content_list_show" id="mesg_show">'+
+											'<div class="mesg_show_box">'+
+												'<div class="mesg_show_title">'+
+													'<a href=""><button class="return_back">返回上一级</button></a>'+
+													'<h4>'+msg.title+'</h4>'+
+													'<div class="mesg_show_time">'+msg.time+'</div>'+
+												'</div>'+
+												'<div class="mesg_show_content">'+
+												    '<div>用户<a href="__ROOT__/seller/'+msg.senderMesg.id+'">'+msg.senderMesg.nick_name+'</a>对你发布的代养，编号为<a href="__ROOT__/subshow/'+msg.substitutesMesg.substitutes_id+'">'+msg.substitutesMesg.substitutes_id+'</a>提交了一份订单申请，确认后您发布的代养成长记录，此用户能收到信息通知！</div>'+
+													'<span>'+msg.content+'</span><button style="color:red;cursor:pointer;" onclick="authorize('+msg.Corresponding_id+')"> 授权此用户 </button>'+
+												'</div>'+
+											'</div>'+
+										'</div>';
+					}else if (msg.type == 4) {
+						appendData = '<div class="content_list_show" id="mesg_show">'+
+											'<div class="mesg_show_box">'+
+												'<div class="mesg_show_title">'+
+													'<a href=""><button class="return_back">返回上一级</button></a>'+
+													'<h4>'+msg.title+'</h4>'+
+													'<div class="mesg_show_time">'+msg.time+'</div>'+
+												'</div>'+
+												'<div class="mesg_show_content">'+
+												    '<div>您认养用户<a href="__ROOT__/seller/'+msg.senderMesg.id+'">'+msg.senderMesg.nick_name+'</a>发布的代养，编号为<a href="__ROOT__/subshow/'+msg.Corresponding_id+'">'+msg.Corresponding_id+'</a>有新的成长记录，请注意查看！</div>'+
+													'<span>'+msg.content+'</span>'+
+												'</div>'+
+											'</div>'+
+										'</div>';
+					}
+					$("#mesg_list").hide();
+				    $(".supplier").append( appendData );
+				    console.log( msg );
+			   }
+			});
+		}
+
+		// 授权用户
+		function authorize(order_id) {
+			if(confirm("确定要为此用户授权吗")){
+				console.log(order_id);
+				$.ajax({
+				   type: "POST",
+				   url: "__ROOT__/index/enter/authorizeOrder",
+				   dataType: 'json',
+				   data: {"order_id":order_id},
+				   success: function(msg){
+					   if (msg = 1) {
+						   location.reload();
+					   }
+				   }
+				});	
+			}
+		}
+	</script>
+</body>
+</html>

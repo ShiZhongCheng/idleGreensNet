@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<style type="text/css">
+	body{
+		background: #f2f2f2;
+	}
+	.classify{
+		width: 1004px;
+		margin: 0 auto;
+		padding: 10px;
+		margin-top: 10px;
+		background: #fff;
+		border-radius: 5px;
+	}
+	.classify a{
+		color: #000;
+	} 
+	.selected{
+		background: #ffd100;
+		color: #fff;
+		border-radius: 3px;
+	}
+	.classify ul li{
+		padding: 5px;
+		list-style: none;
+		margin-left: 5px;
+		float: left;
+		font-family: 微软雅黑;
+		font-size: 13px;
+	}
+
+	/*内容部分*/
+	#content{
+		width: 1004px;
+		padding: 10px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+		border-radius: 5px;
+	}
+	#content ul li{
+		list-style: none;
+		width: 100%;
+		height: 100px;
+		padding-bottom: 5px;
+		border-bottom: 1px #eee solid;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	#content ul li:last-child{
+		border: 0;
+	}
+	.con_titile a{
+		text-decoration: none;
+	}
+	.con_titile{
+		height: 25px;
+		line-height: 18px;
+		width: 100%;
+		font-size: 15px;
+		font-weight: bold;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.con_cont{
+		width: 100%;
+		position: relative;
+	}
+	.show_img{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 106px;
+		height: 75px;
+	}
+	.show_img img{
+		height: 75px;
+		width: 106px;
+	}
+	.show_text{
+		margin-left: 116px;
+		width: 424px;
+		font-size: 13px;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
+		float: left;
+	}
+	.show_type{
+		position: absolute;
+		bottom: 5px;
+		right: 0;
+		width: 35px;
+		height: 25px;
+		line-height: 25px;
+		text-align: center;
+		font-size: 13px;
+		background: #FF9800;
+		color: #fff;
+		border-radius: 3px; 
+	}
+
+	/*分页*/
+	#classification{
+        width: 1004px;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background: #fff;
+        position: relative;
+        border-radius: 5px;
+    }
+    #classification ul li{
+        list-style: none;
+        float: left;
+        margin: 10px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-right: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+    }
+    .classification_a:hover{
+        background: #ffd100;;
+        color: #fff;
+        border-color: #fff;
+    }
+    .classification_a{
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        cursor: pointer;
+        color: #000;
+    }
+    .form{
+        height: 30px;
+        position: absolute;
+        top: 20px;
+        right: 125px;
+        line-height: 30px;
+        font-size: 14px;
+    }
+    .form_input{
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+    }
+    .form_button{
+        width: 40px;
+        height: 22px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        font-size: 12px;
+        border: 0;
+        color: #fff;
+        background: #ffd100;;
+    }
+
+	/*动态内容区*/
+    .dynamic_content{
+    	width: 100%;
+    	background: #fff;
+    	position: relative;
+    	padding-bottom: 5px;
+		border-bottom: 1px #f2f2f5  solid;
+		margin-bottom: 10px;
+    }
+    .dc_top{
+    	width: 100%;
+    	height: 50px;
+    	position: relative;
+    }
+    .dct_img{
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	width: 50px;
+    	height: 50px;
+    	border-radius: 50%;
+    }
+    .dct_nickname{
+    	position: absolute;
+    	top: 0;
+    	left: 60px;
+    	color: #333;
+    	font-family: 微软雅黑;
+    	font-size: 14px;
+    	font-weight: bold;
+    	cursor: pointer;
+    	line-height: 30px;
+    }
+    .dct_nickname:hover{
+    	color: #eb7350;
+    }
+    .dct_time{
+    	position: absolute;
+    	bottom: 0;
+    	left: 60px;
+    	color: #808080;
+    	font-size: 12px;
+    	line-height: 30px;
+    	cursor: pointer;
+    }
+    .dct_time:hover{
+    	color: #eb7350;
+    }
+    .dct_arrow:hover{
+    	color: #eb7350;
+    }
+    .dct_arrow{
+    	width: 20px;
+    	height: 20px;
+    	position: absolute;
+    	top: 5px;
+    	right: 10px;
+    	font-size: 16px;
+    	text-align: center;
+    	color: #808080;
+    	cursor: pointer;
+    	font-weight: bold;
+    }
+    .dc_cont{
+    	width: 100%;
+    	padding-bottom: 5px;
+    	border-bottom: 1px #f2f2f5 solid;
+    }
+    .dcc_text{
+    	margin-left: 60px;
+    	width: 710px;
+    	max-height: 115px;
+    	display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 5;
+		overflow: hidden;
+    	line-height: 23px;
+    	font-size: 14px;
+    	color: #333;
+    }
+    .menu_list{
+    	display: none;
+    	width: 128px;
+    	padding: 2px;
+    	position: absolute;
+    	top: 30px;
+	    right: 10px;
+	    background: #fff;
+	    color: #333;
+	    border: 1px solid #ccc;
+	    border-radius: 2px;
+	    padding: 2px;
+	    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    }
+    .ml_close{
+    	background: #f2f2f5;
+    	color: #eb7350;
+    	cursor: pointer;
+    	text-align: center;
+    	margin-bottom: 3px;
+    }
+    .menu_list ul li{
+    	list-style: none;
+    	float: left;
+    	width: 102px;
+    	height: 15px;
+    	padding: 7px 13px;
+    	cursor: pointer;
+    	font-size: 12px;
+    }
+    .menu_list ul li:hover{
+    	background: #f2f2f5;
+    	color: #eb7350;
+    }
+    .dc_cont .dc_cont_ul{
+    	margin-left: 60px;
+    	width: 710px;
+    }
+    .dc_cont .dc_cont_li{
+    	float: left;
+    	margin: 6px;
+    	width: 110px;
+    	height: 110px;
+    	text-align: center;
+    	box-shadow: 0 0 4px 1px #eee;
+    }
+    .dc_cont .dc_cont_li img{
+    	max-width: 110px;
+    	max-height: 110px;
+    }
+    /*评论阅读收藏*/
+    .rcc_box .rcc_box_li{
+    	list-style: none;
+    	float: left;
+    	width: 33%;
+    	height: 30px;
+    	text-align: center;
+    	line-height: 30px;
+    	position: relative;
+    	padding-top: 6px;
+    	font-size: 12px;
+        cursor: pointer;
+    }
+    .rcc_box .rcc_box_li img{
+    	width: 15px;
+    	height: 15px;
+    	top: 13px;
+    	left: 35%;
+    	position: absolute;
+    }
+    .rcc_box .rcc_box_li em{
+    	position: absolute;
+    	height: 100%;
+    	top: 6px;
+    	right: 0;
+    	width: 1px;
+    	background: #f2f2f5;
+    }
+
+    /*标签*/
+    .label_area_arry{
+    	height: 20px;
+    	font-size: 13px;
+    	line-height: 20px;
+		padding-bottom: 5px;
+		margin-left: 60px;
+    }
+    .label_area_arry .fa{
+    	text-indent: 10px;
+    	float: left;
+    	line-height: 20px;
+    	color: rgb(133, 144, 166);
+    }
+    .label{
+    	float: left;
+    	margin-left: 5px;
+    }
+	</style>
+</head>
+<body>
+	<div class="classify">
+	   	<ul>
+		   	<li>搜索区域：</li>
+	   		<a href="__ROOT__/search?q={$search_page_mesg[9]}&type=1"><li class="type_1">全站</li></a>
+			<a href="__ROOT__/search?q={$search_page_mesg[9]}&type=2"><li class="type_2">供应大厅</li></a>
+			<a href="__ROOT__/search?q={$search_page_mesg[9]}&type=3"><li class="type_3">用户</li></a>
+			<a href="__ROOT__/search?q={$search_page_mesg[9]}&type=4"><li class="type_4">动态</li></a>
+			<a href="__ROOT__/search?q={$search_page_mesg[9]}&type=5"><li class="type_5">代养</li></a>
+	   		<div style="clear: both;"></div>
+	   	</ul>
+   </div>
+   <div id="content">
+	   <ul>
+		   {volist name="search_page_mesg[8]" id="vo" empty="暂时没有数据" }
+			   {present name="vo.product_id"}
+				<li>
+				   <div class="con_titile"><a href="__ROOT__/gongying/{$vo.product_id}" id="ti_{$vo.product_id}">{$vo.product_name}...</a></div>
+				   <div class="con_cont">
+					   	<div class="show_img"><img src="__ROOT__/{$vo.product_url1}thumb.png" alt="商品展示图"></div>
+					   	<div class="show_text" id="sp_{$vo.product_id}">详细信息：{$vo.product_details}</div>
+					   	<div class="show_text">商品编号：{$vo.product_id}</div>
+					   	{volist name="classify" id="cla"}
+							{eq name="$cla.classify_id" value="$vo.product_type" }
+								<div class="show_text">商品属性：<a style="text-decoration: none;" href="__ROOT__/sell?type={$cla.classify_id}" target="_blank">{$cla.classify_name}</a></div>
+							{/eq}
+						{/volist}
+				   </div>
+				   <div class="show_type">商品</div>
+			    </li>
+			   {/present}
+			   {present name="vo.address"}
+				<li>
+				   <div class="con_titile"><a href="__ROOT__/seller/{$vo.id}" id="ti_{$vo.id}">{$vo.nick_name}...</a></div>
+				   <div class="con_cont">
+					   	<div class="show_img"><img src="__ROOT__/{$vo.head_image_url}" alt="商品展示图"></div>
+					   	<div class="show_text" id="yh_{$vo.id}">用户昵称：{$vo.nick_name}</div>
+					   	<div class="show_text">用户地址：{$vo.address}</div>
+					   	<div class="show_text">联系方式：{$vo.phone_number}</div>
+				   </div>
+				   <div class="show_type">用户</div>
+			    </li>
+			   {/present}
+			   <!-- 代养信息区 -->
+			   {present name="vo.substitutes_id"}
+				<div class="dynamic_content">
+			        <div class="dc_top">
+			        	<img class="dct_img" src="__ROOT__/{$vo.userMesg.head_image_url}">
+			        	<div class="dct_nickname">{$vo.userMesg.nick_name}</div>
+			        	<div class="dct_time">{$vo.time}</div>
+			        </div> 
+			        <div class="dc_cont" style="border: 0;">
+				        <a href="__ROOT__/subshow/{$vo.substitutes_id}" target="_balnk" style="text-decoration: none;";>
+					        <div class="dcc_text" style="font-size: 14px;font-weight: bold;">{$vo.title}</div>
+				        </a>
+				        <div class="label_area_arry" id="subcontent_{$vo.id}">
+							<i class="fa fa-tags"></i>
+							<div class="label" title="标签1"><a href="__ROOT__/search?q={$vo.label1}">{$vo.label1}</a></div>
+							<div class="label" title="标签2"><a href="__ROOT__/search?q={$vo.label2}">{$vo.label2}</a></div>
+							<div class="label" title="标签3"><a href="__ROOT__/search?q={$vo.label3}">{$vo.label3}</a></div>
+							<div class="label" title="标签4"><a href="__ROOT__/search?q={$vo.label4}">{$vo.label4}</a></div>
+							<div style="clear: both;"></div>
+						</div>
+						<a href="__ROOT__/subshow/{$vo.substitutes_id}" target="_balnk" style="text-decoration: none;";>
+					        <div class="dcc_text" id="dcc_text_{$vo.id}">{$vo.content}</div>
+				        </a>
+		        	</div>
+		        </div>
+			   {/present}
+			   {present name="vo.user_id"}
+			   <!-- 动态内容区 -->
+	            <script type="text/javascript">
+	                var idxe = 0;
+	                var collData = new Array();
+	            </script>
+		        <div class="dynamic_content" id="dycon_{$vo['id']}">
+			        <div class="dc_top">
+				        <a href="__ROOT__/seller/{$vo.userMesg.id}" target="_blank">
+				        	<img class="dct_img" src="__ROOT__/{$vo['userMesg']['head_image_url']}">
+			        	</a>
+			        	<a href="__ROOT__/seller/{$vo.userMesg.id}" target="_blank">
+				        	<div class="dct_nickname">{$vo['userMesg']['nick_name']}</div>
+				        </a>
+			        	<div class="dct_time">{$vo.time}</div>
+			        </div> 
+			        <a href="__ROOT__/dynamic_details/{$vo['id']}" style="text-decoration: none;";>
+				        <div class="dc_cont">
+					        <div class="dcc_text" id="dcc_text_{$vo.id}">{$vo.content}</div>
+					        <div class="dc_cont_ul">
+					        	{volist name="vo['imglist']" id="img"}
+					        	<div class="dc_cont_li"><img src="__ROOT__{$img}"></div>
+					        	{/volist}
+					        	<div style="clear: both;"></div>
+					        </div>	
+			        	</div>
+		        	</a>
+		        	<!-- 阅读.收藏 .评论-->
+		        	<div class="rcc_box">
+	        			<div class="rcc_box_li">
+	        				<img src="__ROOT__/static/index/images/read.png">
+	        				阅读数<span style="color: red;">{$vo.reading_number}</span>
+	        				<em></em>
+	        			</div>
+	        			<div class="rcc_box_li">
+	        				<img src="__ROOT__/static/index/images/coment.png">
+	        				评论数<span style="color: red;">{$vo.coment_number}</span>
+	        				<em></em>
+	        			</div>
+                        <div class="rcc_box_li" id="or_{$vo.id}" style="display: none;">
+                            <img src="__ROOT__/static/index/images/Collection2.png">
+                            已收藏
+                        </div>
+                        <div class="rcc_box_li" id="no_{$vo.id}" onclick="collection('dy',{$vo.id})">
+                            <img src="__ROOT__/static/index/images/Collection1.png">
+                            收藏
+                        </div>
+                        <div style="clear: both;"></div>
+		        	</div>
+		        </div>
+	            <script type="text/javascript">
+	                {volist name="CollectionData" id="co"}
+	                    if ( {$co} == {$vo.id} ) {
+	                        collData[ idxe ] = {$co};
+	                        idxe++;
+	                    }
+	                {/volist}
+	            </script>
+	            <script type="text/javascript">
+	                for (var i = collData.length - 1; i >= 0; i--) {
+	                    $("#or_"+collData[i]).show();
+	                    $("#no_"+collData[i]).hide();
+	                }
+	            </script>
+			   {/present}
+		   {/volist}
+	   </ul>
+   </div>
+    <div id="classification">
+	   	<ul class="pagination">
+	   	   <li>共<span style="color:red;">{$search_page_mesg[4]}</span>条记录</li>
+	   	   <li>共<span style="color:red;">{$search_page_mesg[5]}</span>页<span style="color:red;"> {$search_page_mesg[6]}</span>/<span>{$search_page_mesg[5]}</span></li>
+		   <a href="{$search_page_mesg[2]}"><li class="classification_a">首页</li></a>
+		   <a href="{$search_page_mesg[0]}"><li class="classification_a">上一页</li></a>
+		   <a href="{$search_page_mesg[1]}"><li class="classification_a">下一页</li></a>
+		   <a href="{$search_page_mesg[3]}"><li class="classification_a">尾页</li></a>
+		   <div style="clear: both;"></div>
+	   	</ul>
+	   	<form class="form" action="__ROOT__/search" method="get">
+	        <input class="form_input" type="text" name="page" value=""></input>
+	        <input type="hidden" name="q" value="{$search_page_mesg[9]}"></input>
+	        <button class="form_button" type="ssubmit">跳转</button>
+	    </form>
+   </div>
+</body>
+<script type="text/javascript">
+	$("#input_search").val( "{$search_page_mesg[9]}" );
+	$(".type_{$search_page_mesg[7]}").addClass("selected");
+
+	// 收藏
+    function collection( data,id ) {
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/enter/collection",
+           data: { "data": "_"+data+"_"+id },
+           success: function( msg ){
+            if ( msg == 1) {
+                $("#or_"+id).show();
+                $("#no_"+id).hide();
+            }
+           }
+        });
+    }
+    // 关键字红色处理
+	{volist name="search_page_mesg[8]" id="vi" }
+	   {present name="vi.product_id"}
+			var str = $('#sp_{$vi.product_id}').html();
+			var str2 = $('#ti_{$vi.product_id}').html();
+		    var keywords = "{$search_page_mesg[9]}";
+		    var reg = new RegExp(""+keywords+"","g");
+		    var result = str.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    var result2 = str2.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    $('#sp_{$vi.product_id}').html(result);
+		    $('#ti_{$vi.product_id}').html(result2);
+	   {/present}
+	   {present name="vi.address"}
+		    var str = $('#yh_{$vi.id}').html();
+		    var str2 = $('#ti_{$vi.id}').html();
+		    var keywords = "{$search_page_mesg[9]}";
+		    var reg = new RegExp(""+keywords+"","g");
+		    var result = str.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    var result2 = str2.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    $('#yh_{$vi.id}').html(result);
+		    $('#ti_{$vi.id}').html(result2);
+	   {/present}
+	   {present name="vo.user_id"}
+	        var str = $('#dcc_text_{$vo.id}').html();
+		    var keywords = "{$search_page_mesg[9]}";
+		    var reg = new RegExp(""+keywords+"","g");
+		    var result = str.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    $('#dcc_text_{$vo.id}').html(result);
+	   {/present}
+	   {present name="vo.substitutes_id"}
+		    var str = $('#subcontent_{$vo.id}').html();
+		    var keywords = "{$search_page_mesg[9]}";
+		    var reg = new RegExp(""+keywords+"","g");
+		    var result = str.replace(reg,"<font style='color:#F00;'>"+keywords+"</font>");
+		    $('#subcontent_{$vo.id}').html(result);
+	   {/present}
+	{/volist}
+</script>
+</html>

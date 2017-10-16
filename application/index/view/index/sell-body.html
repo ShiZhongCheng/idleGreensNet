@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>供应大厅</title>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<style type="text/css">
+	*{margin: 0;padding: 0}
+	body{
+		background: #f2f2f2;
+	}
+	.classify{
+		width: 1004px;
+		margin: 0 auto;
+		padding: 10px;
+		margin-top: 10px;
+		background: #fff;
+		border-radius: 5px;
+	}
+	.classify a{
+		color: #000;
+	} 
+	.selected{
+		background: #ffd100;
+		color: #fff;
+	}
+	.classify ul li{
+		padding: 5px;
+		list-style: none;
+		margin-left: 5px;
+		float: left;
+		font-family: 微软雅黑;
+		font-size: 13px;
+		border-radius: 3px;
+	}
+
+	/*内容部分*/
+	#content{
+		width: 1004px;
+		min-height: 30px;
+		line-height: 30px;
+		padding: 10px;
+		margin: 0 auto;
+		margin-top: 10px;
+		position: relative;
+	}
+	#content ul li{
+		list-style: none;
+		max-width: 184px;
+		float: left;
+		background: #fff;
+		/*margin-right: 3.33px;
+		margin-left: 3.33px;
+		margin-bottom: 10px; */
+		padding: 5px;
+		border-radius: 5px;
+	}
+	#content ul li a{
+		text-decoration: none;;
+		color: #000;
+	}
+	#content ul li img{
+		width: 184px;
+		/*height: 220px;*/
+		min-height: 160px;
+		max-height: 220px;
+		border-radius: 5px 5px 0 0;
+	}
+	#content ul li img:hover{
+		opacity:0.7;
+	}
+	.list_text_1{
+		padding-top: 3px;
+		border-top: 1px #eee solid;
+	}
+	.list_text{
+		height: 20px;
+		line-height: 20px;
+		font-size: 12px;
+		text-indent: 1em;
+		color: #000;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.classify_name{
+		color: red;
+	}
+
+	/*分页*/
+	#classification{
+        width: 1004px;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background: #fff;
+        position: relative;
+        border-radius: 5px;
+    }
+    #classification ul li{
+        list-style: none;
+        float: left;
+        margin: 10px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-right: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+    }
+    .classification_a:hover{
+        background: #ffd100;;
+        color: #fff;
+        border-color: #fff;
+    }
+    .classification_a{
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        cursor: pointer;
+        color: #000;
+    }
+    .form{
+        height: 30px;
+        position: absolute;
+        top: 20px;
+        right: 125px;
+        line-height: 30px;
+        font-size: 14px;
+    }
+    .form_input{
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+    }
+    .form_button{
+        width: 40px;
+        height: 22px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        font-size: 12px;
+        border: 0;
+        color: #fff;
+        background: #ffd100;;
+    }
+	</style>
+</head>
+<body>
+   <div class="classify">
+	   	<ul>
+		   	<li>分类：</li>
+	   		<a href="__ROOT__/sell?type=1&page=1"><li class="type_1">全部</li></a>
+	   		{volist name="classify" id="data"}
+				<a href="__ROOT__/sell?type={$data.classify_id}&page=1"><li class="type_{$data.classify_id}">{$data.classify_name}</li></a>
+			{/volist}
+	   		<div style="clear: both;"></div>
+	   	</ul>
+   </div>
+   <div id="content">
+	   <ul>
+	    {volist name="classification[3]" id="data" empty="没有数据"}
+		<li>
+			<a href="__ROOT__/gongying/{$data.product_id}">  
+	   		<img src="__ROOT__/{$data.product_url1}thumb.png">
+	   		<div class="list_text list_text_1">{$data.product_name}</div>
+	   		{volist name="classify" id="cla"}
+				{eq name="$cla.classify_id" value="$data.product_type" }
+					<div class="list_text">属性：<span class="classify_name">{$cla.classify_name}</span></div>
+				{/eq}
+			{/volist}
+			</a>
+	   	</li>
+		{/volist}
+		<div style="clear: both;"></div>
+	   </ul>
+   </div>
+   <div id="classification">
+	   	<ul class="pagination">
+	   	   <li>共<span style="color:red;">{$classification[4]}</span>件商品</li>
+	   	   <li>共<span style="color:red;">{$classification[5]}</span>页<span style="color:red;"> {$classification[8]}</span>/<span>{$classification[5]}</span></li>
+		   <a href="{$classification[6]}"><li class="classification_a">首页</li></a>
+		   <a href="{$classification[0]}"><li class="classification_a">上一页</li></a>
+		   <a href="{$classification[1]}"><li class="classification_a">下一页</li></a>
+		   <a href="{$classification[7]}"><li class="classification_a">尾页</li></a>
+		   <div style="clear: both;"></div>
+	   	</ul>
+	   	<form class="form" action="__ROOT__/sell" method="get">
+	        <input class="form_input" type="text" name="page" value="{$classification[8]}"></input>
+	        <input class="form_input" type="hidden" name="type" value="{$classification[9]}"></input>
+	        <button class="form_button" type="ssubmit">跳转</button>
+	    </form>
+   </div>
+</body>
+<script type="text/javascript">
+	$(".actived").removeClass("actived");
+	$(".m-app").addClass("actived");
+
+	$(".type_{$classification[9]}").addClass("selected");
+
+	$(function(){
+	    var elesHeight = [];//每个元素的宽度
+	    var colsHeight = [0,0,0,0,0]; //每列元素现有的高度
+	    $("#content ul li").each(function(){
+	        var eleHeight = $(this).height();
+	        elesHeight.push(eleHeight);
+	    });
+
+	    //依次摆放每一个元素
+	    $("#content ul li").each(function(){
+
+	        //获得该元素应该在第几列
+	        var colShould = getMinHeightCol(colsHeight);
+
+	        var tempTop = colsHeight[colShould];
+	        var tempLeft = colShould*205 + 5;
+	        $(this).css({"position":"absolute","top":tempTop+"px",left:tempLeft+"px"});
+
+	        //同时将该列的高度加上当前新增元素的高度
+	        colsHeight[colShould] += $(this).height()+20;
+	    });
+   
+        $("#content").height( getMaxHeightCol(colsHeight)-20 );
+	    //得到列中高度最大的那一列
+	    function getMaxHeightCol(arr){
+	        var maxHeight = Math.max.apply(null, arr);
+	        // console.log("最大高度:"+maxHeight);
+	        // for(var i in arr){
+	        //     if(arr[i]==maxHeight){
+	        //         return i;
+	        //     }
+	        // }
+	        // $("#content").height( maxHeight );
+	        //默认第一列
+	        // return 0;
+	        return maxHeight;
+	    }
+
+	    //得到列中高度最小的那一列
+	    function getMinHeightCol(arr){
+	        var minHeight = Math.min.apply(null, arr);
+	        // console.log("最小高度:"+minHeight);
+	        for(var i in arr){
+	            if(arr[i]==minHeight){
+	                return i;
+	            }
+	        }
+	        //默认第一列
+	        return 0;
+	    }
+	});
+</script>
+</html>

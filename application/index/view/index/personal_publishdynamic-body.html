@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="__ROOT__/static/kindeditor/themes/default/default.css" />
+	<script src="__ROOT__/static/kindeditor/kindeditor.js"></script>
+	<script src="__ROOT__/static/kindeditor/lang/zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal_publishdynamic-body.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+    <script charset="utf-8" src="__ROOT__/static/index/js/myneed/windowsOnscroll.js"></script>
+</head>
+<body>
+    <div class="personal_information">
+        <!-- 左侧 -->
+        <div class="pi_left" id="pi_left">
+            <!-- 头像 -->
+            <div class="head_portrait">
+                <div class="head_img">
+                    <img src="__ROOT__/{$userMesg['head_image_url']}">
+                </div>
+                <div class="nick_name">{$userMesg['nick_name']}</div>
+            </div>
+            <!-- 功能区 -->
+            <div class="functional_area">
+                <ul>
+                    <a href="__ROOT__/account"><li>资料与账号</li></a>
+                    <a href=""><li>我的收藏</li></a>
+                    <a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+                    <a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+                    <a href="__ROOT__/publishdynamic"><li class="choosed"><i></i>我的动态</li></a>
+                    <a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+                    <a href="supplier"><li>我是供应商</li></a>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="pi_right">
+            <!-- 资料与账号 -->
+            <div id="supplier_function" style="display: none;"></div>
+            <div class="supplier">
+                <!-- 资料与账号内容区 -->
+                <div id="loction_container">
+	                <!-- 动态选择 -->
+	                <div class="lc_titile">
+	                	<ul>
+	                		<li class="choosedd" onclick="functionShow(1);">我的动态</li>
+	                		<li style="position: relative;" onclick="functionShow(2);">他人评论<font style="position: absolute;top: 5px; background: red;color: #fff;border-radius: 50%;width: 20px;height: 15px; line-height: 15px;">{$qt_com_number}</font>
+                            </li>      
+                			 <!-- 发布新动态 -->
+                            <li class="dc_edit" id="edit_show">
+                                新动态
+                                <i class="fa fa-pencil-square-o"></i>
+                            </li>
+	                		<div style="clear: both;"></div>
+	                	</ul>
+	                </div>
+                </div>
+            </div>
+            <!-- 动态内容区 -->
+            <script type="text/javascript">
+                var idxe = 0;
+                var collData = new Array();
+            </script>
+            {volist name="dynamic_data[3]" id="vo"}
+	        <div class="dynamic_content" id="dycon_{$vo['id']}">
+		        <div class="dc_top">
+		        	<img class="dct_img" src="__ROOT__/{$userMesg['head_image_url']}">
+		        	<div class="dct_nickname">{$userMesg['nick_name']}</div>
+		        	<div class="dct_time">{$vo.time}</div>
+		        	<div class="dct_arrow" id="ar_{$vo['id']}" onclick="menuShow({$vo['id']});">&#118;</div>
+		        	<div class="menu_list" id="ml_{$vo['id']}">
+		        		<ul>
+			        		<div class="ml_close" onclick="menuHide({$vo['id']});">x</div>
+			        		<li onclick="deletedy({$vo['id']});">刷除</li>
+			        		<li>置顶</li>
+		        			<div style="clear: both;"></div>
+		        		</ul>
+		        	</div>
+		        </div>
+                <a href="__ROOT__/dynamic_details/{$vo['id']}" style="text-decoration: none;";>   
+		        <div class="dc_cont">
+			        <div class="dcc_text">{$vo.content}</div>
+			        <ul>
+			        	{volist name="vo['imglist']" id="img"}
+			        	<li><img src="__ROOT__{$img}"></li>
+			        	{/volist}
+			        	<div style="clear: both;"></div>
+			        </ul>	
+	        	</div>
+                </a>
+	        	<!-- 阅读.收藏 .评论-->
+	        	<div class="rcc_box">
+	        		<ul>
+	        			<li>
+	        				<img src="__ROOT__/static/index/images/read.png">
+	        				阅读数<span style="color: red;">{$vo.reading_number}</span>
+	        				<em></em>
+	        			</li>
+	        			<li>
+	        				<img src="__ROOT__/static/index/images/coment.png">
+	        				评论数<span style="color: red;">{$vo.coment_number}</span>
+	        				<em></em>
+	        			</li>
+                        <li id="or_{$vo.id}" style="display: none;">
+                            <img src="__ROOT__/static/index/images/Collection2.png">
+                            已收藏
+                        </li>
+                        <li id="no_{$vo.id}" onclick="collection('dy',{$vo.id})">
+                            <img src="__ROOT__/static/index/images/Collection1.png">
+                            收藏
+                        </li>
+	        			<div style="clear: both;"></div>
+	        		</ul>
+	        	</div>
+	        </div>
+            <script type="text/javascript">
+                {volist name="CollectionData" id="co"}
+                    if ( {$co} == {$vo.id} ) {
+                        collData[ idxe ] = {$co};
+                        idxe++;
+                    }
+                {/volist}
+            </script>
+	        {/volist}
+            <script type="text/javascript">
+                for (var i = collData.length - 1; i >= 0; i--) {
+                    $("#or_"+collData[i]).show();
+                    $("#no_"+collData[i]).hide();
+                }
+            </script>
+            <!-- 分页 -->
+            <div id="classification">
+                <ul class="pagination">
+                   <li>共<span style="color:red;">{$dynamic_data[4]}</span>个动态</li>
+                   <li>共<span style="color:red;">{$dynamic_data[5]}</span>页<span style="color:red;"> {$dynamic_data[8]}</span>/<span>{$dynamic_data[5]}</span></li>
+                   <a href="__ROOT__/publishdynamic?p={$dynamic_data[6]}"><li class="classification_a">第一页</li></a>
+                   <a href="__ROOT__/publishdynamic?p={$dynamic_data[0]}"><li class="classification_a">上一页</li></a>
+                   <a href="__ROOT__/publishdynamic?p={$dynamic_data[1]}"><li class="classification_a">下一页</li></a>
+                   <a href="__ROOT__/publishdynamic?p={$dynamic_data[7]}"><li class="classification_a">尾页</li></a>
+                   <div style="clear: both;"></div>
+                </ul>
+                <form class="form" action="__ROOT__/publishdynamic" method="get">
+                    <input class="form_input" type="text" name="p" value="{$dynamic_data[8]}"></input>
+                    <button class="form_button" type="ssubmit">跳转</button>
+                </form>
+            </div>
+
+           <!-- 评论 -->
+           {volist name="com_data" id="comData"}
+            <div class="comment_box" id="comment_box_{$comData.id}">
+                <div class="coment_con">
+                    <div class="dc_top cc_top">
+                        <img id="coment_form_img" src="__ROOT__/{$comData['userMesg']['head_image_url']}">
+                        <div class="dct_nickname cc_nickname">{$comData['userMesg']['nick_name']}</div>
+                        <div class="dct_time cc_time">{$comData.time}</div>
+                        {eq name="$comData.status" value="1"}
+                        <div style="position: absolute;top: 0;right: 0;color: red;font-size: 13px;">已读</div>
+                        {/eq}
+                        {eq name="$comData.status" value="0"}
+                        <div style="position: absolute;top: 0;right: 20px;font-size: 13px;cursor: pointer;" onclick="hadRead({$comData.id});">标记为已读</div>
+                        {/eq}
+                    </div>
+                    <div class="dc_cont cc_cont">
+                        <div class="dcc_text">{$comData.content}</div>
+                    </div>
+                    <!-- 对应动态 -->
+                    <div class="d_content">
+                        <div class="dc_top">
+                            <img class="dct_img" src="__ROOT__/{$userMesg['head_image_url']}">
+                            <div class="dct_nickname">{$userMesg['nick_name']}</div>
+                            <div class="dct_time">{$comData['correspond_data']['time']}</div>
+                        </div>
+                        <a href="__ROOT__/dynamic_details/{$comData['correspond_data']['id']}" style="text-decoration: none;";>   
+                        <div class="dc_cont">
+                            <div class="dcc_text">{$comData['correspond_data']['content']}</div>
+                            <ul>
+                                {volist name="comData['correspond_data']['imglist']" id="img"}
+                                <li><img src="__ROOT__{$img}"></li>
+                                {/volist}
+                                <div style="clear: both;"></div>
+                            </ul>   
+                        </div>
+                        </a>
+                    </div>
+                    <!-- 回复 -->
+                    <div class="coment_form">
+                        <img id="coment_form_img" src="__ROOT__/{$userMesg['head_image_url']}">
+                        <div class="co_form">
+                            <input class="input_content" type="text" name="content"></input>
+                            <button class="co_submit" type="submit" onclick="comentFabu({$comData.id});">回复</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+           {/volist}
+        </div>
+        <!-- 用于清除浮动 -->
+        <div style="clear: both;"></div>
+    </div>
+
+    <!-- 发布新动态弹窗 -->
+    <div class="edit">
+    	<div class="E_layer">
+    		<div  id="oDiv" class="E_content" style="">
+    			<div id="move"  class="E_layer_title"  onmousedown="Milan_StartMove(event,this.parentNode)" onmouseup="Milan_StopMove(event)"  style="cursor: move;">有什么新鲜事想告诉大家?</div>
+    			<div class="E_layer_close" onclick="div_Close()">X</div>
+    			<div class="E_tongji">已输入<span id="counter" style="color: red;font-style:oblique;">0</span>字</div>
+    			<div class="detail">
+    				<div class="input">
+    					<textarea placeholder="" class="e_input" id="e_input" range="0&amp;0" style="margin: 0px; padding: 0px; border-style: none; border-width: 0px; font-size: 14px; word-wrap: break-word; line-height: 18px; outline: none; height: 250px; resize:none;"></textarea>
+    				</div>
+    				<!-- 选择上传图片和发布 -->
+    				<div class="function">
+	    				<div class="uplod_img">
+	    					<img id="J_selectImage" src="__ROOT__/static/index/images/uplod_img.png">
+	    					<div class="fabu">发布</div>
+    					</div>
+    				</div>
+    			</div>
+    			<!-- 上传图片预览 -->
+				<div id="J_imageView">
+					<!-- 三角形 -->
+					<div id="triangle-right"></div>
+					<div class="img_box">
+						<div class="img_box_tittle">本地上传</div>
+						<ul id="addImg">
+							<div style="clear: both;"></div>
+						</ul>
+					</div>
+				</div>
+    		</div>
+    	</div>
+    </div>
+</body>
+<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+<script type="text/javascript">
+    // 发动态
+	$("#edit_show").click(function () {
+		$(".edit").show();
+	});
+
+	// 用于可拖动
+	var offset_x;
+	var offset_y;
+	function Milan_StartMove(oEvent,div_id)
+	{
+	    var whichButton;
+	    if(document.all&&oEvent.button==1) whichButton=true;
+	    else { if(oEvent.button==0)whichButton=true;}
+	    if(whichButton)
+	    { 
+	        var oDiv=div_id;
+	        offset_x=parseInt(oEvent.clientX-oDiv.offsetLeft);
+	        offset_y=parseInt(oEvent.clientY-oDiv.offsetTop);
+	        document.documentElement.onmousemove=function(mEvent)
+	        {    
+	            var eEvent;
+	            if(document.all) eEvent=event;
+	            else{eEvent=mEvent;}
+	            var oDiv=div_id;
+	            var x=eEvent.clientX-offset_x;
+	            var y=eEvent.clientY-offset_y;
+	            oDiv.style.left=(x)+"px";
+	            oDiv.style.top=(y)+"px";
+	        }
+	    }
+	}
+	function Milan_StopMove(oEvent){document.documentElement.onmousemove=null; }
+	function div_Close()
+	{
+		$(".edit").hide();
+	}
+
+	// 文本框获得焦点
+	$(".e_input").focus(function () {
+		$(".input").css("border-color","#fa7d3c")
+	});
+	$(".e_input").blur(function () {
+		$(".input").css("border-color","#cccccc")
+	});
+	// 统计文本输入个数
+	$("#e_input").keydown(function () {
+		var cont = $("#e_input").val().length;
+		$("#counter").text( cont );
+	});
+	$("#e_input").keyup(function () {
+		var cont = $("#e_input").val().length;
+		$("#counter").text( cont );
+	});
+
+	// 上传图片弹窗
+	var imglist;
+	KindEditor.ready(function(K) {
+		var editor = K.editor({
+			allowFileManager : true
+		});
+		K('#J_selectImage').click(function() {
+			editor.loadPlugin('multiimage', function() {
+				editor.plugin.multiImageDialog({
+					clickFn : function(urlList) {
+						var div = K('#addImg');
+						div.html('');
+						// 清空变量imglist
+						imglist = "";
+						K.each(urlList, function(i, data) {
+							div.append('<li><img src="' + data.url + '"></li>');
+							// 变量imglist拼接变量
+						   imglist += data.url + ',' ;
+						});
+						editor.hideDialog();
+						$("#J_imageView").show();
+					}
+				});
+			});
+		});
+	});
+
+	// 发布被点击
+	$(".fabu").click(function function_name(argument) {
+		var content = $("#e_input").val();
+		if ( content == "") {
+			alert("内容不能为空");
+			return 0;
+		}
+		var imglists = imglist;
+		$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/personal/newdynamic",
+		   data: { "imglist": imglists,"content": content },
+		   success: function(msg){
+		   	 alert("发布成功");
+		     location.reload();
+		   }
+		});
+	});
+
+	// 删除和置顶
+	function menuShow( id ) {
+		$("#ml_"+id).show();
+	}
+	function menuHide( id ) {
+		$("#ml_"+id).hide();
+	}
+    function deletedy( id ) {
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/personal/deletedynamic",
+           data: { "id": id },
+           success: function( msg ){
+            if ( msg == 1) {
+                $("#dycon_"+id).hide();
+            }
+           }
+        });
+    }
+
+    // 收藏
+    function collection( data,id ) {
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/enter/collection",
+           data: { "data": "_"+data+"_"+id },
+           success: function( msg ){
+            if ( msg == 1) {
+                $("#or_"+id).show();
+                $("#no_"+id).hide();
+            }
+           }
+        });
+    }
+
+    functionShow(1);
+    // 功能选择
+    function functionShow( number ) {
+        if (number == 1) {
+            $('.lc_titile ul li:eq(1)').removeClass("choosedd");
+            $('.lc_titile ul li:first').addClass("choosedd");
+            $(".dynamic_content").show();
+            $("#classification").show();
+            $(".comment_box").hide();
+        }else if (number == 2) {
+            $('.lc_titile ul li:first').removeClass("choosedd");
+            $('.lc_titile ul li:eq(1)').addClass("choosedd");
+            $(".dynamic_content").hide();
+            $("#classification").hide();
+            $(".comment_box").show();
+        }
+    }
+
+    // 评论
+    function comentFabu( correspond_id ) {
+        var content = $(".input_content").val();
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/index/discuss",
+           data: { "content": content,"correspond_id": correspond_id,"answer": 1},
+           success: function( msg ){
+            if ( msg == 1) {
+               alert("评论成功！");
+               location.reload();
+            }
+           }
+        });
+    }
+
+    // 标记为已读
+    function hadRead( id ) {
+         $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/personal/hadRead",
+           data: { "id": id},
+           success: function( msg ){
+            if ( msg == 1) {
+               alert("操作成功！");
+               $("#comment_box_"+id).hide();
+            }
+           }
+        });
+    }
+
+    window.onscroll=function(){
+        personalOnscroll();
+    }
+</script>
+</html>

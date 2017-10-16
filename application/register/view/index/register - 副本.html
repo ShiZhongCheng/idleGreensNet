@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ZH-CN">
+<head>
+  <meta charset="utf-8">
+  <title>用户注册页面</title>
+  <script src="/static/jquery/jquery2.1.1.min.js"></script>
+  <style>
+    .booth {
+      width:400px;
+      background:#ccc;
+      border: 10px solid #ddd;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="booth">
+    <video id="video" width="400" height="300"></video>
+    <canvas style="display: none;" id='canvas' width='400' height='300'></canvas>
+    <img style="display: none;" id='img' src=''>
+    <input class="name" type="text" placeholder="请输入姓名"></input>
+    <input class="password" type="password" placeholder="请输入密码"></input>
+    <button id='tack'> snap shot</button>
+  </div>
+ 
+ 
+  <script>
+    var video = document.getElementById('video'),
+        canvas = document.getElementById('canvas'),
+        snap = document.getElementById('tack'),
+        img = document.getElementById('img'),
+        vendorUrl = window.URL || window.webkitURL;
+        
+    //媒体对象
+    navigator.getMedia = navigator.getUserMedia ||
+                         navagator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia;
+    navigator.getMedia({
+        video: true, //使用摄像头对象
+        audio: false  //不适用音频
+    }, function(strem){
+        console.log(strem);
+        video.src = vendorUrl.createObjectURL(strem);
+        video.play();
+    }, function(error) {
+        //error.code
+        console.log(error);
+    });
+    snap.addEventListener('click', function(){
+        var name = $(".name").val();              // 获取文本框数据
+        var password = $(".password").val();
+        if (name =="" || password == "") {
+          alert("姓名或者密码不能为空！");
+          return;
+        }
+    
+        //绘制canvas图形
+        canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+        
+        //把canvas图像转为img图片
+        var base64 = canvas.toDataURL("image/png");
+        img.src = base64;
+        var imgBase64 = base64.substring(22);
+        // console.log( imgBase64 );
+
+        ajaxFun( imgBase64 ,name ,password);       //执行ajaxFun函数
+
+        $("#video").css("display","none");
+        $("#canvas").css("display","block");
+    })
+    // 获取face_token并画轮廓
+    function ajaxFun( imgBase64 ,name ,password ) {
+      var img = imgBase64;
+      $.ajax({
+         url: "https://api-cn.faceplusplus.com/facepp/v3/detect",
+         type: "POST",
+         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","image_base64": img},
+         success: function(msg){
+           console.log( msg );
+           // faces数组
+           var faces = msg.faces;
+           if (faces.length == 0) {
+            alert("未检测到人脸");
+            return;
+           }
+
+           // addFace
+           var face_token = msg.faces[0].face_token;
+           addFace( face_token ,name ,password );
+
+           // alert( msg.faces[0].face_token );
+           // 画轮廓
+           var top = msg.faces[0].face_rectangle.top;
+           var left = msg.faces[0].face_rectangle.left;
+           var height = msg.faces[0].face_rectangle.height;
+           var width = msg.faces[0].face_rectangle.width;
+
+           var canvas = document.getElementById("canvas");   
+           var context = canvas.getContext("2d");  
+           context.strokeStyle = "#F5270B";   
+           context.strokeRect(top,left,width,height);  
+         }
+      });
+    }
+    // addface
+    function addFace( face_token ,name ,password ) {
+      $.ajax({
+        url: "https://api-cn.faceplusplus.com/facepp/v3/faceset/addface",
+         type: "POST",
+         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","faceset_token":"528f602b7ad21bbc29513e8bbe3afbc5","face_tokens": face_token},
+         success: function(msg){
+           console.log( msg );
+           var face_added = msg.face_added;
+           if (face_added != 0) {
+              // 注册
+              register( face_token ,name ,password );
+           }
+         }
+      });
+    }
+    // 将face_token存入数据库
+    function register( face_token ,name ,password ) {
+      $.ajax({
+        url: "https://www.goooooo.top/login/index/registerMesg",
+        type: "POST",
+        data: {"face_token": face_token,"name":name,"password":password},
+        success: function ( msg ) {
+          console.log( msg );
+          if (msg == 1) {
+            alert("注册成功");
+          }else{
+            alert( msg );
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

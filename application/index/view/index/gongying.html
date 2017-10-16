@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script src="__ROOT__/static/jquery/jquery.zoom.js"></script>
+	<style type="text/css">
+	body{
+		background: #f2f2f2;
+	}
+	.gongying{
+		width: 1004px;
+		padding: 10px;
+		margin: 0 auto;
+		background: #fff;
+	}
+	.gongying_top{
+		width: 100%;
+	}
+	.gongying_top_msg{
+		width: 502px;
+		height: 502px;
+		float: left;
+		position: relative;
+	}
+	.gongying_top_bigimg{
+		width: 502px;
+		height: 502px;
+		float: left;
+	}
+	.zoomImg{
+		cursor: url("__ROOT__/static/kindeditor/attached/image/need/magnifier.png"),default;
+	}
+	.gongying_top_bigimg img{
+		width: 502px;
+		height: 502px;
+	}
+	#product_img_list{
+		width: 88.4px;
+		height: 492px;
+		padding-left: 20px;
+		padding-right: 10px;
+		padding-bottom: 10px;
+		z-index: 100;
+		float: left;
+	}
+	#product_img_list li{
+		list-style: none;
+		width: 88.4px;
+		height: 88.4px;
+		padding-top: 10px;
+		float: left;
+		position: relative;
+	}
+	.selectedd div{
+		position: absolute;
+		top: 10px;
+		right: 0;
+		height: 44.2px;
+		width: 44.2px;
+		border-radius: 0 0 0 100%;
+		background: rgba(255, 299, 0, 0.85);
+		line-height: 30.1px;
+		text-indent: 0.7em;
+		color: #fff;
+		font-size: 25px;
+	}
+	#product_img_list li img{
+		width: 88.4px;
+		height: 88.4px;
+	}
+	.product_msg_name{
+		width: 360px;
+		height: 502px;
+		padding-left: 20px;
+		float: left;
+	}
+	.product_name{
+		position: absolute;
+		top: 110px;
+		width: 360px;
+		height: 88.4px;
+		line-height: 88.4px;
+		font-size: 35px;
+		font-family: 微软雅黑;
+		font-weight: bold;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.product_type{
+		position: absolute;
+		top: 198.4px;
+		width: 360px;
+		height: 44.2px;
+		line-height: 44.2px;
+		font-family: 微软雅黑;
+		font-size: 20px;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.user_name{
+		position: absolute;
+		top: 242.6px;
+		width: 360px;
+		height: 44.2px;
+		line-height: 44.2px;
+		font-family: 微软雅黑;
+		font-size: 20px;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.phone_number{
+		position: absolute;
+		top: 286.8px;
+		width: 360px;
+		height: 44.2px;
+		line-height: 44.2px;
+		font-family: 微软雅黑;
+		font-size: 20px;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	#cont_button{
+		position: absolute;
+		width: 150px;
+		height: 44.2px;
+		bottom: 20px;
+		right: 0;
+		line-height: 44.2px;
+		text-align: center;
+		background: #FF9800;
+		color: #fff;
+		font-family: 微软雅黑;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+	/*商品详细*/
+	.gongying_bottom{
+		margin-top: 20px;
+		width: 100%;
+	}
+	.gongying_bottom_title{
+		height: 35px;
+		line-height: 35px;
+		font-family: 微软雅黑;
+		font-size: 20px;
+		border-bottom: 1px #aaa solid;
+		font-weight: bold;
+		text-indent: 1em;
+	}
+	.product_details{
+		padding-left: 20px;
+		padding-right: 20px;
+		padding-top: 20px;
+		padding-bottom: 30px;
+		text-indent: 2em;
+		font-size: 16px;
+		line-height: 25px;
+		font-family: 微软雅黑;
+	}
+	.product_img_show{
+		text-align: center;
+	}
+	.product_img_show img{
+		max-width: 1004px;
+	}
+	</style>
+</head>
+<body>
+	<div class="gongying">
+		<div class="gongying_top">
+			<div id="gongying_top_bigimg" class="gongying_top_bigimg">
+				<img src="__ROOT__/{$product.product_url1}">
+			</div>
+			<div class="gongying_top_msg">
+				<ul id="product_img_list">
+					{empty name="product.product_url1"}
+					{else /}
+						<li class="selectedd">
+							<img src="__ROOT__/{$product.product_url1}">
+							<div></div>
+						</li>
+					{/empty}
+					{empty name="product.product_url2"}
+					{else /}
+						<li>
+							<img src="__ROOT__/{$product.product_url2}">
+							<div></div>
+						</li>
+					{/empty}
+					{empty name="product.product_url3"}
+					{else /}
+						<li>
+							<img src="__ROOT__/{$product.product_url3}">
+							<div></div>
+						</li>
+					{/empty}
+					{empty name="product.product_url4"}
+					{else /}
+						<li>
+							<img src="__ROOT__/{$product.product_url4}">
+							<div></div>
+						</li>
+					{/empty}
+					{empty name="product.product_url5"}
+					{else /}
+						<li>
+							<img src="__ROOT__/{$product.product_url5}">
+							<div></div>
+						</li>
+					{/empty}
+					<div style="clear: both;"></div>
+				</ul>
+				<div class="product_msg_name">
+					<div class="product_name">{$product.product_name}</div>
+					{volist name="classify" id="vi" empty="获取分类失败" }
+						{eq name="$vi.classify_id" value="$product.product_type"}
+							<div class="product_type">属性：{$vi.classify_name}</div>
+						{/eq}
+					{/volist}
+					<div class="user_name">联系人：{$user_mesg.name}</div>
+					<div class="phone_number">联系电话：{$user_mesg.phone_number}</div>
+					<div id="cont_button" onclick="sendMesg('{$user_mesg.phone_number}','{$product.product_id}')">联系商家</div>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="gongying_bottom">
+			<div class="gongying_bottom_title">详请介绍</div>
+			<div class="product_details">{$product.product_details}</div>
+			<div class="product_img_show">
+				<!-- 图1 -->
+				{if condition="($product.product_url1 != '')"}<img src="__ROOT__/{$product.product_url1}">
+				{/if}
+
+				<!-- 图2 -->
+				{if condition="($product.product_url2 != '')"}<img src="__ROOT__/{$product.product_url2}">
+				{/if}
+
+				<!-- 图3 -->
+				{if condition="($product.product_url3 != '')"}<img src="__ROOT__/{$product.product_url3}">
+				{/if}
+
+				<!-- 图4 -->
+				{if condition="($product.product_url4 != '')"}<img src="__ROOT__/{$product.product_url4}">
+				{/if}
+
+				<!-- 图5 -->
+				{if condition="($product.product_url5 != '')"}<img src="__ROOT__/{$product.product_url5}">
+				{/if}
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+			$('#gongying_top_bigimg').zoom();           // 默认放大镜
+		});
+	$(".selectedd div").html("&#10004");                // 默认选中
+
+	$("#product_img_list li").click(function () {       // 点击处理
+		var index = $(this).index();
+		if ( $("#product_img_list li:eq("+index+") img").attr("src") != "" ) { //判断对应img是否为空
+			// 换大图路径
+			$("#gongying_top_bigimg img").attr("src", $("#product_img_list li:eq("+index+") img").attr("src"));
+			// 开启放大镜
+			$('#gongying_top_bigimg').zoom();
+			// 勾号改变
+			$(".selectedd div").html("");
+			$(".selectedd").removeClass("selectedd");
+			$(this).addClass("selectedd");
+			$(".selectedd div").html("&#10004");
+		}
+	});
+
+	// 点击联系商家
+	function sendMesg(RecNum,product_id) {
+		$.ajax({
+			   url: "__ROOT__/index/enter/sendMesg",
+			   type: "GET",
+			   dataType: "json",
+			   data: {"RecNum":RecNum,"product_id":product_id},
+			   success: function( msg ){
+				   	if (msg == -1) {
+				   		alert("信息发送失败！请先登录");
+				   	}else if (msg == 1) {
+				   		alert("信息发送成功！");
+				   	}
+			   }
+			});
+	};
+</script>
+</html>

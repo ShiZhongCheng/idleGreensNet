@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="__ROOT__/static/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/header-wrap.css">
+</head>
+<body>
+	<!-- 导航栏 -->
+	<div class="header-wrap" id="header-wrap">
+		<div class="header-wrap-content">
+			<h1 class="idle-logo">
+				<a href="__ROOT__/" target="_top"><img src="__ROOT__/static/index/images/logo.png" alt="闲菜" width="208" height="46"></a>
+			</h1>
+			<div class="idle-menu">
+		        <ul>
+		          <li class="m-home"><a href="__ROOT__/" target="_self">首页</a></li>
+		          <li class="m-app"><a href="__ROOT__/sell" target="_self">供应大厅</a></li>
+		          <li class="m-foster"><a href="__ROOT__/foster" target="_self">认养</a></li>
+		          <!-- <li class="m-auction"><a href="__ROOT__/dynamic" target="_self">动态</a></li> -->
+		          <li class="m-seller"><a href="__ROOT__/more_supplier" target="_self">附近供应商</a></li>
+		          <div style="clear: both;"></div>
+		        </ul>
+	        </div>
+	        <!-- 搜索框 -->
+	        <div class="search">
+	        	<form method="GET" action="__ROOT__/search">
+	        		<input type="text" name="q" id="input_search" required="true" placeholder="搜闲菜"></input>
+	        		<button type="submit" id="search_button" style="background: url('__ROOT__/static/kindeditor/attached/image/need/search_img.png') round;"></button>
+	        	</form>
+	        </div>
+	        {present name="$userMesg['head_image_url']"}
+	   
+	        <!-- 头像 -->
+			<div class="user-img">
+	        	<a href="__ROOT__/account"><img src="__ROOT__/{$userMesg.head_image_url}"></a>
+	        	{neq name="noticeNotReadNumber" value="0"}
+				<div class="notice_not_read"><span>{$noticeNotReadNumber}</span></div>
+				{/neq}
+	        </div>
+	        <!-- 导航 -->
+	        <div class="navigation">
+		       <div id="my_nickName"><a href="__ROOT__/account">{$userMesg.nick_name}</a></div>
+		       	<ul>
+		       		<a href="__ROOT__/account"><li>资料与账号</li></a>
+		       		<a href="__ROOT__/account"><li>我的收藏</li></a>
+		       		<a href="__ROOT__/innerMsg/unread"><li style="position: relative;">消息通知
+			       		{neq name="noticeNotReadNumber" value="0"}
+			       		<div class="notice_not_read_number"><span>{$noticeNotReadNumber}</span></div>
+			       		{/neq}
+		       		</li></a>
+		       		<a href="__ROOT__/myadpotion/myadpotion"><li>订单信息</li></a>
+		       		<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+		       		<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+		       		<a href="__ROOT__/supplier"><li style="border-bottom: 1px solid #eee;">我是供应商</li></a>
+		       	</ul>
+		       	<ul>
+		       		<a href="__ROOT__/seller/{$userMesg.id}" target="_blank"><li>我的主页</li></a>
+		       		<li onclick="dropout();">退出</li></a>
+		       	</ul>
+	        </div>
+			{/present}
+			{notpresent name="$userMesg['head_image_url']"}
+			<div class="login_and_res">
+				<div><a href="__ROOT__/login">登录</a><em></em></div>
+				<div><a href="__ROOT__/register">注册</a></div>
+			</div>
+			{/notpresent}
+        </div>
+	</div>
+
+	<!-- 私信 -->
+	{present name="$userMesg['id']"}
+	<div class="private_letter_box">
+		<div class="fold_box" onclick="chatSlid()">
+			<div class="fold_left">私信</div>
+			<div class="fold_right"><i class="fa fa-envelope"></i></div>
+		</div>
+		<div class="chat_box">
+			<div class="chat_top">
+				<div class="chat_left chat_left_top">
+					<input class="chat_left_input" id="chat_left_input" placeholder="查找联系人"></input>
+				</div>
+				<div class="chat_right chat_right_top">
+					<div class="aims_user">未选中用户</div>
+					<input type="hidden" class="aims_id" value="0"></input>
+					<input type="hidden" class="my_id" value="{$userMesg.id}"></input>
+					<div class="chatSliDown" onclick="chatHide()">
+						<i class="fa fa-caret-down"></i>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<!-- 中间部分 -->
+			<div class="chat_midd">
+				<div class="chat_left chat_left_midd">
+					<ul id="lookUser" style="display: none;">
+						<div class="chat_left_midd_group">查找</div>
+					</ul>
+					<ul id="attention">
+						<div class="chat_left_midd_group">我关注的用户</div>
+						{volist name='attentionUser' id='attUser' key="ni"}
+						<li class="beChoose{$attUser.id}" onclick="chooseUser({$attUser.id},'{$attUser.nick_name}',{$userMesg.id})">
+							<div class="hhead_img"><img src="__ROOT__/{$attUser.head_image_url}"></div>
+							<div class="hnick_name"><span>{$attUser.nick_name}</span></div>
+						</li>
+						{/volist}
+						<div style="clear: both;"></div>
+					</ul>
+					<ul id="stranger">
+						<div class="chat_left_midd_group">陌生人</div>
+						{volist name='strangerUser' id='attUser' key="ni"}
+						<li class="beChoose{$attUser.id} strangerli" onclick="chooseUser({$attUser.id},'{$attUser.nick_name}',{$userMesg.id})">
+							<div class="hhead_img"><img src="__ROOT__/{$attUser.head_image_url}"></div>
+							<div class="hnick_name"><span>{$attUser.nick_name}</span></div>
+							<div class="attention" onclick="attention( 'ur',{$attUser.id} )">关注</div>
+						</li>
+						{/volist}
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<div class="chat_right chat_right_midd" id="chat_right_midd">
+					<div class="chat_msg_imgleft">
+						<div class="chat_msg_img">
+							<img src="__ROOT__/static/index/images/cai.png">
+						</div>
+						<div class="chat_msg_content">
+							<div class="chat_msg_content_text">欢迎来达到闲菜网，并且使用闲菜网的私信服务，点击左侧用户即可向用发送私信！</div>
+							<div class="chat_msg_content_time">2017/8/30 22:21</div>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<!-- 底下部分 -->
+			<div class="chat_bottom">
+				<div class="chat_left chat_left_bottom">
+					
+				</div>
+				<div class="chat_right chat_right_bottom">
+					<textarea id="chat_content" placeholder="未选中输入框时，按回车键发送信息"></textarea>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+		</div>
+	</div>
+	{/present}
+</body>
+<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+<script src="__ROOT__/static/index/js/myneed/header-wrap.js"></script>
+{present name="$userMesg['id']"}
+	<script type="text/javascript">
+		// 定时器2
+		Timers2(2000);
+	</script>
+{/present}
+<script type="text/javascript">
+	// 退出
+	function dropout() {
+		$.ajax({
+	       type: "POST",
+	       url: "__ROOT__/index/enter/dropout",
+	       data: {},
+	       success: function( msg ){
+	        if ( msg == 1) {
+	            window.location.href="__ROOT__/";
+	        }
+	       }
+	    });
+	}
+
+	// 发送私信ajax
+	function sendMesg(aims_id,my_id,content) {
+		$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/sendPrivateLetter",
+		   dataType: "json",
+		   data: {"aims_id":aims_id,"my_id":my_id,"content":content},
+		   success: function(msg){
+		     AddMesg("__ROOT__/"+msg[1]["head_image_url"],msg[2],msg[3],"right");
+		     chatBboxGoToBottom();
+		   }
+		});
+	}
+
+	// 获取与登录用户与被选选择用户之间的记录
+	function getCommunicationRecord(id,user_id) {
+		$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/getCommunicationRecord",
+		   dataType: "json",
+		   data: {"aims_id":id,"my_id":user_id},
+		   success: function(msg){
+			   $("#chat_right_midd").html("");
+			    for (var i = 0; i < msg.length; i++) {
+			        AddMesg("__ROOT__/"+msg[i]["sendUserMeg"]["head_image_url"],msg[i]["content"],msg[i]["time"],msg[i]["direction"]);
+			    };
+			    chatBboxGoToBottom();
+		   }
+		});
+	}
+
+    // 两定时器的编号
+	var setIntervalIdNo = 0,setIntervalIdYes = 0;
+	// 定时器实时获取信息函数
+	function realTimeGetMeg(way) {
+		var id = $(".aims_id").val();
+		var user_id = $(".my_id").val();
+		$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/realTimeGetMeg",
+		   dataType: "json",
+		   data: {"aims_id":id,"my_id":user_id,"way":way},
+		   success: function(msg){
+			   	// console.log("定时器");
+			   	// console.log(msg);
+			    for (var i = 0; i < msg.length; i++) {
+			    	switch( msg[i]["Notification"] )
+			    	{
+						case 'yes':
+						  // 新信息通知
+						  funNotification("__ROOT__/"+msg[i]["sendUserMeg"]["head_image_url"],msg[i]["content"],msg[i]["sendUserMeg"]["id"],msg[i]["sendUserMeg"]["nick_name"],msg[i]["receive_id"],msg[i]["beColl"]);
+						  break;
+						case 'no':
+						 // 添加信息
+						  AddMesg("__ROOT__/"+msg[i]["sendUserMeg"]["head_image_url"],msg[i]["content"],msg[i]["time"],msg[i]["direction"]);
+						  // 滑条移动到底
+						  chatBboxGoToBottom();
+						  break;
+						default:
+						 break;
+					}
+			    };
+		   }
+		});
+	}
+
+	// 查找联系人
+	function lookUser( nickName ) {
+		var user_id = $(".my_id").val();
+		$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/lookUser",
+		   dataType: "json",
+		   data: {"nickName":nickName},
+		   success: function(msg){
+			   	$("#lookUser").slideDown();
+			   	$(".lookUserLi").remove(".lookUserLi");
+			    for (var i = 0; i < msg.length; i++) {
+					  var appendData = '<li class="beChoose'+msg[i]["id"]+' lookUserLi" onclick="chooseUser('+msg[i]["id"]+',\''+msg[i]["nick_name"]+'\','+user_id+')">'+
+						               '<div class="hhead_img"><img src="__ROOT__/'+msg[i]["head_image_url"]+'"></div>'+
+						               '<div class="hnick_name"><span>'+msg[i]["nick_name"]+'</span></div>'+
+						               '<div class="attention" onclick="attention( \'ur\','+msg[i]["id"]+' )">关注</div>'+
+					                   '</li>';
+					      appendData += '<div style="clear: both;"></div>';
+					  $("#lookUser").append(appendData);
+			    };
+		   }
+		});
+	}
+
+	// 私信处关注
+	function attention( data,id ) {
+	        $.ajax({
+	           type: "POST",
+	           url: "__ROOT__/index/enter/collection",
+	           data: { "data": "_"+data+"_"+id },
+	           success: function( msg ){
+	            if ( msg == 1) {
+	            	$(".beChoose"+id+" .attention").remove(".attention");
+		            $(".beChoose"+id).appendTo("#attention");
+		            $("#lookUser .beChoose"+id).remove(".beChoose"+id);
+		            $("#stranger .beChoose"+id).remove(".beChoose"+id);
+	            }
+	           }
+	        });
+	    }
+
+</script>
+</html>

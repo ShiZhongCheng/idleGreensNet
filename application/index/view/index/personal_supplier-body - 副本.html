@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="__ROOT__/static/kindeditor/themes/default/default.css" />
+	<script charset="utf-8" src="__ROOT__/static/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="__ROOT__/static/kindeditor/lang/zh_CN.js"></script>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal_supplier-body.css">
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$head_image_url}">
+				</div>
+				<div class="nick_name">{$nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<a href="__ROOT__/account"><li>资料与账号</li></a>
+                    <a href=""><li>我的收藏</li></a>
+                    <a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+                    <a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+                    <a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<li class="choosed"><i></i><a href="__ROOT__/supplier">我是供应商</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right" id="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function" id="supplier_function">
+					<ul>
+						<li class="selected"><i></i><a href="__ROOT__/supplier">发布商品</a></li>
+						<li><a href="__ROOT__/loction">我的地址</a></li>
+						<li><a href="__ROOT__/introduce">我的介绍</a></li>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 商品列表 -->
+				<div class="content_list">
+					<ul class="content_list_ul">
+						{volist name="media_provide" id="vo" empty="暂时没有数据" }
+						<li>
+							<div class="content_list_img">
+								<img src="__ROOT__/{$vo.product_url1}">
+							</div>
+							<div class="content_list_mesg">
+								<div class="content_list_product_name">{$vo.product_name}</div>
+								<div class="content_list_product_id">商品唯一编号：<span>{$vo.product_id}</span></div>
+								{volist name="classify" id="vi" empty="获取分类失败" }
+								  {eq name="$vi.classify_id" value="$vo.product_type"}
+								  <div class="content_list_product_type">商品属性：<span>{$vi.classify_name}</span></div>
+								  {/eq}
+								{/volist}
+								<div class="edit" onclick="editShow('{$vo.product_id}')">编辑</div>
+								{switch name="$vo.product_state"}
+								    {case value="0"}<div class="offline" style="background:#a0a0a0;" onclick="goOnline('{$vo.product_id}')">上线</div>{/case}
+								    {case value="1"}<div class="offline" onclick="Offline('{$vo.product_id}')">下线</div>{/case}
+								    {default /}<div class="offline" onclick="Offline('{$vo.product_id}')">下线</div>
+								{/switch}
+							</div>
+
+						    <!-- 编辑（商品编号作为id） -->
+							<div class="edit_box" id="{$vo.product_id}" style=""> 
+								<div style="width: 730px;padding: 30px;
+								margin: 0 auto;background: #fff; position: relative;">  
+								    <div style="position: absolute;width: 50px;height: 50px;line-height: 50px;font-size: 25px;top: 0;right: 0;color: red;background: #eee;text-align: center;cursor: pointer;" onclick="closeEdit('{$vo.product_id}')">x</div>
+									<!-- 商品名称 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品名称：</div>
+								    	<input id="{$vo.product_id}_name" type="text" value="{$vo.product_name}"></input>
+								    	<div style="clear: both;"></div>
+								    </div>
+								    <!-- 商品描述 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品描述：</div>
+								    	<textarea rows="10" cols="75" id="{$vo.product_id}_details">{$vo.product_details}</textarea>
+								    </div>
+								    <!-- 产品图片 -->
+								    <div class="edit_list">
+								    	<div class="edit_title edit_title_img">产品展示图片(默认第一张为产品主图)：</div>
+								    	<ul id="edit_ul">
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image1">
+								    				<img src="__ROOT__/{$vo.product_url1}">
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image2">
+								    				<img src="__ROOT__/{$vo.product_url2}">
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image3">
+								    				<img src="__ROOT__/{$vo.product_url3}">
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image4">
+								    				<img src="__ROOT__/{$vo.product_url4}">
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image5">
+								    				<img src="__ROOT__/{$vo.product_url5}">
+								    			</div>
+								    		</li>
+								    	</ul>
+								    </div>
+								    <!-- 商品分类 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品属性：</div>
+								    	<select id="{$vo.product_id}_type">
+								    	  <!-- <option value="{$vo.product_type}">{$vo.product_type}</option> -->							
+										  {volist name="classify" id="vi" empty="获取分类失败" }
+										  <option value="{$vi.classify_id}">{$vi.classify_name}</option>
+										  {eq name="$vi.classify_id" value="$vo.product_type"}
+										  <option selected="selected" value="{$vi.classify_id}">{$vi.classify_name}</option>
+										  {/eq}
+										  {/volist}
+										</select>
+								    </div>
+								    <!-- 确认修改 -->
+								    <div id="edit_release_button" onclick="acknowledgement('{$vo.product_id}')">确认修改</div>
+							    </div>
+							</div>
+						</li>
+						{/volist}
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+					<div id="new_commodity_release">新商品发布</div>
+				</div>
+
+				<!-- 发布商品 -->
+				<div class="content_sup" style="display: none;">
+				    <!-- 商品名称 -->
+				    <div class="product_name_con product_con">
+				    	<div class="product_title product_name_title">商品名称：</div>
+				    	<input class="product_name" type="text" placeholder="请输入此商品的名称"></input>
+				    	<div style="clear: both;"></div>
+				    </div>
+				    <!-- 商品描述 -->
+				    <div class="product_con">
+				    	<div class="product_title">商品描述：</div>
+				    	<textarea rows="10" cols="75" class="product_details" placeholder="请输入你的商品描述"></textarea>
+				    </div>
+				    <!-- 产品图片 -->
+				    <div class="product_con product_img_show">
+				    	<div class="product_title product_title_img">产品展示图片(默认第一张为产品主图)：</div>
+				    	<ul>
+				    		<li>
+				    			<div class="product_img" id="image1">
+				    				<img src="__ROOT__/static/index/images/plu.png">
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image2">
+				    				<img src="__ROOT__/static/index/images/plu.png">
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image3">
+				    				<img src="__ROOT__/static/index/images/plu.png">
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image4">
+				    				<img src="__ROOT__/static/index/images/plu.png">
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image5">
+				    				<img src="__ROOT__/static/index/images/plu.png">
+				    			</div>
+				    		</li>
+				    	</ul>
+				    </div>
+				    <!-- 商品分类 -->
+				    <div class="product_con">
+				    	<div class="product_title">商品属性：</div>
+				    	<select id="typeSlect">
+					      <option value="">未选择分类</option>
+						  {volist name="classify" id="vo" empty="获取分类失败" }
+						  <option value="{$vo.classify_id}">{$vo.classify_name}</option>
+						  {/volist}
+						</select>
+				    </div>
+				    <!-- 发布按钮 -->
+				    <div id="release_button">发布</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 发布按钮
+		$("#release_button").click(function () {
+			var product_name = $(".product_name").val();               //获取商品名称
+			var product_details = $(".product_details").val();         //获取商品描述
+			var product_type = $('#typeSlect option:selected').val();  //商品属性选中的值
+			if (product_name=="") {
+				alert("请输入商品名称！");
+			}else if (product_details=="") {
+				alert("请输入商品描述！");
+			}else if (product_type=="") {
+				alert("请选择商品属性！");
+			}else if (product_url1=="" && product_url2=="" && product_url3=="" && product_url4=="" &&product_url5=="") {
+				alert("请至少上传一张图片！");
+			}else{
+				release(product_name,product_details,product_type,product_url1,product_url2,product_url3,product_url4,product_url5);
+			}
+		})
+
+		// 上传到服务器
+		function release(product_name,product_details,product_type,product_url1,product_url2,product_url3,product_url4,product_url5) {
+			var n;
+		    n = product_url1.search(/static/i);
+			if ( n == -1 ) {
+				product_url1 = "";
+			}else{
+				product_url1 = product_url1.substring( n );
+			}
+
+			 n = product_url2.search(/static/i);
+			if ( n == -1 ) {
+				product_url2 = "";
+			}else{
+				product_url2 = product_url2.substring( n );
+			}
+
+			 n = product_url3.search(/static/i);
+			if ( n == -1 ) {
+				product_url3 = "";
+			}else{
+				product_url3 = product_url3.substring( n );
+			}
+
+			 n = product_url4.search(/static/i);
+			if ( n == -1 ) {
+				product_url4 = "";
+			}else{
+				product_url4 = product_url4.substring( n );
+			}
+
+			 n = product_url5.search(/static/i);
+			if ( n == -1 ) {
+				product_url5 = "";
+			}else{
+				product_url5 = product_url5.substring( n );
+			}
+			$.ajax({
+			   url: "__ROOT__/index/personal/release",
+			   type: "POST",
+			   dataType: "json",
+			   data: {"product_name":product_name,"product_details":product_details,"product_type":product_type,"product_url1":product_url1,"product_url2":product_url2,"product_url3":product_url3,"product_url4":product_url4,"product_url5":product_url5},
+			   success: function( msg ){
+				   	// console.log( msg );
+				   	// alert( msg.regeocode.formatted_address );
+				   	if (msg == 1) {
+				   		alert("发布成功！");
+				   		location.reload();
+				   	}else if(msg == -1){
+				   		alert("发布失败!");
+				   	}
+			   }
+			});
+		}
+
+		// 新商品发布
+		$("#new_commodity_release").click(function () {
+			$(".content_list").hide();
+			$(".content_sup").show();
+		});
+
+		// 编辑函数
+		function editShow( id ) {
+			$("#"+id).show();
+		}
+		// x关闭
+		function closeEdit( id ) {
+			$("#"+id).hide();
+		}
+
+		// 下线
+		function Offline( id ) {
+			$.ajax({
+                url: "__ROOT__/index/personal/offline",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "下线失败";
+                    }else if (msg == 1) {
+                        var alertText = "下线成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 上线
+		function goOnline( id ) {
+			$.ajax({
+                url: "__ROOT__/index/personal/goOnline",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "上线失败";
+                    }else if (msg == 1) {
+                        var alertText = "上线成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 确认发布
+		function acknowledgement( id ) {
+			var product_name = $("#"+id+"_name").val();
+			var product_details = $("#"+id+"_details").val();
+			var product_type = $('#'+id+'_type option:selected').val();  
+			var n;
+			var product_url = new Array();
+			for (var t = 1; t <=5; t++) {
+			    product_url[t] = $('#'+id+'_image'+t+' img')[0].src;
+				n = product_url[t].search(/static/i);
+				if ( n == -1 ) {
+					product_url[t] = "";
+				}else{
+					product_url[t] = product_url[t].substring( n );
+				}
+			}
+			$.ajax({
+                url: "__ROOT__/index/personal/acknowledgement",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id,"product_name":product_name,"product_details":product_details,"product_type":product_type,"product_url1":product_url[1],"product_url2":product_url[2],"product_url3":product_url[3],"product_url4":product_url[4],"product_url5":product_url[5]},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "修改失败";
+                    }else if (msg == 1) {
+                        var alertText = "修改成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 商品展示图变量
+		var product_url1="",product_url2="",product_url3="",product_url4="",product_url5="";
+		KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				K('#image1').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							showRemote : false,
+							clickFn : function(url, title, width, height, border, align) {
+								$("#image1 img").attr('src', url); 
+								product_url1 = url; 
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#image2').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							showRemote : false,
+							clickFn : function(url, title, width, height, border, align) {
+								$("#image2 img").attr('src', url);  
+								product_url2 = url;
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#image3').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							showRemote : false,
+							clickFn : function(url, title, width, height, border, align) {
+								$("#image3 img").attr('src', url);  
+								product_url3 = url;
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#image4').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							showRemote : false,
+							clickFn : function(url, title, width, height, border, align) {
+								$("#image4 img").attr('src', url);  
+								product_url4 = url;
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+				K('#image5').click(function() {
+					editor.loadPlugin('image', function() {
+						editor.plugin.imageDialog({
+							showRemote : false,
+							clickFn : function(url, title, width, height, border, align) {
+								$("#image5 img").attr('src', url);  
+								product_url5 = url;
+								editor.hideDialog();
+							}
+						});
+					});
+				});
+
+				// 循环监听
+				{volist name="media_provide" id="listid"}
+					K('#{$listid.product_id}_image1').click(function() {
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								showRemote : false,
+								clickFn : function(url, title, width, height, border, align) {
+									$('#{$listid.product_id}_image1 img').attr('src', url); 
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+					K('#{$listid.product_id}_image2').click(function() {
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								showRemote : false,
+								clickFn : function(url, title, width, height, border, align) {
+									$('#{$listid.product_id}_image2 img').attr('src', url);  
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+					K('#{$listid.product_id}_image3').click(function() {
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								showRemote : false,
+								clickFn : function(url, title, width, height, border, align) {
+									$('#{$listid.product_id}_image3 img').attr('src', url);  
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+					K('#{$listid.product_id}_image4').click(function() {
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								showRemote : false,
+								clickFn : function(url, title, width, height, border, align) {
+									$('#{$listid.product_id}_image4 img').attr('src', url);  
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+					K('#{$listid.product_id}_image5').click(function() {
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								showRemote : false,
+								clickFn : function(url, title, width, height, border, align) {
+									$('#{$listid.product_id}_image5 img').attr('src', url);  
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+				{/volist}
+			});
+	</script>
+</body>
+</html>

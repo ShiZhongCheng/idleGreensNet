@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!-- 引入 ECharts 文件 -->
+	<script src="__ROOT__/phystatic/js/echarts.min.js"></script>
+	<script type="text/javascript" src="__ROOT__/phystatic/js/index-content.js"></script>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/index-content.css">
+</head>
+<body>
+	<!-- 首页内容 -->
+	<div class="index-content">
+
+		<!-- 图表统计 -->
+		<div class="chart">
+			<!-- 实验统计 -->
+			<div class="panel panel-default chart49-panel">
+			    <div id="experimentStatistics" class="panel-body"></div>
+			</div>
+			<!-- 用户统计 -->
+			<div class="panel panel-default chart49-panel margin2-left">
+			    <div id="userStatistics" class="panel-body"></div>
+			</div>
+			<div class="clear-float"></div>
+		</div>
+
+		<!-- 当前显示通告 -->
+		<div class="notice">
+			<div class="panel panel-default notice74-panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						当前显示通告
+					</h3>
+				</div>
+				<table class="table">
+					<th>头图</th><th>标题</th><th>发布者身份</th><th>发布时间</th><th>操作</th>
+					{volist name="InDa[2]['notice']" id="notice"}
+					<tr>
+						<td><img style="width: 50px;height: 50px;" src="{$notice.img}"></td>
+						<td>{$notice.title}</td>
+						<td>{$notice.announcer}</td>
+						<td>{$notice.time}</td>
+						<td>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" onclick="">下线</button>
+								<button type="button" class="btn btn-default">查看</button>
+							</div>
+						</td>
+					</tr>
+					{/volist}
+				</table>
+			</div>
+			<div class="panel panel-default notice24-panel margin2-left">
+			    <div class="panel-body">
+			    	<div id="myCarousel" class="carousel slide">
+						<!-- 轮播（Carousel）指标 -->
+						<ol class="carousel-indicators">
+							<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarousel" data-slide-to="1"></li>
+							<li data-target="#myCarousel" data-slide-to="2"></li>
+						</ol>   
+						<!-- 轮播（Carousel）项目 -->
+						<div class="carousel-inner">
+							<div class="item active">
+								<img src="__ROOT__/{$InDa[3]['carousel'][0]['value']}" alt="First slide">
+								<div class="carousel-caption">轮播图1</div>
+							</div>
+							<div class="item">
+								<img src="__ROOT__/{$InDa[3]['carousel'][1]['value']}" alt="Second slide">
+								<div class="carousel-caption">轮播图2</div>
+							</div>
+							<div class="item">
+								<img src="__ROOT__/{$InDa[3]['carousel'][2]['value']}" alt="Third slide">
+								<div class="carousel-caption">轮播图3</div>
+							</div>
+						</div>
+					</div> 
+			    </div>
+			    <div class="panel-footer">小程序当前轮播图</div>
+			</div>
+			<div class="clear-float"></div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{ 
+	// 实验和报修统计
+	var finshEx = {$InDa[0]["Ex"]["finshEx"]};
+	var nowEx = {$InDa[0]["Ex"]["nowEx"]};
+	var foundEx = {$InDa[0]["Ex"]["foundEx"]};
+	var haveVideoEx = {$InDa[0]["Ex"]["haveVideoEx"]};
+	var allRep = {$InDa[0]["Rep"]["allRep"]};
+	var unDealRep = {$InDa[0]["Rep"]["unDealRep"]};
+	ExperimentStatistics(finshEx,nowEx,foundEx,haveVideoEx,allRep,unDealRep);
+
+	// 用户统计
+	var student = {$InDa[1]["student"]};
+	var administrators = {$InDa[1]["administrators"]};
+	var teacher = {$InDa[1]["teacher"]};
+	UserStatistics(student,administrators,teacher);
+
+	// 移除加载
+	loadingRemove();
+})
+</script>
+</html>

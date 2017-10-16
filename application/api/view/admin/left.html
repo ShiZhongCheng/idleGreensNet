@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/left.css">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/left.js"></script>
+</head>
+<body>
+	<!-- 左测 -->
+	<div class="left">
+		<!-- 登录用户 -->
+		<div class="lonin-user">
+			<div class="head-img">
+				<img style="width: 150px;height: 150px;border-radius: 50%;" src="{$userMesg.headImageUrl}" alt="head-img">
+			</div>
+			<p class="user-zhanghao"><i class="fa fa-user-o"></i>{$userMesg.name}</p>
+		</div>
+		<!-- 左侧功能区 -->
+		<ul class="nav nav-pills nav-stacked">
+			<li><a href="__ROOT__/api/admin/index"><i class="fa fa-home"></i>首页</a></li>
+			{if condition="($userMesg.role == 1)"} 
+			<li><a href="__ROOT__/api/admin/pictureSettings"><i class="fa fa-picture-o"></i>图片设置</a></li>
+			<li><a href="__ROOT__/api/admin/courseSettings"><i class="fa fa-video-camera"></i>课前必看</a></li>
+			<li><a href=""><i class="fa fa-bullhorn"></i>通告</a></li>
+			<li><a href="__ROOT__/api/admin/userManagement"><i class="fa fa-users"></i>用户管理</a></li>
+			{/if}
+			<li>
+				<div class="panel">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+									<i class="fa fa-chevron-down"></i>实验和报修
+							</h4>
+						</div>
+					</a>
+					<div id="collapseOne" class="panel-collapse collapse in">
+						<div class="panel-body">
+							<!-- img-edit-active为被选中 -->
+							<a href="__ROOT__/api/admin/experimentalRecord"><div class="img-edit"><i class="fa fa-chevron-right"></i>实验记录</div></a>
+							<a href=""><div class="img-edit"><i class="fa fa-chevron-right"></i>报修处理</div></a>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

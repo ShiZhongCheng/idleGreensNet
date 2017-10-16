@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style type="text/css">
+    body{
+        background: #f2f2f2;
+    }
+    .personal_information{
+        width: 1024px;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+    /*左侧*/
+    .pi_left{
+        float: left;
+        height: 250px;
+        width: 200px;
+        background: #fff;
+    }
+
+    /*右侧*/
+    .pi_right{
+        float: left;
+        width: 1000px;
+        /*margin-left: 30px;*/
+    }
+
+    /*动态内容区*/
+    .dynamic_content{
+    	width: 100%;
+    	padding: 10px;
+    	background: #fff;
+    	position: relative;
+        border-radius: 5px;
+    }
+    .dc_top{
+    	width: 100%;
+    	height: 50px;
+    	position: relative;
+    }
+    .dct_img{
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	width: 50px;
+    	height: 50px;
+    	border-radius: 50%;
+    }
+    .dct_nickname{
+    	position: absolute;
+    	top: 0;
+    	left: 60px;
+    	color: #333;
+    	font-family: 微软雅黑;
+    	font-size: 14px;
+    	font-weight: bold;
+    	cursor: pointer;
+    	line-height: 30px;
+    }
+    .dct_nickname:hover{
+    	color: #eb7350;
+    }
+    .dct_time{
+    	position: absolute;
+    	bottom: 0;
+    	left: 60px;
+    	color: #808080;
+    	font-size: 12px;
+    	line-height: 30px;
+    	cursor: pointer;
+    }
+    .dct_time:hover{
+    	color: #eb7350;
+    }
+    .dct_arrow:hover{
+    	color: #eb7350;
+    }
+    .dct_arrow{
+    	width: 20px;
+    	height: 20px;
+    	position: absolute;
+    	top: 5px;
+    	right: 10px;
+    	font-size: 16px;
+    	text-align: center;
+    	color: #808080;
+    	cursor: pointer;
+    	font-weight: bold;
+    }
+    .dc_cont{
+    	width: 100%;
+    	padding-bottom: 5px;
+    	border-bottom: 1px #f2f2f5 solid;
+    }
+    .dcc_text{
+    	margin-left: 60px;
+    	width: 710px;
+    	line-height: 23px;
+    	font-size: 14px;
+    	color: #333;
+    }
+    .menu_list{
+    	display: none;
+    	width: 128px;
+    	padding: 2px;
+    	position: absolute;
+    	top: 30px;
+	    right: 10px;
+	    background: #fff;
+	    color: #333;
+	    border: 1px solid #ccc;
+	    border-radius: 2px;
+	    padding: 2px;
+	    box-shadow: 0px 2px 8px 1px rgba(0,0,0,0.2);
+    }
+    .ml_close{
+    	background: #f2f2f5;
+    	color: #eb7350;
+    	cursor: pointer;
+    	text-align: center;
+    	margin-bottom: 3px;
+    }
+    .menu_list ul li{
+    	list-style: none;
+    	float: left;
+    	width: 102px;
+    	height: 15px;
+    	padding: 7px 13px;
+    	cursor: pointer;
+    	font-size: 12px;
+    }
+    .menu_list ul li:hover{
+    	background: #f2f2f5;
+    	color: #eb7350;
+    }
+    .dc_cont ul{
+    	margin-left: 60px;
+    	width: 710px;
+    }
+    .dc_cont ul li{
+    	list-style: none;
+    	float: left;
+    	margin: 6px;
+    	width: 110px;
+    	height: 110px;
+    	text-align: center;
+    	box-shadow: 0 0 4px 1px #eee;
+    }
+    .dc_cont ul li img{
+    	max-width: 110px;
+    	max-height: 110px;
+    }
+    /*评论阅读收藏*/
+    .rcc_box ul li{
+    	list-style: none;
+    	float: left;
+    	width: 33%;
+    	height: 30px;
+    	text-align: center;
+    	line-height: 30px;
+    	position: relative;
+    	padding-top: 6px;
+    	font-size: 12px;
+        cursor: pointer;
+    }
+    .rcc_box ul li img{
+    	width: 15px;
+    	height: 15px;
+    	top: 13px;
+    	left: 35%;
+    	position: absolute;
+    }
+    .rcc_box ul li em{
+    	position: absolute;
+    	height: 100%;
+    	top: 6px;
+    	right: 0;
+    	width: 1px;
+    	background: #f2f2f5;
+    }
+
+    /*评论区*/
+    .comment_box{
+        width: 100%;
+        background: #fff;
+        padding: 10px;
+        margin-top: 10px;
+        position: relative;
+        border-radius: 5px;
+    }
+    .comment_box i{
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 10px solid #fff;
+        position: absolute;
+        top: -10px;
+        left: 50%;
+    }
+    .coment_form{
+        position: relative;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        height: 60px;
+        border-bottom: 1px solid #eee;
+    }
+    #coment_form_img{
+        width: 30px;
+        height: 30px;
+    }
+    .co_form{
+        position: absolute;
+        left: 45px;
+        top: 12px;
+    }
+    .input_content{
+        width: 710px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 12px;
+        text-indent: 1em;
+        border: 0;
+        border-color: #ccc;
+        border-style: solid;
+        border-width: 1px;
+        outline: none;
+    }
+    .co_submit{
+        position: absolute;
+        top: 0px;
+        right: -48px;
+        background: #ffc09f;
+        color: #fff;
+        border: 0;
+        outline: none;
+        height: 30px;
+        width: 50px;
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+    }
+    /*评论内容*/
+    .coment_con{
+        position: relative;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .coment_con:last-child{
+        border: 0;
+    }
+    .cc_top{
+        height: 40px;
+    }
+    .cc_nickname{
+        line-height: 14px;
+        left: 40px;
+    }
+    .cc_time{
+        left: 40px;
+    }
+    .cc_cont{
+        border: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="personal_information">
+        <!-- 左侧 -->
+        <!-- <div class="pi_left">  
+        </div> -->
+
+        <!-- 右侧 -->
+        <div class="pi_right">
+            <!-- 动态内容区 -->
+            <script type="text/javascript">
+                var idxe = 0;
+                var collData = new Array();
+            </script>
+	        <div class="dynamic_content" id="dycon_{$vo['id']}">
+		        <div class="dc_top">
+		        	<img class="dct_img" src="__ROOT__/{$qtuserMesg['head_image_url']}">
+		        	<div class="dct_nickname">{$qtuserMesg['nick_name']}</div>
+		        	<div class="dct_time">{$vo.time}</div>
+		        </div> 
+		        <div class="dc_cont">
+			        <div class="dcc_text">{$vo.content}</div>
+			        <ul>
+			        	{volist name="vo['imglist']" id="img"}
+			        	<li><img src="__ROOT__{$img}"></li>
+			        	{/volist}
+			        	<div style="clear: both;"></div>
+			        </ul>	
+	        	</div>
+	        	<!-- 阅读.收藏 .评论-->
+	        	<div class="rcc_box">
+	        		<ul>
+	        			<li>
+	        				<img src="__ROOT__/static/index/images/read.png">
+	        				阅读数<span style="color: red;">{$vo.reading_number}</span>
+	        				<em></em>
+	        			</li>
+	        			<li>
+	        				<img src="__ROOT__/static/index/images/coment.png">
+	        				评论数<span style="color: red;">{$vo.coment_number}</span>
+	        				<em></em>
+	        			</li>
+                        <li id="or_{$vo.id}" style="display: none;">
+                            <img src="__ROOT__/static/index/images/Collection2.png">
+                            已收藏
+                        </li>
+                        <li id="no_{$vo.id}" onclick="collection('dy',{$vo.id})">
+                            <img src="__ROOT__/static/index/images/Collection1.png">
+                            收藏
+                        </li>
+	        			<div style="clear: both;"></div>
+	        		</ul>
+	        	</div>
+	        </div>
+            <script type="text/javascript">
+                {volist name="CollectionData" id="co"}
+                    if ( {$co} == {$vo.id} ) {
+                        collData[ idxe ] = {$co};
+                        idxe++;
+                    }
+                {/volist}
+            </script>
+            <script type="text/javascript">
+                for (var i = collData.length - 1; i >= 0; i--) {
+                    $("#or_"+collData[i]).show();
+                    $("#no_"+collData[i]).hide();
+                }
+            </script>
+
+            <!-- 评论区 -->
+            <div class="comment_box">
+                <i></i>
+                {present name="$userMesg['id']"}
+                <div class="coment_form">
+                    <img id="coment_form_img" src="__ROOT__/{$userMesg['head_image_url']}">
+                    <div class="co_form">
+                        <input class="input_content" type="text" name="content"></input>
+                        <input class="correspond_id" type="hidden" name="id" value="{$id}"></input>
+                        <button class="co_submit" type="submit" onclick="comentFabu();">评论</button>
+                    </div>
+                </div>
+                {/present}
+                <!-- 评论 -->
+                {volist name="comment_data" id="comData"}
+                <div class="coment_con">
+                    <div class="dc_top cc_top">
+                        <img id="coment_form_img" src="__ROOT__/{$comData['userMesg']['head_image_url']}">
+                        <div class="dct_nickname cc_nickname">{$comData['userMesg']['nick_name']}</div>
+                        <div class="dct_time cc_time">{$comData.time}</div>
+                    </div>
+                    <div class="dc_cont cc_cont">
+                        <div class="dcc_text">{$comData.content}</div>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+        </div>
+        <!-- 用于清除浮动 -->
+        <div style="clear: both;"></div>
+    </div>
+</body>
+<script type="text/javascript">
+    // 收藏
+    function collection( data,id ) {
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/enter/collection",
+           data: { "data": "_"+data+"_"+id },
+           success: function( msg ){
+            if ( msg == 1) {
+                $("#or_"+id).show();
+                $("#no_"+id).hide();
+            }
+           }
+        });
+    }
+
+    // 文本框获得焦点
+    $(".input_content").focus(function () {
+        $(".input_content").css("border-color","#fa7d3c")
+    });
+    $(".input_content").blur(function () {
+        $(".input_content").css("border-color","#cccccc")
+    });
+
+    // 评论
+    function comentFabu() {
+        var content = $(".input_content").val();
+        var correspond_id = $(".correspond_id").val();
+        $.ajax({
+           type: "POST",
+           url: "__ROOT__/index/index/discuss",
+           data: { "content": content,"correspond_id": correspond_id},
+           success: function( msg ){
+            if ( msg == 1) {
+               alert("评论成功！");
+               location.reload();
+            }
+           }
+        });
+    }
+</script>
+</html>

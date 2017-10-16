@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- font-awesome -->
+	<link rel="stylesheet" href="__ROOT__/phystatic/font-awesome/css/font-awesome.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="__ROOT__/phystatic/css/bootstrap.min.css">
+	<script src="__ROOT__/phystatic/js/jquery.min.js"></script>
+	<script src="__ROOT__/phystatic/js/bootstrap.min.js"></script>
+	<!-- 自定义css -->
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/header.css">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/alert.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header" style="border-right: 1px #e9ecf3 solid;">
+	    <div class="logo">
+	    	<img style="height: 100%;float: left" src="__ROOT__/phystatic/images/logo.png" alt="logo">
+	    	<a class="navbar-brand" href="__ROOT__/api/admin">杭电物理实验中心</a>
+	    </div>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li>
+				<ol class="breadcrumb">
+					<span>当前位置：</span>
+					{volist name="InDa.location" id="loc"}
+						{empty name="loc.href"}
+						<li>{$loc.loc}</li>
+						{else /}
+						<li><a href="__ROOT__/{$loc.href}">{$loc.loc}</a></li>
+						{/empty}
+					{/volist}
+				</ol>
+			</li>
+		</ul>
+	</div>
+	<!-- 头部右侧功能区 -->
+	<div class="header-right"> 
+		<ul class="nav navbar-nav">
+			<li><a href="__ROOT__/api/myfunction/dropOut"><i class="fa fa-sign-out"></i>退出</a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+
+<!-- 加载效果 -->
+<div class="loading">
+	<div class="loading-fa"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
+<!-- 弹框位置 -->
+<div class="alert-content">
+</div>
+
+</body>
+</html>

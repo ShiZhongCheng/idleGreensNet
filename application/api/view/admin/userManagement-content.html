@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/userManagement-content.js"></script>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/userManagement-content.css">
+</head>
+<body>
+	<div class="userManagement-content">
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        <h3 class="panel-title">用户数据</h3>
+		    </div>
+		    <table class="table">
+		        <th>头像</th><th>昵称</th><th>姓名</th><th>学工号</th><th>电话号码</th><th>班级号</th><th>openid</th><th>操作</th>
+		        {volist name="InDa[0]['data']" id="data"}
+				<tr>
+					<td><img src="{$data.headImageUrl}" style="width: 50px;height: 50px;"></td>
+					{empty name="data.nickname"}
+					<td><font style="line-height: 50px;color: #aaa;">昵称为空</font></td>
+					{else /}
+					<td><font style="line-height: 50px;">{$data.nickname}</font></td>
+					{/empty}
+					{empty name="data.name"}
+					<td><font style="line-height: 50px;color: #aaa;">姓名为空</font></td>
+					{else /}
+					<td><font style="line-height: 50px;">{$data.name}</font></td>
+					{/empty}
+					{empty name="data.studentID"}
+					<td><font style="line-height: 50px;color: #aaa;">学号为空</font></td>
+					{else /}
+					<td><font style="line-height: 50px;">{$data.studentID}</font></td>
+					{/empty}
+					{empty name="data.phonenumber"}
+					<td><font style="line-height: 50px;color: #aaa;">电话号码为空</font></td>
+					{else /}
+					<td><font style="line-height: 50px;">{$data.phonenumber}</font></td>
+					{/empty}
+					{empty name="data.class_number"}
+					<td><font style="line-height: 50px;color: #aaa;">班级为空</font></td>
+					{else /}
+					<td><font style="line-height: 50px;">{$data.class_number}</font></td>
+					{/empty}
+					<td><font style="line-height: 50px;">{$data.oppenid}</font></td>
+					<td>
+						<font style="line-height: 50px;">
+							<div class="btn-group">
+							{switch name="data.role"}
+							    {case value="0"}
+								    <button type="button" onclick="roleChange('{$data.oppenid}','2')" class="btn btn-default">设为教师</button>
+									<button type="button" onclick="roleChange('{$data.oppenid}','1')" class="btn btn-default">设为管理员</button>
+							    {/case}
+							    {case value="2"}
+								    <button type="button" onclick="roleChange('{$data.oppenid}','0')" class="btn btn-default">设为学生</button>
+								    <button type="button" onclick="roleChange('{$data.oppenid}','1')" class="btn btn-default">设为管理员</button>
+							    {/case}
+							    {case value="1"}
+								    <button type="button" onclick="roleChange('{$data.oppenid}','0')" class="btn btn-default">设为学生</button>
+									<button type="button" onclick="roleChange('{$data.oppenid}','2')" class="btn btn-default">设为教师</button>
+							    {/case}
+							{/switch}
+							</div>
+						</font>
+					</td>
+				</tr>
+				{/volist}
+		    </table>
+		    <div class="panel-body">
+		        <div class="btn-group btn-group-lg">
+				    <a id="role0" type="button" class="btn btn-default" href="__ROOT__/api/admin/userManagement?role=0">学生</a>
+				    <a id="role2" type="button" class="btn btn-default" href="__ROOT__/api/admin/userManagement?role=2">教师</a>
+				    <a id="role1" type="button" class="btn btn-default" href="__ROOT__/api/admin/userManagement?role=1">管理员</a>
+				</div>
+				<ul class="pagination pagination-lg">
+					<li><a href="__ROOT__/api/admin/userManagement?role={$InDa[0]['role']}&page={$InDa[0]['homePage']}">首页</a></li>
+				    <li><a href="__ROOT__/api/admin/userManagement?role={$InDa[0]['role']}&page={$InDa[0]['lastPage']}">上一页</a></li>
+				    <li><a href="__ROOT__/api/admin/userManagement?role={$InDa[0]['role']}&page={$InDa[0]['nextPage']}">下一页</a></li>
+				    <li><a href="__ROOT__/api/admin/userManagement?role={$InDa[0]['role']}&page={$InDa[0]['endPage']}">尾页</a></li>
+				</ul>
+				<ol class="breadcrumb mybreadcrumb">
+					<li>共<font style="color: red;">{$InDa[0]['count']}</font>个用户</li>
+					<li>共<font style="color: red;">{$InDa[0]['pageNum']}</font>页</li>
+					<li>当前第<font style="color: red;">{$InDa[0]['page']}</font>页</li>
+				</ol>
+		        <div class="col-lg-6 myform">
+			        <form method="GET" action="__ROOT__/api/admin/userManagement">
+						<div class="input-group input-group-lg">
+							<input name="page" value="{$InDa[0]['page']}" type="text" class="form-control">
+							<input name="role" value="{$InDa[0]['role']}" type="hidden"></input>
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-primary" type="button">
+									跳转
+								</button>
+							</span>
+						</div>
+					</form>
+				</div>
+		    </div>
+		    <div class="panel-footer">用户数据</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{
+	// 左侧功能区首页选中
+	$(".left .nav-pills li:eq(4)").addClass("actived");
+	
+	// 移除加载
+	loadingRemove();
+
+	// 选中用户类型
+	chooseRole( {$InDa[0]["role"]} );
+})
+
+function roleChange(openid,role) {
+	$.ajax({
+	   type: "POST",
+	   url: "__ROOT__/api/myfunction/roleChange",
+	   data: {"openid":openid,"role":role},
+	   dataType: "json",
+	   success: function(msg){
+		   switch(msg){
+			    case 'fail':
+				   addAlert("错误！","操作失败","danger");
+				   break;
+				case 'success':
+					addAlert("成功！","操作成功","success");
+					window.location.href="__ROOT__/api/admin/userManagement?role={$InDa[0]['role']}&page={$InDa[0]['page']}" ; 
+					break;
+		   }
+	   },
+	   error: function (msg) {
+		   	addAlert("错误！","操作失败","danger");
+	   } 
+	});
+}
+</script>
+</html>

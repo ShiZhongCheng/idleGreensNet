@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="__ROOT__/static/kindeditor/themes/default/default.css" />
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+
+	<!-- 裁剪图片 -->
+    <link href="__ROOT__/static/imgCut/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__ROOT__/static/imgCut/dist/cropper.min.css" rel="stylesheet">
+    <link href="__ROOT__/static/imgCut/css/main2.css" rel="stylesheet">
+    <script src="__ROOT__/static/imgCut/assets/js/bootstrap.min.js"></script>
+    <script src="__ROOT__/static/imgCut/dist/cropper.min.js"></script>
+    <script src="__ROOT__/static/imgCut/js/main3.js"></script>
+	<style type="text/css">
+	.pi_right {
+		width: 790px;
+	}
+	/*头像昵称修改*/
+	.head_img_modify_nick_name{
+		width: 400px;
+		padding: 30px 30px 0 30px;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+	.hi_himg,.hi_himg img{
+		width: 150px;
+		height: 150px;
+	}
+	.avatar-view {
+		margin: 0 auto;
+		border-radius: 50%;
+		border: 0;
+	}
+	.btn-primary {
+	    background-color: #ffd100;
+	    border-color: #ffd100;
+	}
+	.hi_nick{
+		width: 340px;
+		height: 70px;
+	}
+	.hi_nick_text{
+		width: 340px;
+		height: 30px;
+		margin: 0 auto;
+		margin-top: 40px;
+		line-height: 30px;
+		text-align: center;
+		font-family: 微软雅黑;
+		font-size: 18px;
+		color: #000;
+		cursor: pointer;
+		border: 0;
+		position: relative;
+	}
+	.hi_nick_text:hover .hi_nick_button{
+		display: inline-block;
+	}
+	.hi_nick_button{
+		position: absolute;
+		top: 10px;
+		margin-left: 20px;
+		height: 15px;
+		line-height: 15px;
+		text-align: center;
+		font-size: 13px;
+		color: #ff5722;
+		display: none;
+	}
+
+	/*基本信息修改*/
+	.essential_information{
+		/*width: 650px;*/
+	}
+	.modify_box{
+		width: 100%;
+		margin-bottom: 20px;
+		padding-top: 30px;
+		padding-bottom: 50px;
+		border-bottom: 1px #eee solid;
+	}
+	.modify_box:last-child{
+		border: 0;
+	}
+	.label_text{
+		width: 100px;
+		height: 40px;
+		line-height: 40px;
+		text-align: right;
+		float: left;
+	}
+	.modify_input{
+		width: 350px;
+		height: 40px;
+		line-height: 40px;
+		text-indent: 2em;
+		float: left;
+	}
+	#modify_pho_input{
+		position: relative;
+	}
+	.modify_pho_button{
+		position: absolute;
+		margin-left: 20px;
+		color: red;
+		font-size: 12px;
+	}
+
+	.modify_title{
+		font-size: 15px;
+		font-weight: bold;
+		text-indent: 1em;
+		padding: 20px;
+	}
+
+	/*个性签名*/
+	#modify_mylabel_input{
+		text-indent: 1em;
+		border: 1px #aaa solid;
+		outline: none;
+		border-radius: 5px;
+		width: 510px;
+	}
+
+	/*主页大图上传*/
+    .upload{
+    	display: none;
+    	width: 100%;
+    	height: 500px;
+    	background: #fff;
+    	z-index: 1000;
+    }
+    .decoration{
+    	width: 770px;
+    	margin: 0 auto;
+    	height: 100%;
+    }
+    .decoration_title{
+    	height: 50px;
+    	line-height: 50px;
+    	text-indent: 20px;
+    	font-size: 14px;
+    	border-bottom: 1px #eee solid;
+    }
+    .decoration_bg{
+    	margin: 20px;
+    	padding: 20px 0 20px 0;
+    	text-align: center;
+    	height: 130px;
+    	overflow: hidden;
+    	background-size: #eee;
+    }
+    .decoration_bg img{
+    	width: 100%;
+    	max-height: 300px;
+    	overflow: hidden;
+    }
+    .decoration p{
+    	text-align: center;
+    	font-size: 12px;
+    }
+    .file_input{
+    	width: 150px;
+		margin: 0 auto;
+    	height: 50px;
+    	text-align: center;
+    	margin-top: 10px;
+    }
+    .button_mun{
+    	/*text-align: center;*/
+    	text-indent: 20px;
+    }
+    .button{
+    	width: 120px;
+	    height: 36px;
+	    color: #444;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    text-align: center;
+	    font-family: inherit;
+	    font-size: 14px;
+	    outline: 0;
+    }
+    .button1{
+    	background: #ffd100;
+	    border: 1px solid #ffd100;
+    }
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$userMesg.head_image_url}">
+				</div>
+				<div class="nick_name">{$userMesg.nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<li class="choosed"><i></i><a href="__ROOT__/account">资料与账号</a></li>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<a href="__ROOT__/supplier"><li>我是供应商</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="data_and_account">
+				<!-- 头按钮选择 -->
+				<div class="da_function" id="supplier_function">
+					<ul>
+						<a href="__ROOT__/account"><li class="selected"><i></i>个人资料</li></a>
+						<a href="__ROOT__/faceAuth"><li>人脸识别授权</li></a>
+						<a href="__ROOT__/apply"><li>用户认证</li></a>
+						<a href=""><li>账号安全</li></a>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 资料与账号内容区 -->
+				<div>
+				    <!-- 头像和昵称修改 -->
+					<div class="head_img_modify_nick_name">
+						<div class="" id="crop-avatar">
+						    <!-- Current avatar -->
+						    <div class="avatar-view hi_himg" title="点击上传头像">
+						      <img src="__ROOT__/{$head_image_url}" alt="Avatar">
+						    </div>
+
+						    <!-- Cropping modal -->
+						    <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+						      <div class="modal-dialog modal-lg">
+						        <div class="modal-content">
+						          <form class="avatar-form" action="__ROOT__/static/imgCut/crop.php" enctype="multipart/form-data" method="post">
+						            <div class="modal-header">
+						              <button class="close" data-dismiss="modal" type="button">&times;</button>
+						              <h4 class="modal-title" id="avatar-modal-label">上传头像</h4>
+						            </div>
+						            <div class="modal-body">
+						              <div class="avatar-body">
+
+						                <!-- Upload image and data -->
+						                <div class="avatar-upload">
+						                  <input class="avatar-src" name="avatar_src" type="hidden">
+						                  <input class="avatar-data" name="avatar_data" type="hidden">
+						                  <label for="avatarInput">本地上传</label>
+						                  <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+						                </div>
+
+						                <!-- Crop and preview -->
+						                <div class="row">
+						                  <div class="col-md-9">
+						                    <div class="avatar-wrapper"></div>
+						                  </div>
+						                  <div class="col-md-3">
+						                    <div class="avatar-preview preview-lg"></div>
+						                    <div class="avatar-preview preview-md"></div>
+						                    <div class="avatar-preview preview-sm"></div>
+						                  </div>
+						                </div>
+
+						                <div class="row avatar-btns">
+						                  <div class="col-md-9">
+						                    <div class="btn-group">
+						                      <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">左旋转</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+						                    </div>
+						                    <div class="btn-group">
+						                      <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">右旋转</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
+						                      <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+						                    </div>
+						                  </div>
+						                  <div class="col-md-3">
+						                    <button class="btn btn-primary btn-block avatar-save" type="submit">确认</button>
+						                  </div>
+						                </div>
+						              </div>
+						            </div>
+						            <!-- <div class="modal-footer">
+						              <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+						            </div> -->
+						          </form>
+						        </div>
+						      </div>
+						    </div><!-- /.modal -->
+
+						    <!-- Loading state -->
+						    <div class="loading" aria-label="Loading" role="images" tabindex="-1"></div>
+						</div>
+
+
+						<div class="hi_nick">
+							<!-- <input class="hi_nick_text" value="{$nick_name}"></input> -->
+							<div class="hi_nick_text">
+								<span>{$nick_name}</span>
+								<label class="hi_nick_button">修改</label>
+							</div>
+						</div>
+					</div>
+					<!-- 修改基本信息 -->
+					<div class="essential_information">
+						<div class="modify_title">基本信息</div>
+						<!-- 手机号 -->
+						<div class="modify_phonenumber modify_box">
+							<div class="label_text">手机号：</div>
+							<div class="modify_input" id="modify_pho_input">
+								<span>{$phone_number}</span>
+								<label class="modify_pho_button">修改</label>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+
+						<!-- 个性签名 -->
+						<div class="modify_box">
+							<div class="label_text">个性签名：</div>
+							<input class="modify_input" id="modify_mylabel_input" placeholder="编辑我的个性签名"></input>
+							<div style="clear: both;"></div>
+						</div>
+
+						<!-- 主页大图 -->
+						<div class="modify_box">
+							<!-- <div class="label_text">我的主页大图</div> -->
+							<form enctype="multipart/form-data" action="__ROOT__/index/enter/upload" method="POST">
+						    	<div class="decoration">
+						    		<div class="decoration_title">主页装饰</div>
+						    		<div class="decoration_bg">
+						    			<img src="__ROOT__/{$userMesg.my_home_page_bg}" id="ImgPr">
+						    		</div>
+						    		<p>个人主页封面大图</p>
+						    		<div class="file_input">		    		
+						    			<input id="imgUplod" required="true" accept="image/jpg,image/jpeg,image/png,image/gif" type="file" name="file">
+						    			<input type="hidden" name="url" value="{$backurl}"></input>
+						    		</div>
+						    		<div class="button_mun">
+						    			<button class="button button1" type="submit">装饰主页</button>
+						    		</div>
+						    	</div>
+					    	</form>
+							<div style="clear: both;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script src="__ROOT__/static/kindeditor/kindeditor.js"></script>
+	<script src="__ROOT__/static/kindeditor/lang/zh_CN.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 让电话号码出现部分星号
+		var phone = $("#modify_pho_input span").text();
+		$("#modify_pho_input span").text( phone.replace(/(.{3}).*(.{5})/,"$1******$2") );
+
+		// 头像保存
+		function SaveAvatar(img) {
+			changeMesg( img,1); 
+		}
+
+        // 修改函数
+        function changeMesg( newMesg,type ) {
+        	$.ajax({
+        		url: "__ROOT__/index/personal/changeMesg",
+        		type: "GET",
+        		dataType: "json",
+		        data: {"newMesg":newMesg,"type":type},
+		        success: function(msg){
+		        	// console.log(msg);
+		        	if ( msg == "1") {
+		        		var alertText = "信息修改成功！";
+		        	}else{
+		        		var alertText = "信息修改失败！";
+		        	}
+		        	alertFun( alertText );
+		        }
+        	})
+        }
+        // 弹窗函数
+        function alertFun( content ) {
+			var dialog = KindEditor.dialog({
+				width : 500,
+				title : '修改结果',
+				body : '<div style="margin:10px;"><strong>'+content+'</strong></div>',
+				closeBtn : {
+					name : '关闭',
+					click : function(e) {
+						dialog.remove();
+						location.reload();    //刷新当前页面
+					}
+				},
+				yesBtn : {
+					name : '确定',
+					click : function(e) {
+						dialog.remove();
+						location.reload();    //刷新当前页面
+					}
+				}
+			});
+        }
+
+        // 主页大图
+        $("#imgUplod").change(function() {
+		    var $file = $(this);
+		    var fileObj = $file[0];
+		    var windowURL = window.URL || window.webkitURL;
+		    var dataURL;
+		    var $img = $("#ImgPr");
+		    if(fileObj && fileObj.files && fileObj.files[0]){
+		        dataURL = windowURL.createObjectURL(fileObj.files[0]);
+		        $img.attr('src',dataURL);
+		    }else{
+		    dataURL = $file.val();
+		    var imgObj = document.getElementById("ImgPr");
+		        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+		        imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+		    }
+		});
+
+	</script>
+</body>
+</html>

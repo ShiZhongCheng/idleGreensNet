@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="https://webapi.amap.com/maps?v=1.3&key=e221e8b1b9e100e1536a2afc2e5fa30e&plugin=AMap.PolyEditor,AMap.CircleEditor"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+	<link rel="stylesheet" href="__ROOT__/static/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/seller-body.css">
+	<script charset="utf-8" src="__ROOT__/static/index/js/myneed/windowsOnscroll.js"></script>
+</head>
+<body>
+    <!-- 主页大图上传 -->
+    <div class="upload">
+	    <form enctype="multipart/form-data" action="__ROOT__/index/enter/upload" method="POST">
+	    	<div class="decoration">
+	    		<div class="decoration_title">主页装饰</div>
+	    		<div class="decoration_bg">
+	    			<img src="__ROOT__/{$business_mesg.my_home_page_bg}" id="ImgPr">
+	    		</div>
+	    		<p>个人主页封面大图</p>
+	    		<div class="file_input">		    		
+	    			<input id="imgUplod" required="true" accept="image/jpg,image/jpeg,image/png,image/gif" type="file" name="file">
+	    			<input type="hidden" name="url" value="{$backurl}"></input>
+	    		</div>
+	    		<div class="button_mun">
+	    			<button class="button button1" type="submit">保存设置</button>
+	    			<button class="button button2" type="button" onclick="uploadHide()">取消保存</button>
+	    		</div>
+	    	</div>
+    	</form>
+    </div>
+	<div class="avatar_box">
+		<div class="bg-image" style="background: url('__ROOT__/{$business_mesg.my_home_page_bg}');">
+		    <div class="avatar_img">
+		    	<img src="__ROOT__/{$business_mesg.head_image_url}">
+		    </div>
+		    {present name="$userMesg['id']"}
+		    {eq name="business_mesg.id" value="$userMesg.id"}
+		    <div class="modify_my_home_bg" onclick="uploadShow();">
+		    	<i class="fa fa-angle-down"></i>
+		    	<div class="modify_bg_button" onclick="uploadShow();">
+				    装饰主页
+			    	<div id="triangle-up"></div>
+		    	</div>
+		    </div>
+		    {/eq}
+		    {/present}
+		</div>
+		<div class="user_mesg">
+			<p class="nick_name">{$business_mesg.nick_name}</p>
+			{eq name="business_mesg.supplier" value="1"}
+			<p class="user-background">供应商</p>
+			{else/}
+			<p class="user-background">普通用户</p>
+			{/eq}
+			<!-- 非本人看主页 -->
+			{present name="$userMesg['id']"}
+			{notequal name="business_mesg.id" value="$userMesg.id"}
+			<p class="button_li">
+				<script type="text/javascript">
+					var ucd = 0;
+				</script>
+				{volist name="userCollectionData" id="ucd"}
+					{eq name="ucd" value="$business_mesg.id"}
+						<button class="button_left">已关注</button>
+						<button class="button_right" id="seller_send" onclick="sellerSend({$business_mesg.id},{$userMesg.id},'yes','{$business_mesg.nick_name}','__ROOT__/{$business_mesg.head_image_url}')">私信</button>
+						<script type="text/javascript">
+							ucd++;
+						</script>
+					{/eq}
+				{/volist}
+				<script type="text/javascript">
+				    var ur = "ur";
+					if ( ucd== 0) {
+						var appData = '<button class="button_left" onclick="collection2('+ur+',{$business_mesg.id})">关注</button>'+'<button class="button_right" id="seller_send" onclick="sellerSend({$business_mesg.id},{$userMesg.id},\'no\',\'{$business_mesg.nick_name}\',\'__ROOT__/{$business_mesg.head_image_url}\')">私信</button>';
+						$(".button_li").append(appData);
+					}
+				</script>
+			</p>
+			{/notequal}
+			{/present}
+			<div id="chose_box">
+				<div class="chose_box">
+					<ul>
+						<li class="alchosed">他的商品<em></em></li>
+						<li class="notchosed">他的位置<em></em></li>
+						<li class="notchosed">他的动态<em></em></li>
+						<li class="notchosed">他的介绍<em></em></li>
+						<li class="notchosed">他的代养<em></em></li>
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 当前提供 -->
+	<div class="seller_provide functionBox functionBoxShow">
+		<!-- 商家提供列表 -->
+		<div class="product_list">
+			<ul class="provide_list_ul">
+				{volist name='list' id='product_id'}
+				<li>
+				    <div class="pl_img" style="background: url('__ROOT__/{$product_id.product_url1}');background-position: center;background-repeat: no-repeat;background-size: cover;"></div>
+					<div class="pl_statement">
+						<div class="pl_name">{$product_id.product_name}</div>
+						<div class="pl_type">类别：
+						{volist name="classify" id="vi" empty="获取分类失败" }
+							{eq name="$vi.classify_id" value="$product_id.product_type"}
+								<span>{$vi.classify_name}</span>
+							{/eq}
+						{/volist}
+						</div>
+					</div>
+					<a href="__ROOT__/gongying/{$product_id.product_id}" class="pl_details">查看详情</a>
+				</li>
+				{/volist}
+				<!-- 商家提供数据为空时 -->
+				{empty name="list"}
+				<div class="product_empty">
+					<div class="null_data_img" style="background: url('__ROOT__/static/index/images/null-page-draw.png') no-repeat; background-size: 280px;"></div>
+					<p>什么都还没有！</p>
+				</div>
+				{/empty}
+			</ul>
+			{$page}
+		</div>
+	</div>
+
+	<!-- 商家位置 -->
+	<div class="seller_loction_div functionBox">
+		<div class="sl_content">
+			<!-- 地图 -->
+			<div id="container"></div>  
+			<!-- 说明 -->
+			<div class="sl_content_state">
+				<div class="slc_loction_box">
+					<div class="scs_titile">商家地址定位(以下为推荐商家)：</div>
+					<div class="scs_cont" id="loction_text"></div>
+				</div>
+				<div class="data_show">
+			    	<ul>
+				    	{volist name='nearbySupplier' id='user'}
+							{present name="user.id"}
+				    		<li>
+					    		<a target="_blank" href="__ROOT__/seller/{$user.id}">
+					    			<div class="ds_img">
+										<img src="__ROOT__/{$user.head_image_url}">
+									</div>
+								</a>
+								<div class="supplier_name">{$user.nick_name}</div>
+								<div class="supplier_mesg">
+									<div class="supplier_mesg_dis">
+										<i class="fa fa-bus"></i>
+										<span>{$user.distance}米</span>
+										<div class="showBox">相距{$user.distance}米</div>
+									</div>
+									<div class="supplier_mesg_dis">
+										<i class="fa fa-random"></i>
+										<span>{$user.provide_count}件</span>
+										<div class="showBox">共{$user.provide_count}件商品</div>
+									</div>
+									<div class="supplier_mesg_dis">
+										<i class="fa fa-commenting-o"></i>
+										<span>{$user.dynamic_count}条</span>
+										<div class="showBox">共{$user.dynamic_count}条动态</div>
+									</div>
+								</div>
+				    		</li>
+				    	   {/present}
+					   {/volist}
+					   <div style="clear: both;"></div>
+			    	</ul>
+			    </div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 商家动态 -->
+	<div class="dynamic functionBox">
+		<!-- 动态内容区 -->
+        <script type="text/javascript">
+            var idxe = 0;
+            var collData = new Array();
+        </script>
+        {volist name="dynamic_data[3]" id="vo"}
+        <div class="dynamic_content" id="dycon_{$vo['id']}">
+	        <div class="dc_top">
+	        	<div class="dct_time">{$vo.time}</div>
+	        </div>
+            <a href="__ROOT__/dynamic_details/{$vo['id']}" target="_blank" style="text-decoration: none;";>   
+	        <div class="dc_cont">
+		        <div class="dcc_text">{$vo.content}</div>
+		        <ul>
+		        	{volist name="vo['imglist']" id="img"}
+		        	<li><img src="__ROOT__{$img}"></li>
+		        	{/volist}
+		        	<div style="clear: both;"></div>
+		        </ul>	
+        	</div>
+            </a>
+        	<!-- 阅读.收藏 .评论-->
+        	<div class="rcc_box">
+        		<ul>
+        			<li>
+        				<img src="__ROOT__/static/index/images/read.png">
+        				阅读数<span style="color: red;">{$vo.reading_number}</span>
+        				<em></em>
+        			</li>
+        			<li>
+        				<img src="__ROOT__/static/index/images/coment.png">
+        				评论数<span style="color: red;">{$vo.coment_number}</span>
+        				<em></em>
+        			</li>
+                    <li id="or_{$vo.id}" style="display: none;">
+                        <img src="__ROOT__/static/index/images/Collection2.png">
+                        已收藏
+                    </li>
+                    <li id="no_{$vo.id}" onclick="collection('dy',{$vo.id})">
+                        <img src="__ROOT__/static/index/images/Collection1.png">
+                        收藏
+                    </li>
+        			<div style="clear: both;"></div>
+        		</ul>
+        	</div>
+        </div>
+        <script type="text/javascript">
+            {volist name="CollectionData" id="co"}
+                if ( {$co} == {$vo.id} ) {
+                    collData[ idxe ] = {$co};
+                    idxe++;
+                }
+            {/volist}
+        </script>
+        {/volist}
+        <script type="text/javascript">
+            for (var i = collData.length - 1; i >= 0; i--) {
+                $("#or_"+collData[i]).show();
+                $("#no_"+collData[i]).hide();
+            }
+        </script>
+        <!-- 分页 -->
+        {notempty name="dynamic_data[3]"}
+        <div id="classification">
+            <ul class="dy_pagination">
+               <li>共<span style="color:red;">{$dynamic_data[4]}</span>个动态</li>
+               <li>共<span style="color:red;">{$dynamic_data[5]}</span>页<span style="color:red;"> {$dynamic_data[8]}</span>/<span>{$dynamic_data[5]}</span></li>
+               <a href="__ROOT__/seller/{$business_mesg.id}?funshow=2&p={$dynamic_data[6]}"><li class="classification_a">第一页</li></a>
+               <a href="__ROOT__/seller/{$business_mesg.id}?funshow=2&p={$dynamic_data[0]}"><li class="classification_a">上一页</li></a>
+               <a href="__ROOT__/seller/{$business_mesg.id}?funshow=2&p={$dynamic_data[1]}"><li class="classification_a">下一页</li></a>
+               <a href="__ROOT__/seller/{$business_mesg.id}?funshow=2&p={$dynamic_data[7]}"><li class="classification_a">尾页</li></a>
+               <div style="clear: both;"></div>
+            </ul>
+            <form class="form" action="__ROOT__/seller/{$business_mesg.id}" method="get">
+                <input class="form_input" type="text" name="p" value="{$dynamic_data[8]}"></input>
+                <input type="hidden" name="funshow" value="2"></input>
+                <button class="form_button" type="ssubmit">跳转</button>
+            </form>
+        </div>
+        {/notempty}
+        <!-- 商家动态数据为空时 -->
+		{empty name="dynamic_data[3]"}
+		<div class="product_empty">
+			<div class="null_data_img" style="background: url('__ROOT__/static/index/images/null-page-draw.png') no-repeat; background-size: 280px;"></div>
+			<p>什么都还没有！</p>
+		</div>
+		{/empty}
+	</div>
+
+	<!-- 商家介绍 -->
+	<div class="seller_introduce functionBox">
+		<div class="si_content">
+			{$business_introduce}
+		</div>
+		<!-- 商家介绍为空时 -->
+		{empty name="business_introduce"}
+		<div class="product_empty">
+			<div class="null_data_img" style="background: url('__ROOT__/static/index/images/null-page-draw.png') no-repeat; background-size: 280px;"></div>
+			<p>什么都还没有！</p>
+		</div>
+		{/empty}
+	</div>
+
+	<!-- 带养 -->
+	<div class="functionBox">
+	<div class="foster_data">
+		<ul>
+			{volist name="fosterData.data" id="data"}
+			<li>
+				<div class="foster_cover_img">
+                    <a href="__ROOT__/subshow/{$data.substitutes_id}" target="_blank">
+    					<img src="__ROOT__/{$data.cover_img}">
+                    </a>
+				</div>
+                <a href="__ROOT__/subshow/{$data.substitutes_id}" target="_blank" style="text-decoration: none;">
+    				<div class="foster_title">{$data.title}</div>
+                </a>
+				<div class="label_area_arry">
+					<i class="fa fa-tags"></i>
+					<a href="__ROOT__/search?q={$data.label1}" target="_blank"><div class="label" title="标签1">{$data.label1}</div></a>
+					<a href="__ROOT__/search?q={$data.label2}" target="_blank"><div class="label" title="标签2">{$data.label2}</div></a>
+					<a href="__ROOT__/search?q={$data.label3}" target="_blank"><div class="label" title="标签3">{$data.label3}</div></a>
+					<a href="__ROOT__/search?q={$data.label4}" target="_blank"><div class="label" title="标签4">{$data.label4}</div></a>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="foster_seller">
+					<a href="__ROOT__/seller/{$data.announcer_id}" target="_blank">
+						<img class="buyser_data_headImg" src="__ROOT__/{$data.userMesg.head_image_url}">
+					</a>
+					<div class="buyser_data_nick_name">{$data.userMesg.nick_name}</div>
+					<div style="clear: both;"></div>
+					<div class="hoverShow">
+						<div class="Triangle"><i class="fa fa-caret-down"></i></div>
+						<div class="foster_user_headimg">
+							<a href="__ROOT__/seller/{$data.announcer_id}" target="_blank">
+							<img src="__ROOT__/{$data.userMesg.head_image_url}">
+							</a>
+						</div>
+						<div class="foster_user_nick_name">{$data.userMesg.nick_name}</div>
+						<div class="foster_button">
+							<!-- <button class="fost_button1" type="button">关注</button> -->
+                            {empty name="userMesg"}
+                            <button class="fost_button1" type="button">私信</button>
+                            {else /}
+                            <button class="fost_button1" type="button" onclick="sellerSend({$data.userMesg.id},{$userMesg.id},'no','{$data.userMesg.nick_name}','__ROOT__/{$data.userMesg.head_image_url}')">私信</button>
+                            {/empty}
+						</div>
+					</div>
+				</div>
+			</li>
+			{/volist}
+			<div style="clear: both;"></div>
+		</ul>
+	</div>
+   <!-- 判断代养数据是否为空 -->
+   {empty name="business_introduce"}
+   <!-- 为空时 -->
+	<div class="product_empty">
+		<div class="null_data_img" style="background: url('__ROOT__/static/index/images/null-page-draw.png') no-repeat; background-size: 280px;"></div>
+		<p>什么都还没有！</p>
+	</div>
+	{else/}
+	<!-- 分页 -->
+	<div id="foster_classification">
+	   	<ul class="foster_pagination">
+	   	   <li>共<span style="color:red;">{$fosterData.allData}</span>件商品</li>
+	   	   <li>共<span style="color:red;">{$fosterData.allPageNumber}</span>页<span style="color:red;"> {$fosterData.nowPage}</span>/<span>{$fosterData.allPageNumber}</span></li>
+		   <a href="__ROOT__/foster?page=1"><li class="foster_classification_a">首页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.lastPage}"><li class="foster_classification_a">上一页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.nextPage}"><li class="foster_classification_a">下一页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.allPageNumber}"><li class="foster_classification_a">尾页</li></a>
+		   <div style="clear: both;"></div>
+	   	</ul>
+	   	<form class="foster_form" action="__ROOT__/seller/{$id}" method="get">
+	        <input class="foster_form_input" type="text" name="pg" value="{$fosterData.nowPage}"></input>
+	        <input type="hidden" name="funshow" value="4"></input>
+	        <button class="foster_form_button" type="submit">跳转</button>
+	    </form>
+   </div>
+	{/empty}
+   </div>
+
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript" src="__ROOT__/static/index/js/myneed/seller-body.js"></script>
+	<script type="text/javascript">
+		// 地图js
+		var editorTool, map = new AMap.Map("container", {
+		    resizeEnable: true,
+		    center: [{$loction}],//地图中心点
+		    zoom: 13 //地图显示的缩放级别
+		});
+		//在地图上绘制圆
+		var editor={};
+		editor._circle=(function(){
+		    var circle = new AMap.Circle({
+		        center: [{$loction}],// 圆心位置
+		        radius: 10000, //半径
+		        strokeColor: "#F33", //线颜色
+		        strokeOpacity: 0.5, //线透明度
+		        strokeWeight: 2, //线粗细度
+		        fillColor: "#ee2200", //填充颜色
+		        fillOpacity: 0.35//填充透明度
+		    });
+		    circle.setMap(map);
+		    return circle;
+		})();
+		map.setFitView();
+		editor._circleEditor= new AMap.CircleEditor(map, editor._circle);
+
+		editor.startEditCircle=function(){
+		    editor._circleEditor.open();
+		}
+		editor.closeEditCircle=function(){
+		    editor._circleEditor.close();
+		}
+		editor.startEditCircle();
+
+		// 通过经纬度获取地理编码
+		getLoction( "{$loction}" );
+
+		// funshow
+		var funshow =  $(".chose_box ul li");
+		funshow.removeClass("alchosed");  
+		funshow.eq( {$funshow} ).addClass("alchosed");
+
+		var functionBox2 = $(".functionBox");
+		functionBox2.removeClass("functionBoxShow");  
+		functionBox2.eq( {$funshow} ).addClass("functionBoxShow");
+		// if ({$funshow} == 2) {
+	 //    	$(document.body).css({"background":"#000"});
+	 //    }else{
+	 //    	$(document.body).css({"background":"#f2f2f2"});
+	 //    }
+
+	    // 收藏
+	    function collection( data,id ) {
+	        $.ajax({
+	           type: "POST",
+	           url: "__ROOT__/index/enter/collection",
+	           data: { "data": "_"+data+"_"+id },
+	           success: function( msg ){
+	            if ( msg == 1) {
+	                $("#or_"+id).show();
+	                $("#no_"+id).hide();
+	            }
+	           }
+	        });
+	    }
+	    function collection2( data,id ) {
+	        $.ajax({
+	           type: "POST",
+	           url: "__ROOT__/index/enter/collection",
+	           data: { "data": "_"+data+"_"+id },
+	           success: function( msg ){
+	            if ( msg == 1) {
+	                $(".button_li .button_left").text("已关注");
+	                $(".button_li .button_left").removeAttr("onclick");
+	            }
+	           }
+	        });
+	    }
+
+
+	    // 卖家主页的私信
+	    function sellerSend(aimId,myId,beColl,nick_name,head_image_url) {
+			switch( beColl )
+	    	{
+				case 'yes':
+				  chatSlid();
+            	  chooseUser(aimId,nick_name,myId);
+				  break;
+				case 'no':
+				  $(".strangerli").remove(".beChoose"+aimId);
+				  var appendData = '<li class="beChoose'+aimId+' strangerli" onclick="chooseUser('+aimId+',\''+nick_name+'\','+myId+')">'+
+					               '<div class="hhead_img"><img src="'+head_image_url+'"></div>'+
+					               '<div class="hnick_name"><span>'+nick_name+'</span></div>'+
+					               '<div class="attention" onclick="attention( \'ur\','+aimId+' )">关注</div>'+
+				                   '</li>';
+				  $("#stranger").append(appendData);
+				  chatSlid();
+            	  chooseUser(aimId,nick_name,myId);
+				  break;
+			}
+		}
+	</script>
+</body>
+</html>

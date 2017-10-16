@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<!-- 图片上传插件 -->
+	<!-- <script type="text/javascript" src="__ROOT__/phystatic/zyUpload/zyupload/jquery-1.7.2.js"></script> -->
+	<link rel="stylesheet" href="__ROOT__/phystatic/zyUpload/zyupload/skins/zyupload-1.0.0.min.css" type="text/css">
+	<script type="text/javascript" src="__ROOT__/phystatic/zyUpload/zyupload/zyupload-1.0.0.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/pictureSettings-content.css">
+	<script rel="stylesheet" src="__ROOT__/phystatic/js/pictureSettings-content.js"></script>
+</head>
+<body>
+	<!-- 图片设置内容 -->
+	<div class="pictureSettings-content">
+
+		<!-- 小程序轮播图设置面板 -->
+		<div class="panel panel-default panel-carousel">
+			<div class="panel-heading">小程序轮播图</div>
+			<table class="table">
+				<th>图片</th><th>说明</th><th>操作</th>
+				{volist name="InDa[0]['carousel']" id="carousel" key="k"}
+				<tr>
+					<td><img class="carousel-img configure-img-{$carousel.id}" src="__ROOT__/{$carousel.value}" data-toggle="tooltip" data-placement="right" title="轮播图{$k}" alt="轮播图"></td>
+					<td class="configure-explain-{$carousel.id}">{$carousel.configure_explain}</td>
+					<td>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default" onclick="modalShow('轮播图{$k}更改图片','{$carousel.id}','myModal','configure-img')">更改图片</button>
+							<button type="button" class="btn btn-default" onclick="modalShow('轮播图{$k}修改说明','{$carousel.id}','myModal','configure-explain')">修改说明</button>
+						</div>
+					</td>
+				</tr>
+				{/volist}
+			</table>
+		</div>
+
+		<!-- 小程序"我的"背景图和小程序"课前必看"的背景图 -->
+		<div class="backgroundMap">
+			<!-- 小程序"我的"背景图 -->
+			<div class="panel panel-default panel49">
+				<div class="panel-heading">
+					<h3 class="panel-title">小程序"我的"背景图</h3>
+				</div>
+				<table class="table">
+					<th>图片</th><th>说明</th><th>操作</th>
+					<tr>
+						<td><img data-toggle="tooltip" data-placement="right" title="'我的'背景图" class="table-img configure-img-{$InDa[1]['mybg']['id']}" src="__ROOT__/{$InDa[1]['mybg']['value']}" alt="'我的'背景图"></td>
+						<td class="configure-explain-{$InDa[1]['mybg']['id']}">{$InDa[1]["mybg"]["configure_explain"]}</td>
+						<td>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" onclick="modalShow('小程序\'我的\'背景图更改图片','{$InDa[1][\'mybg\'][\'id\']}','myModal','configure-img')">更改图片</button>
+								<button type="button" class="btn btn-default" onclick="modalShow('小程序\'我的\'背景图修改说明','{$InDa[1][\'mybg\'][\'id\']}','myModal','configure-explain')">修改说明</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- 小程序"课前必看"的背景图 -->
+			<div class="panel panel-default panel49 panelMarginLeft2">
+				<div class="panel-heading">
+					<h3 class="panel-title">小程序"课前必看"背景图 </h3>
+				</div>
+				<table class="table">
+					<th>图片</th><th>说明</th><th>操作</th>
+					<tr>
+						<td><img data-toggle="tooltip" data-placement="right" title="'课前必看'背景图" class="table-img configure-img-{$InDa[1]['chomebg']['id']}" src="__ROOT__/{$InDa[1]['chomebg']['value']}" alt="'课前必看'背景图"></td>
+						<td class="configure-explain-{$InDa[1]['chomebg']['id']}">{$InDa[1]["chomebg"]["configure_explain"]}</td>
+						<td>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" onclick="modalShow('小程序\'课前必看\'的背景图更改图片','{$InDa[1][\'chomebg\'][\'id\']}','myModal','configure-img')">更改图片</button>
+								<button type="button" class="btn btn-default" onclick="modalShow('小程序\'课前必看\'的背景图修改说明','{$InDa[1][\'chomebg\'][\'id\']}','myModal','configure-explain')">修改说明</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="clear-flaot"></div>
+		</div>
+
+	</div>
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<!-- 模态框（Modal）标题 -->
+					</h4>
+				</div>
+				<!-- 内容区 -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{
+	// 左侧功能区首页选中
+	$(".left .nav-pills li:eq(1)").addClass("actived");
+	
+	// 移除加载
+	loadingRemove();
+})
+
+// 访问后台
+function ajaxHttp(newValue,parameter,type) {
+	$.ajax({
+	   type: "POST",
+	   url: "__ROOT__/api/myfunction/carouselMesgChange",
+	   data: {"newValue":newValue,"parameter":parameter,"type":type},
+	   dataType: "json",
+	   success: function(msg){
+		   switch(msg)
+		   {
+			   	case 'conf-ex-success':
+				   	$(".configure-explain-"+parameter).text(newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;
+				case 'conf-im-success':
+				   	$(".configure-img-"+parameter).attr("src","__ROOT__/"+newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;   	
+				case 'fail':
+					addAlert("错误！","修改失败","danger");
+				   	break;
+		   }
+	   },
+	   error: function (msg) {
+		   	addAlert("错误！","修改失败","danger");
+	   } 
+	});
+}
+
+// 图片上传插件初始化函数
+function newZyUpload(zyUploadId) {
+	// 初始化插件
+	$("#"+zyUploadId).zyUpload({
+		width            :   "750px",                 // 宽度
+		height           :   "320px",                 // 宽度
+		itemWidth        :   "140px",                 // 文件项的宽度
+		itemHeight       :   "115px",                 // 文件项的高度
+		url              :   "__ROOT__/phystatic/zyUpload/swiper.php",              // 上传文件的路径
+		fileType         :   ["jpg","png"],// 上传文件的类型
+		fileSize         :   51200000,                // 上传文件的大小
+		multiple         :   true,                    // 是否可以多个文件上传
+		dragDrop         :   true,                    // 是否可以拖动上传文件
+		tailor           :   true,                    // 是否可以裁剪图片
+		del              :   true,                    // 是否可以删除文件
+		finishDel        :   false,  				  // 是否在上传文件完成后删除预览
+		/* 外部获得的回调接口 */
+		onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+			console.info("当前选择了以下文件：");
+			console.info(selectFiles);
+		},
+		onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
+			console.info("当前删除了此文件：");
+			console.info(file.name);
+		},
+		onSuccess: function(file, response){          // 文件上传成功的回调方法
+			console.info("此文件上传成功：");
+			console.info(file.name);
+			console.info("此文件上传到服务器地址：");
+			console.info(response);
+			// 把地址放到input里面
+			$("#"+zyUploadId).val(response);
+			addAlert("消息！","图片上传成功，请确认更改","info");
+		},
+		onFailure: function(file, response){          // 文件上传失败的回调方法
+			console.info("此文件上传失败：");
+			console.info(file.name);
+		},
+		onComplete: function(response){           	  // 上传完成的回调方法
+			console.info("文件上传完成");
+			console.info(response);
+		}
+	});
+}
+</script>
+</html>

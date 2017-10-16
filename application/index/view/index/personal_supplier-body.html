@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal_supplier-body.css">
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$head_image_url}">
+				</div>
+				<div class="nick_name">{$nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<a href="__ROOT__/account"><li>资料与账号</li></a>
+                    <a href=""><li>我的收藏</li></a>
+                    <a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+                    <a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+                    <a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<li class="choosed"><i></i><a href="__ROOT__/supplier">我是供应商</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right" id="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function" id="supplier_function">
+					<ul>
+						<li class="selected"><i></i><a href="__ROOT__/supplier">发布商品</a></li>
+						<li><a href="__ROOT__/loction">我的地址</a></li>
+						<li><a href="__ROOT__/introduce">我的介绍</a></li>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 商品列表 -->
+				<div class="content_list">
+					<ul class="content_list_ul">
+						{volist name="media_provide" id="vo" empty="暂时没有数据" }
+						<li>
+							<div class="content_list_img">
+								<img src="__ROOT__/{$vo.product_url1}thumb.png">
+							</div>
+							<div class="content_list_mesg">
+								<div class="content_list_product_name">{$vo.product_name}</div>
+								<div class="content_list_product_id">商品唯一编号：<span>{$vo.product_id}</span></div>
+								{volist name="classify" id="vi" empty="获取分类失败" }
+								  {eq name="$vi.classify_id" value="$vo.product_type"}
+								  <div class="content_list_product_type">商品属性：<span>{$vi.classify_name}</span></div>
+								  {/eq}
+								{/volist}
+								<div class="edit" onclick="editShow('{$vo.product_id}')">编辑</div>
+								{switch name="$vo.product_state"}
+								    {case value="0"}<div class="offline" style="background:#a0a0a0;" onclick="goOnline('{$vo.product_id}')">上线</div>{/case}
+								    {case value="1"}<div class="offline" onclick="Offline('{$vo.product_id}')">下线</div>{/case}
+								    {default /}<div class="offline" onclick="Offline('{$vo.product_id}')">下线</div>
+								{/switch}
+							</div>
+
+						    <!-- 编辑（商品编号作为id） -->
+							<div class="edit_box" id="{$vo.product_id}" style=""> 
+								<div style="width: 730px;padding: 30px;
+								margin: 0 auto;background: #fff; position: relative;">  
+								    <div style="position: absolute;width: 50px;height: 50px;line-height: 50px;font-size: 25px;top: 0;right: 0;color: red;background: #eee;text-align: center;cursor: pointer;" onclick="closeEdit('{$vo.product_id}')">x</div>
+									<!-- 商品名称 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品名称：</div>
+								    	<input id="{$vo.product_id}_name" type="text" value="{$vo.product_name}"></input>
+								    	<div style="clear: both;"></div>
+								    </div>
+								    <!-- 商品描述 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品描述：</div>
+								    	<textarea rows="10" cols="75" id="{$vo.product_id}_details">{$vo.product_details}</textarea>
+								    </div>
+								    <!-- 产品图片 -->
+								    <div class="edit_list">
+								    	<div class="edit_title edit_title_img">产品展示图片(默认第一张为产品主图)：</div>
+								    	<ul id="edit_ul">
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image1">
+									    			<form id="{$vo.product_id}xiugaiForm1">
+									    			{empty name="vo.product_url1"}
+													<img class="imgShow" src="__ROOT__/static/index/images/plu.png">
+													{else /}
+													<img class="imgShow" src="__ROOT__/{$vo.product_url1}thumb.png">
+													{/empty}
+													<input type="hidden" class="product_url_value" value="{$vo.product_url1}"></input>
+													<input name="cover_image" class="product_url_upload" type="file" title="点击上传图片"></input>
+													</form>
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image2">
+								    				<form id="{$vo.product_id}xiugaiForm2">
+									    			{empty name="vo.product_url2"}
+													<img class="imgShow" src="__ROOT__/static/index/images/plu.png">
+													{else /}
+													<img class="imgShow" src="__ROOT__/{$vo.product_url2}thumb.png">
+													{/empty}
+													<input type="hidden" class="product_url_value" value="{$vo.product_url2}"></input>
+													<input name="cover_image" class="product_url_upload" type="file" title="点击上传图片"></input>
+													</form>
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image3">
+								    				<form id="{$vo.product_id}xiugaiForm3">
+									    			{empty name="vo.product_url3"}
+													<img class="imgShow" src="__ROOT__/static/index/images/plu.png">
+													{else /}
+													<img class="imgShow" src="__ROOT__/{$vo.product_url3}thumb.png">
+													{/empty}
+													<input type="hidden" class="product_url_value" value="{$vo.product_url3}"></input>
+													<input name="cover_image" class="product_url_upload" type="file" title="点击上传图片"></input>
+													</form>
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image4">
+								    				<form id="{$vo.product_id}xiugaiForm4">
+									    			{empty name="vo.product_url4"}
+													<img class="imgShow" src="__ROOT__/static/index/images/plu.png">
+													{else /}
+													<img class="imgShow" src="__ROOT__/{$vo.product_url4}thumb.png">
+													{/empty}
+													<input type="hidden" class="product_url_value" value="{$vo.product_url4}"></input>
+													<input name="cover_image" class="product_url_upload" type="file" title="点击上传图片"></input>
+													</form>
+								    			</div>
+								    		</li>
+								    		<li>
+								    			<div class="edit_img" id="{$vo.product_id}_image5">
+								    				<form id="{$vo.product_id}xiugaiForm5">
+									    			{empty name="vo.product_url5"}
+													<img class="imgShow" src="__ROOT__/static/index/images/plu.png">
+													{else /}
+													<img class="imgShow" src="__ROOT__/{$vo.product_url5}thumb.png">
+													{/empty}
+													<input type="hidden" class="product_url_value" value="{$vo.product_url5}"></input>
+													<input name="cover_image" class="product_url_upload" type="file" title="点击上传图片"></input>
+													</form>
+								    			</div>
+								    		</li>
+								    	</ul>
+								    </div>
+								    <!-- 商品分类 -->
+								    <div class="edit_list">
+								    	<div class="edit_title">商品属性：</div>
+								    	<select id="{$vo.product_id}_type">
+								    	  <!-- <option value="{$vo.product_type}">{$vo.product_type}</option> -->							
+										  {volist name="classify" id="vi" empty="获取分类失败" }
+										  <option value="{$vi.classify_id}">{$vi.classify_name}</option>
+										  {eq name="$vi.classify_id" value="$vo.product_type"}
+										  <option selected="selected" value="{$vi.classify_id}">{$vi.classify_name}</option>
+										  {/eq}
+										  {/volist}
+										</select>
+								    </div>
+								    <!-- 确认修改 -->
+								    <div id="edit_release_button" onclick="acknowledgement('{$vo.product_id}')">确认修改</div>
+							    </div>
+							</div>
+						</li>
+						{/volist}
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+					<div id="new_commodity_release">新商品发布</div>
+				</div>
+
+				<!-- 发布商品 -->
+				<div class="content_sup" style="display: none;">
+				    <!-- 商品名称 -->
+				    <div class="product_name_con product_con">
+				    	<div class="product_title product_name_title">商品名称：</div>
+				    	<input class="product_name" type="text" placeholder="请输入此商品的名称"></input>
+				    	<div style="clear: both;"></div>
+				    </div>
+				    <!-- 商品描述 -->
+				    <div class="product_con">
+				    	<div class="product_title">商品描述：</div>
+				    	<textarea rows="10" cols="75" class="product_details" placeholder="请输入你的商品描述"></textarea>
+				    </div>
+				    <!-- 产品图片 -->
+				    <div class="product_con product_img_show">
+				    	<div class="product_title product_title_img">产品展示图片(默认第一张为产品主图)：</div>
+				    	<ul>
+				    		<li>
+				    			<div class="product_img" id="image1">
+				    				<img id="fabuImg1" src="__ROOT__/static/index/images/plu.png">
+				    				<form id="uploadForm1">
+					    				<input class="imgFile" id="fabuInput1" type="file" name="cover_image" title="请上传图片"></input>
+					    				<input type="hidden" class="" name="number" value="1"></input>
+				    				</form>
+				    			</div> 
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image2">
+				    				<img id="fabuImg2" src="__ROOT__/static/index/images/plu.png">
+				    				<form id="uploadForm2">
+					    				<input id="fabuInput2" class="imgFile" type="file" name="cover_image" title="请上传图片"></input>
+					    				<input type="hidden" name="number" value="2"></input>
+				    				</form>
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image3">
+				    				<img id="fabuImg3" src="__ROOT__/static/index/images/plu.png">
+				    				<form id="uploadForm3">
+					    				<input id="fabuInput3" class="imgFile" type="file" name="cover_image" title="请上传图片"></input>
+					    				<input type="hidden" name="number" value="3"></input>
+				    				</form>
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image4">
+				    				<img id="fabuImg4" src="__ROOT__/static/index/images/plu.png">
+				    				<form id="uploadForm4">
+					    				<input id="fabuInput4" class="imgFile" type="file" name="cover_image" title="请上传图片"></input>
+					    				<input type="hidden" name="number" value="4"></input>
+				    				</form>
+				    			</div>
+				    		</li>
+				    		<li>
+				    			<div class="product_img" id="image5">
+				    				<img id="fabuImg5" src="__ROOT__/static/index/images/plu.png">
+				    				<form id="uploadForm5">
+					    				<input id="fabuInput5" class="imgFile" type="file" name="cover_image" title="请上传图片"></input>
+					    				<input type="hidden" name="number" value="5"></input>
+				    				</form>
+				    			</div>
+				    		</li>
+				    	</ul>
+				    </div>
+				    <!-- 商品分类 -->
+				    <div class="product_con">
+				    	<div class="product_title">商品属性：</div>
+				    	<select id="typeSlect">
+					      <option value="">未选择分类</option>
+						  {volist name="classify" id="vo" empty="获取分类失败" }
+						  <option value="{$vo.classify_id}">{$vo.classify_name}</option>
+						  {/volist}
+						</select>
+				    </div>
+				    <!-- 发布按钮 -->
+				    <div id="release_button">发布</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 发布按钮
+		$("#release_button").click(function () {
+			var product_name = $(".product_name").val();               //获取商品名称
+			var product_details = $(".product_details").val();         //获取商品描述
+			var product_type = $('#typeSlect option:selected').val();  //商品属性选中的值
+			// 获取图片url
+			var product_url = new Array();
+			for (var i = 1; i < 6; i++) {
+				product_url[i] = $("#fabuInput"+i).data("imgSrc"+i); 
+				if ( typeof( product_url[i] ) == "undefined") {
+					product_url[i] = "";
+				}
+			}
+
+			if (product_name=="") {
+				alert("请输入商品名称！");
+			}else if (product_details=="") {
+				alert("请输入商品描述！");
+			}else if (product_type=="") {
+				alert("请选择商品属性！");
+			}else if (product_url[1]=="" && product_url[2]=="" && product_url[3]=="" && product_url[4]=="" &&product_url[5]=="") {
+				alert("请至少上传一张图片！");
+			}else{
+				release(product_name,product_details,product_type,product_url[1],product_url[2],product_url[3],product_url[4],product_url[5]);
+			}
+		})
+
+		// 新商品发布
+		$("#new_commodity_release").click(function () {
+			$(".content_list").hide();
+			$(".content_sup").show();
+		});
+
+		// 编辑函数
+		function editShow( id ) {
+			$("#"+id).show();
+		}
+		// x关闭
+		function closeEdit( id ) {
+			$("#"+id).hide();
+		}
+
+		// 下线
+		function Offline( id ) {
+			$.ajax({
+                url: "__ROOT__/index/personal/offline",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "下线失败";
+                    }else if (msg == 1) {
+                        var alertText = "下线成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 上线
+		function goOnline( id ) {
+			$.ajax({
+                url: "__ROOT__/index/personal/goOnline",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "上线失败";
+                    }else if (msg == 1) {
+                        var alertText = "上线成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 上传到服务器
+		function release(product_name,product_details,product_type,product_url1,product_url2,product_url3,product_url4,product_url5) {
+			
+			$.ajax({
+			   url: "__ROOT__/index/personal/release",
+			   type: "POST",
+			   dataType: "json",
+			   data: {"product_name":product_name,"product_details":product_details,"product_type":product_type,"product_url1":product_url1,"product_url2":product_url2,"product_url3":product_url3,"product_url4":product_url4,"product_url5":product_url5},
+			   success: function( msg ){
+				   	// console.log( msg );
+				   	// alert( msg.regeocode.formatted_address );
+				   	if (msg == 1) {
+				   		alert("发布成功！");
+				   		location.reload();
+				   	}else if(msg == -1){
+				   		alert("发布失败!");
+				   	}
+			   }
+			});
+		}
+
+		// 确认发布
+		function acknowledgement( id ) {
+			var product_name = $("#"+id+"_name").val();
+			var product_details = $("#"+id+"_details").val();
+			var product_type = $('#'+id+'_type option:selected').val();  
+			var product_url = new Array();
+			for (var t = 1; t <=5; t++) {
+			    product_url[t] = $('#'+id+'_image'+t+' .product_url_value').val();
+			}
+			$.ajax({
+                url: "__ROOT__/index/personal/acknowledgement",
+                type: "POST",
+                dataType: "json",
+                data: {"product_id":id,"product_name":product_name,"product_details":product_details,"product_type":product_type,"product_url1":product_url[1],"product_url2":product_url[2],"product_url3":product_url[3],"product_url4":product_url[4],"product_url5":product_url[5]},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "修改失败";
+                    }else if (msg == 1) {
+                        var alertText = "修改成功";
+                    }
+                    alert( alertText );
+                    location.reload();
+                }
+            })
+		}
+
+		// 编辑上传图片
+		{volist name="media_provide" id="vo"}
+			{for start="1" end="6"}
+				$("#{$vo.product_id}_image"+{$i}+" .product_url_upload").change(function() {
+				    var $file = $(this);
+				    var fileObj = $file[0];
+				    var windowURL = window.URL || window.webkitURL;
+				    var dataURL;
+				    var $img = $("#{$vo.product_id}_image"+{$i}+" .imgShow");
+
+				    if(fileObj && fileObj.files && fileObj.files[0]){
+				        dataURL = windowURL.createObjectURL(fileObj.files[0]);
+				        $img.attr('src',dataURL);
+				    }else{
+				    dataURL = $file.val();
+				    var imgObj = document.getElementById("#{$vo.product_id}_image"+{$i}+" .imgShow");
+				        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+				        imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+				    }
+				    // 上传
+				    editUpload('{$vo.product_id}',{$i});
+				});
+		    {/for}
+		{/volist}
+
+		// 编辑上传图片
+		function editUpload(id,num) {  
+			var formData = new FormData($( "#"+id+"xiugaiForm"+num )[0]);  
+			$.ajax({  
+			  url: '__ROOT__/index/enter/supplier_upload' ,  
+			  type: 'POST',  
+			  data: formData,  
+			  async: false,  
+			  cache: false,  
+			  contentType: false,  
+			  processData: false,  
+			  success: function (returndata) {  
+			      $( "#"+id+"_image"+num+" .product_url_value" ).val(returndata);
+			  },  
+			  error: function (returndata) {  
+			      console.log(returndata);  
+			  }  
+			});  
+		}  
+
+		// 发布上传图片
+		function doUpload(num) {  
+			var formData = new FormData($( "#uploadForm"+num )[0]);  
+			$.ajax({  
+			  url: '__ROOT__/index/enter/supplier_upload' ,  
+			  type: 'POST',  
+			  data: formData,  
+			  async: false,  
+			  cache: false,  
+			  contentType: false,  
+			  processData: false,  
+			  success: function (returndata) {  
+			      $("#fabuInput"+num).data("imgSrc"+num, returndata); 
+			  },  
+			  error: function (returndata) {  
+			      console.log(returndata);  
+			  }  
+			});  
+		}  
+		{for start="1" end="6"}
+			$("#fabuInput"+{$i}).change(function() {
+			    var $file = $(this);
+			    var fileObj = $file[0];
+			    var windowURL = window.URL || window.webkitURL;
+			    var dataURL;
+			    var $img = $("#fabuImg"+{$i});
+
+			    if(fileObj && fileObj.files && fileObj.files[0]){
+			        dataURL = windowURL.createObjectURL(fileObj.files[0]);
+			        $img.attr('src',dataURL);
+			    }else{
+			    dataURL = $file.val();
+			    var imgObj = document.getElementById("fabuImg"+{$i});
+			        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+			        imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+			    }
+			    // 上传
+			    doUpload({$i});
+			});
+		{/for}
+	</script>
+</body>
+</html>

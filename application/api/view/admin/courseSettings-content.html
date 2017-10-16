@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<!-- 图片上传插件 -->
+	<!-- <script type="text/javascript" src="__ROOT__/phystatic/zyUpload/zyupload/jquery-1.7.2.js"></script> -->
+	<link rel="stylesheet" href="__ROOT__/phystatic/zyUpload/zyupload/skins/zyupload-1.0.0.min.css" type="text/css">
+	<script type="text/javascript" src="__ROOT__/phystatic/zyUpload/zyupload/zyupload-1.0.0.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/courseSettings-content.css">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/courseSettings-content.js"></script>
+</head>
+<body>
+	<!-- 课前必看 -->
+	<div class="courseSettings-content">
+		<div class="panel panel-default">
+			<div class="panel-heading">当前所有开设实验详情</div>
+			<table class="table">
+				<th>实验题图</th><th>实验名称</th><th>实验教室</th><th>实验视频说明</th><th>视频时长(秒)</th><th>是否上传视频</th><th>目前使用</th><th>操作</th>
+				{volist name="InDa[0]['course']" id="course" key="k"}
+				<tr>
+					<td><img class="configure-img-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改图片','{$course.phy_id}','myModal','configure-img')" data-toggle="tooltip" data-placement="right" title="点击重新上传图片" style="width: 50px;height: 50px;" src="__ROOT__/{$course.img_url}"></td>
+					<td><font class="configure-ex-name-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改实验名称','{$course.phy_id}','myModal','configure-ex-name')" data-toggle="tooltip" data-placement="left" title="点击修改实验名称" style="line-height: 50px;cursor: pointer;">{$course.phy_name}</font></td>
+					<td><font class="configure-classs-room-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改实验教室','{$course.phy_id}','myModal','configure-class-room')" data-toggle="tooltip" data-placement="left" title="点击修改实验教室" style="line-height: 50px;cursor: pointer;">{$course.classroomnumber}</font></td>
+					{empty name="course.explain_people"}
+					<td><font class="configure-video-explan-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改实验视频说明','{$course.phy_id}','myModal','configure-video-explan')" data-toggle="tooltip" data-placement="left" title="点击修改实验视频说明" style="line-height: 50px;cursor: pointer;">还未填写实验视频说明</font></td>
+					{else /}
+					<td><font class="configure-video-explan-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改实验视频说明','{$course.phy_id}','myModal','configure-video-explan')" data-toggle="tooltip" data-placement="left" title="点击修改实验视频说明" style="line-height: 50px;cursor: pointer;">{$course.explain_people}</font></td>
+					{/empty}
+					<td><font class="configure-video-leng-{$course.phy_id}" onclick="modalShow('实验\'{$course.phy_name}\'更改实验视频时长','{$course.phy_id}','myModal','configure-video-leng')" data-toggle="tooltip" data-placement="left" title="点击修改实验视频时长" style="line-height: 50px;cursor: pointer;">{$course.phy_movie_leng}</font></td>
+					{empty name="course.video_url"}
+					<td><font onclick="modalShow('实验\'{$course.phy_name}\'更改实验视频上传','{$course.phy_id}','myModal','configure-video-upload')" data-toggle="tooltip" data-placement="left" title="点击上传实验视频" style="line-height: 50px;cursor: pointer;">视频未上传</font></td>
+					{else /}
+					<td><font onclick="modalShow('实验\'{$course.phy_name}\'实验视频观看','__ROOT__/{$course.video_url}','myModal','configure-video-view')" style="line-height: 50px;cursor: pointer;color: red;">观看视频</font></td>
+					{/empty}
+					{if condition="($course.useing == 1)"} 
+					<td><font style="line-height: 50px;cursor: pointer;color: red;">{$course.useteacher}实验中</font></td>
+					{else /} 
+					<td><font style="line-height: 50px;cursor: pointer;">可用状态</font></td>
+					{/if}
+					<td><a style="line-height: 50px;" target="_blank" href="__ROOT__/phystatic/phpqrcode/index.php?ex={$course.phy_id}&numbers=30&root=__ROOT__">下载二维码</a></td>
+				</tr>
+				{/volist}
+			</table>
+		</div>
+	</div>
+
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<!-- 模态框（Modal）标题 -->
+					</h4>
+				</div>
+				<!-- 内容区 -->
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{
+	// 左侧功能区首页选中
+	$(".left .nav-pills li:eq(2)").addClass("actived");
+	
+	// 移除加载
+	loadingRemove();
+})
+
+// 访问后台
+function ajaxHttp(newValue,parameter,type) {
+	$.ajax({
+	   type: "POST",
+	   url: "__ROOT__/api/myfunction/courseMesgChange",
+	   data: {"newValue":newValue,"parameter":parameter,"type":type},
+	   dataType: "json",
+	   success: function(msg){
+		   switch(msg)
+		   {
+			   	case 'conf-ex-name-success':
+				   	$(".configure-ex-name-"+parameter).text(newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;
+				case 'conf-video-upload-success':
+				   	addAlert("成功！","视频上传成功","success");
+				   	location.reload();
+				   	break;
+				case 'conf-video-leng-success':
+				   	$(".configure-video-leng-"+parameter).text(newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;
+				case 'conf-video-explan-success':
+				   	$(".configure-video-explan-"+parameter).text(newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;
+				case 'conf-room-success':
+				   	$(".configure-classs-room-"+parameter).text(newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;
+				case 'conf-im-success':
+				   	$(".configure-img-"+parameter).attr("src","__ROOT__/"+newValue);
+				   	addAlert("成功！","修改成功","success");
+				   	break;   	
+				case 'fail':
+					addAlert("错误！","修改失败","danger");
+				   	break;
+		   }
+	   },
+	   error: function (msg) {
+		   	addAlert("错误！","修改失败","danger");
+	   } 
+	});
+}
+
+// 图片上传插件初始化函数
+function newZyUpload(zyUploadId) {
+	// 初始化插件
+	$("#"+zyUploadId).zyUpload({
+		width            :   "750px",                 // 宽度
+		height           :   "320px",                 // 宽度
+		itemWidth        :   "140px",                 // 文件项的宽度
+		itemHeight       :   "115px",                 // 文件项的高度
+		url              :   "__ROOT__/phystatic/zyUpload/course.php",              // 上传文件的路径
+		fileType         :   ["jpg","png","mp4"],// 上传文件的类型
+		fileSize         :   201321754,                // 上传文件的大小
+		multiple         :   true,                    // 是否可以多个文件上传
+		dragDrop         :   true,                    // 是否可以拖动上传文件
+		tailor           :   true,                    // 是否可以裁剪图片
+		del              :   true,                    // 是否可以删除文件
+		finishDel        :   false,  				  // 是否在上传文件完成后删除预览
+		/* 外部获得的回调接口 */
+		onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+			console.info("当前选择了以下文件：");
+			console.info(selectFiles);
+		},
+		onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
+			console.info("当前删除了此文件：");
+			console.info(file.name);
+		},
+		onSuccess: function(file, response){          // 文件上传成功的回调方法
+			console.info("此文件上传成功：");
+			console.info(file.name);
+			console.info("此文件上传到服务器地址：");
+			console.info(response);
+			// 把地址放到input里面
+			$("#"+zyUploadId).val(response);
+			addAlert("消息！","图片上传成功，请确认更改","info");
+		},
+		onFailure: function(file, response){          // 文件上传失败的回调方法
+			console.info("此文件上传失败：");
+			console.info(file.name);
+		},
+		onComplete: function(response){           	  // 上传完成的回调方法
+			console.info("文件上传完成");
+			console.info(response);
+		}
+	});
+}
+</script>
+</html>

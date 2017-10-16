@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<style type="text/css">
+	*{margin: 0;padding: 0}
+	body{
+		background: #f2f2f2;
+	}
+	.classify{
+		width: 1004px;
+		margin: 0 auto;
+		padding: 10px;
+		margin-top: 10px;
+		background: #fff;
+	}
+	.classify a{
+		color: #000;
+	} 
+	.selected{
+		background: #6abd9e;
+		color: #fff;
+	}
+	.classify ul li{
+		padding: 5px;
+		list-style: none;
+		margin-left: 5px;
+		float: left;
+		font-family: 微软雅黑;
+		font-size: 13px;
+	}
+	</style>
+</head>
+<body>
+	<div class="classify">
+	   	<ul>
+		   	<li>查看方式：</li>
+	   		<a href=""><li class="type_1">全部</li></a>
+			<a href=""><li class="type_2}">点赞最多</li></a>
+			<a href=""><li class="type_3}">我的收藏</li></a>
+	   		<div style="clear: both;"></div>
+	   	</ul>
+   </div>
+</body>
+<script type="text/javascript">
+	$(".actived").removeClass("actived");
+	$(".m-auction").addClass("actived");
+
+	$(".type_1").addClass("selected");
+</script>
+</html>

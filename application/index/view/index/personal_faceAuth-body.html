@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<title>{$title}</title>
+	<style type="text/css">
+	.content_second{
+		width: 600px;
+		margin: 0 auto;
+		margin-top: 30px;
+	}
+	.apply_become_supplier{
+		width: 230px;
+	    height: 50px;
+	    line-height: 50px;
+	    text-align: center;
+	    border-radius: 10px;
+	    margin: 0 auto;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	    background: #FF9800;
+	    color: #fff;
+	    cursor: pointer;
+	    outline: none;
+	    border: 0;
+	}
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$userMesg.head_image_url}">
+				</div>
+				<div class="nick_name">{$userMesg.nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<li class="choosed"><i></i><a href="__ROOT__/account">资料与账号</a></li>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<a href="__ROOT__/supplier"><li>我是供应商</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function" id="supplier_function">
+					<ul>
+						<a href="__ROOT__/account"><li><i></i>个人资料</li></a>
+						<a href="__ROOT__/faceAuth"><li class="selected"><i></i>人脸识别授权</li></a>
+						<a href="__ROOT__/apply"><li>用户认证</li></a>
+						<a href=""><li>账号安全</li></a>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 资料与账号内容区 -->
+				<div class="content_box">
+					<!-- 内容区2（人脸信息采集） -->
+					<div class="content_second content">
+						<div class="video_canvas">
+							<video id="video" width="600px" height="450px"></video>
+						    <canvas style="display: none;" id='canvas' width='600px' height='450px'></canvas>
+						</div>
+						<div class="apply_become_supplier" id="tack">
+							<span>授权</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 人脸信息采集js
+        var video = document.getElementById('video'),
+		        canvas = document.getElementById('canvas'),
+		        snap = document.getElementById('tack'),
+		        vendorUrl = window.URL || window.webkitURL;
+
+		startGetFaceMesg(video,canvas,snap,vendorUrl);
+
+        function startGetFaceMesg(video,canvas,snap,vendorUrl) {
+		    //媒体对象
+		    navigator.getMedia = navigator.getUserMedia ||
+		                         navagator.webkitGetUserMedia ||
+		                         navigator.mozGetUserMedia ||
+		                         navigator.msGetUserMedia;
+		    navigator.getMedia({
+		        video: true, //使用摄像头对象
+		        audio: false  //不适用音频
+		    }, function(strem){
+		        console.log(strem);
+		        video.src = vendorUrl.createObjectURL(strem);
+		        video.play();
+		    }, function(error) {
+		        //error.code
+		        console.log(error);
+		    });
+        }
+	    snap.addEventListener('click', function(){      
+	        //绘制canvas图形
+	        canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+	        
+	        //把canvas图像转为img图片
+	        var base64 = canvas.toDataURL("image/png");
+	        // img.src = base64;
+	        var imgBase64 = base64.substring(22);
+	        // console.log( imgBase64 );
+
+	        ajaxFun( imgBase64 );       //执行ajaxFun函数
+
+	        $("#video").css("display","none");
+	        $("#canvas").css("display","block");
+	    })
+	    // 获取face_token并画轮廓
+	    function ajaxFun( imgBase64 ) {
+	      var img = imgBase64;
+	      $.ajax({
+	         url: "https://api-cn.faceplusplus.com/facepp/v3/detect",
+	         type: "POST",
+	         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","image_base64": img},
+	         success: function(msg){
+	           console.log( msg );
+	           // faces数组
+	           var faces = msg.faces;
+	           if (faces.length == 0) {
+	            alert("未检测到人脸");
+	            return;
+	           }
+
+	           // addFace
+	           var face_token = msg.faces[0].face_token;
+
+	           addFace( face_token );                //addFace
+
+	           // alert( msg.faces[0].face_token );
+	           // 画轮廓
+	           var top = msg.faces[0].face_rectangle.top;
+	           var left = msg.faces[0].face_rectangle.left;
+	           var height = msg.faces[0].face_rectangle.height;
+	           var width = msg.faces[0].face_rectangle.width;
+
+	           var canvas = document.getElementById("canvas");   
+	           var context = canvas.getContext("2d");  
+	           context.strokeStyle = "#F5270B";   
+	           context.strokeRect(top,left,width,height);  
+	         }
+	      });
+	    }
+	    // addface
+	    function addFace( face_token ) {
+	      $.ajax({
+	        url: "https://api-cn.faceplusplus.com/facepp/v3/faceset/addface",
+	         type: "POST",
+	         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","faceset_token":"528f602b7ad21bbc29513e8bbe3afbc5","face_tokens": face_token},
+	         success: function(msg){
+	           console.log( msg );
+	           var face_added = msg.face_added;
+	           if (face_added != 0) {
+	              // 注册
+	              register( face_token );
+	           }
+	         }
+	      });
+	    }
+	    // 将face_token存入数据库
+	    function register( face_token ) {
+	      // 获取表单数据
+	      var address = $("#address").val();
+	      $.ajax({
+	        url: "__ROOT__/index/enter/faceAuthorization",
+	        type: "POST",
+	        data: {"face_token": face_token},
+	        success: function ( msg ) {
+	          console.log( msg );
+	          if (msg == 1) {
+	            alert("授权成功");
+	            window.location.href="__ROOT__/";
+	          }else{
+	            alert( msg );
+	          }
+	        }
+	      });
+	    }
+	</script>
+</body>
+</html>

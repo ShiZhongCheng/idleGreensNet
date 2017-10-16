@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<title>{$title}</title>
+	<style type="text/css">
+	/*我的代养，我是代养人*/
+	.pi_right{
+		padding: 0;
+		background: rgba(0,0,0,0);
+	}
+	.pi_right,.supplier{
+		width: 790px;
+	}
+	.adoption{
+		width: 790px;
+		border-radius: 5px;
+	}
+	.adoption ul{
+		border: 0;
+	}
+
+	/*订单内容区*/
+	.Order_list_box{
+		margin-top: 10px;
+	}
+	.static_order{
+		background: #fff;
+		padding: 10px;
+		border-radius: 5px;
+		min-height: 200px;
+		margin-bottom: 10px; 
+	}
+	.Order_title{
+		color: rgb(133, 144, 166);
+	    text-indent: 20px;
+	    border-bottom: 1px #eee solid;
+	    font-size: 13px;
+        line-height: 40px;
+        text-align: left;
+	}
+	.static_order ul li{
+		padding: 10px 5px 0 5px;
+		list-style: none;
+		float: left;
+		border: 1px #eee solid;
+		margin: 10px 5px 0 5px;
+		border-radius: 5px;
+	}
+	.goods_mesg{
+		text-align: center;
+		border-bottom: 1px #eee solid;
+	}
+	.goods_title{
+		font-size: 15px;
+		font-weight: bold;
+		line-height: 20px;
+		padding: 5px 0 0 0;
+	}
+	.goods_time{
+		font-size: 12px;
+		color: rgb(133, 144, 166);
+		margin-bottom: 5px;
+		font-size: 12px;
+		line-height: 20px;
+	}
+	.seller_mesg{
+		padding: 5px 0 5px 0;
+	}
+	.seller_head_img{
+		float: left;
+	}
+	.seller_nick_name{
+		float: left;
+		line-height: 12px;
+		font-size: 12px;
+		line-height: 20px;
+		margin-left: 10px;
+		color: rgb(133, 144, 166);
+	}
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$userMesg.head_image_url}">
+				</div>
+				<div class="nick_name">{$userMesg.nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<a href="__ROOT__/account"><li>资料与账号</li></a>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li class="choosed"><i></i>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<a href="__ROOT__/supplier"><li>我是供应商</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function adoption" id="supplier_function">
+					<ul>
+						<a href="__ROOT__/myadpotion/myadpotion"><li class="selected"><i></i>认养订单</li></a>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 内容区 -->
+				<div class="Order_list_box">
+					<!-- 已经成功订单 -->
+					<div class="static_order">
+						<div class="Order_title"> 已成功订单 </div>
+						<ul>
+							{volist name="mySuccSubOrder" id="succOrder" empty="没有成功订单"}
+							<li>
+								<div class="goods_cover_img">
+									<a href="__ROOT__/subshow/{$succOrder.Corresponding_id}" target="_blank">
+									<img src="__ROOT__/{$succOrder.goodsMesg.cover_img}" style="width: 120px;height: 90px;">
+									</a>
+								</div>
+								<div class="goods_mesg">
+									<a href="__ROOT__/subshow/{$succOrder.Corresponding_id}" target="_blank">
+									<div class="goods_title">{$succOrder.goodsMesg.title}</div>
+									</a>
+									<div class="goods_time">{$succOrder.time}</div>
+								</div>
+								<div class="seller_mesg">
+									<a href="__ROOT__/seller/{$succOrder.sellerMesg.id}" target="_blank">
+									<img class="seller_head_img" src="__ROOT__/{$succOrder.sellerMesg.head_image_url}" style="width: 20px; height: 20px">
+									<div class="seller_nick_name">{$succOrder.sellerMesg.nick_name}</div>
+									</a>
+									<div style="clear: both;"></div>
+								</div>
+							</li>
+							{/volist}
+							<div style="clear: both;"></div>
+						</ul>
+					</div>
+					<!-- 等待授权订单 -->
+					<div class="static_order">
+						<div class="Order_title"> 等待授权订单 </div>
+						<ul>
+							{volist name="myNoSuccSubOrder" id="succOrder" empty="没有等待授权订单"}
+							<li>
+								<div class="goods_cover_img">
+									<a href="__ROOT__/subshow/{$succOrder.Corresponding_id}" target="_blank">
+									<img src="__ROOT__/{$succOrder.goodsMesg.cover_img}" style="width: 120px;height: 90px;">
+									</a>
+								</div>
+								<div class="goods_mesg">
+									<a href="__ROOT__/subshow/{$succOrder.Corresponding_id}" target="_blank">
+									<div class="goods_title">{$succOrder.goodsMesg.title}</div>
+									</a>
+									<div class="goods_time">{$succOrder.time}</div>
+								</div>
+								<div class="seller_mesg">
+									<a href="__ROOT__/seller/{$succOrder.sellerMesg.id}" target="_blank">
+									<img class="seller_head_img" src="__ROOT__/{$succOrder.sellerMesg.head_image_url}" style="width: 20px; height: 20px">
+									<div class="seller_nick_name">{$succOrder.sellerMesg.nick_name}</div>
+									</a>
+									<div style="clear: both;"></div>
+								</div>
+							</li>
+							{/volist}
+							<div style="clear: both;"></div>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+	</script>
+</body>
+</html>

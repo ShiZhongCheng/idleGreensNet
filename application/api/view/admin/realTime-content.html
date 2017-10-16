@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/realTime-content.js"></script>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/realTime-content.css">
+</head>
+<body>
+	<div class="realTime-content">
+		<div class="panel panel-default">
+		    <div class="panel-body">
+		        <table class="table table-bordered">
+					<caption>当前实验ID：{$InDa.exMesg.ex_id}</caption>
+					<tbody>
+						<tr>
+						{volist name="InDa.seat" id="seat" mod="5" }
+							<td class="seat{$seat.bianhao}">
+								<div class="seat-card user-title">{$seat.bianhao}</div>
+							</td>
+						{eq name="mod" value="4"}</tr><tr>{/eq}
+						{/volist}
+					</tbody>
+				</table>
+		    </div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{
+	// 移除加载
+	loadingRemove();
+})
+
+polling('{$InDa.exMesg.ex_id}','{$InDa.exMesg.phy_id}');
+function polling(ex_id,phy_id){   
+    $.ajax({   
+        type:"POST",   
+        dataType:"json",   
+        url:"__ROOT__/api/myfunction/polling",   
+        timeout:10000,     //ajax请求超时时间10秒   
+        data:{time:"6","ex_id":ex_id,"phy_id":phy_id}, //6秒后无论结果服务器都返回数据   
+        success:function(data,textStatus){
+        	// console.log(data);
+            //从服务器得到数据，显示数据并继续查询     
+            if(data.success=="1"){   
+	            for (var k = 0, length = data.data.length; k < length; k++) {
+	              addAlert("有数据！",data["data"][k]["name"]+"开始实验","success");  
+				  addSeat('seat'+data["data"][k]["bianhao"],data["data"][k]["name"],data["data"][k]["id"],data["data"][k]["end_time"],phy_id);
+				}
+                polling(ex_id,phy_id);
+            } 
+            if(data.success=="2"){   
+	            for (var k = 0, length = data.data.length; k < length; k++) {
+	              addAlert("请求帮助！","编号为"+data["data"][k]["bianhao"]+"位置有人请求帮助","warning");  
+				}
+                polling(ex_id,phy_id);
+            }    
+             //未从服务器得到数据，继续查询     
+            if(data.success=="0"){     
+                // addAlert("无数据！","无新数据","success");  
+                polling(ex_id,phy_id);
+            }
+        },
+         //Ajax请求超时，继续查询
+        error:function(XMLHttpRequest,textStatus,errorThrown){
+            if(textStatus=="parsererror"){
+                addAlert("超时！","超时了","warning");  
+                polling(ex_id,phy_id);
+            }
+         }
+    });
+}
+
+function userEnd(id,phy_id,cla,name) {
+    if( confirm("确定"+name+"已经完成实验？") ){
+		$.ajax({   
+	        type:"POST",   
+	        dataType:"json",   
+	        url:"__ROOT__/api/myfunction/userEnd",   
+	        timeout:10000,     //ajax请求超时时间10秒   
+	        data:{"id":id,"phy_id":phy_id}, //6秒后无论结果服务器都返回数据   
+	        success:function(data,textStatus){
+	        	if(data.success=="1"){ 
+	        		$("."+cla+" .user"+id).removeClass("user-notend");
+	        		addAlert("操作成功！","给"+name+"结束实验成功","success");  
+	        	}
+	        	if(data.success=="0"){     
+	                addAlert("操作失败！","给"+name+"结束实验失败","warning");  
+	            }
+	        },
+	        error:function(XMLHttpRequest,textStatus,errorThrown){
+	            if(textStatus=="parsererror"){
+	                addAlert("超时！","超时了","warning");  
+	                polling(ex_id,phy_id);
+	            }
+	         }
+	    }) 
+	}
+}
+
+// 给座位添加用户
+{volist name="InDa.userData" id="user"}
+	addSeat('seat{$user.bianhao}','{$user.name}','{$user.id}','{$user.end_time}','{$InDa.exMesg.phy_id}');
+{/volist}
+</script>
+</html>

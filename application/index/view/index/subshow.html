@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="__ROOT__/static/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/subshow.css">
+	<script charset="utf-8" src="__ROOT__/static/index/js/myneed/windowsOnscroll.js"></script>
+	<title>{$title}</title>
+</head>
+<body>
+	<div class="subshow_box">
+		<div class="subshow_left">
+		    {empty name="userMesg"}
+			{else /}
+			{eq name="userMesg.id" value="$qtUserMesg.id"}
+			<!-- 编辑和写成长记录 -->
+			<div class="edit_area">
+				<a href="__ROOT__/editsub/{$subData.substitutes_id}"><div class="edit_area_func"><i class="fa fa-pencil-square-o"></i>重新编辑</div></a>
+				<div class="edit_area_func" onclick="growthShow()"><i class="fa fa-pencil-square-o"></i>写历程</div>
+			</div>
+			{/eq}
+			{/empty}
+			<!-- 内容展示 -->
+			<div class="content_box">
+				<div class="substitutes_title">{$subData.title}<span style="font-size: 12px;color: #ff9d00;">（{$subData.time|date="Y-m-d",###}）</span></div>
+				<div></div>
+				<div class="substitutes_content">{$subData.content}</div>
+			</div>
+			<!-- 成长内容展示区 -->
+			<div class="growthshow_box" id="growthshow_box">
+				<div class="growthshow_box_title">成长历程</div>
+				<ul id="growthshow_ul">
+					{volist name="growth.data" id="growthData" key="i"}
+					<li>
+						<div class="li_div growth_time_box">
+							<div class="growth_time">{$growthData.time}</div>
+							<i class="line"></i>
+							<i class="circle"></i>
+						</div>
+						<div class="li_div growth_show">
+							<div class="growth_cover_img">
+								<img src="__ROOT__/{$growthData.cover_img}">
+							</div>
+							<div class="growth_content_text">{$growthData.content}</div>
+							<div class="read_text" onclick="readAll({$growthData.id},this)">阅读全文<i class="fa fa-chevron-down"></i></div>
+						</div>
+						<div class="growth_show_content">
+							<div class="growth_show_content_content">{$growthData.content}</div>
+							<div class="read_text" onclick="chargeUp(this)">收取<i class="fa fa-chevron-up"></i></div>
+						</div>
+						<div style="clear: both;"></div>
+					</li>
+					{/volist}
+					<div style="clear: both;"></div>
+				</ul>
+				<div class="view_more" onclick="readMoreGrowth('{$substitutes_id}','{$growth.nextpage}')">查看更多<i class="fa fa-chevron-down"></i></div>
+			</div>
+			<!-- 评论区 -->
+			<div class="commentshow_box" id="commentshow_box">
+				<div class="commentshow_box_title">评论区</div>
+				{empty name="userMesg"}
+				{else /}
+				<!-- 写评论 -->
+				<div class="write_comment">
+					<div class="userMesgImg">
+						<img src="__ROOT__/{$userMesg.head_image_url}">
+					</div>
+					<form id="write_comment_form">
+						<input type="text" name="comment" placeholder="请输入评论内容"></input>
+						<input type="hidden" name="substitutes_id" value="{$substitutes_id}"></input>
+						<input type="hidden" name="qtUserMesgId" value="{$qtUserMesg.id}"></input>
+						<button type="button" onclick="writeComment();">确认</button>
+					</form>
+					<div style="clear: both;"></div>
+				</div>
+				{/empty}
+				<!-- 评论内容 -->
+				<ul id="commentData_ul">
+					{volist name="growthComment.data" id="growthCommentData" key="i"}
+					<li>
+						<div class="publisher_box">
+							<div class="publisher_headerImg_and_nickNmae">
+								<img src="__ROOT__/{$growthCommentData.userMesg.head_image_url}" alt="发布者头像">
+								<div class="publisher_nickName">{$growthCommentData.userMesg.nick_name}({$growthCommentData.time})</div>
+								<div style="clear: both;"></div>
+							</div>
+						</div>
+						<div class="comment_data">{$growthCommentData.content}</div>
+					</li>
+					{/volist}
+					<div style="clear: both;"></div>
+				</ul>
+				<div class="view_more" onclick="readMoreComent('{$substitutes_id}','{$growthComment.nextpage}')">查看更多<i class="fa fa-chevron-down"></i></div>
+			</div>
+		</div>
+		<div class="subshow_right" id="subshow_right">
+			<!-- 农场主 -->
+			<div class="right_area farmer">
+				<div class="farmer_img">
+					<a href="__ROOT__/seller/{$qtUserMesg.id}" target="_blank">
+						<img src="__ROOT__/{$qtUserMesg.head_image_url}">
+					</a>
+				</div>
+				<div class="farmer_personal_info">
+					<a href="__ROOT__/seller/{$qtUserMesg.id}" target="_blank">
+						<div class="farmer_PI_nickname" title="昵称">{$qtUserMesg.nick_name}</div>
+					</a>
+					<div class="farmer_PI_loction" title="{$qtUserMesg.address}"><i class="fa fa-map-marker"></i>{$qtUserMesg.address}</div>
+					<div class="farmer_PI_phone_number" title="{$qtUserMesg.phone_number}"><i class="fa fa-mobile-phone"></i><span>{$qtUserMesg.phone_number}</span></div>
+					{eq name="qtUserMesg.supplier" value="1"}
+					<div class="farmer_PI_supplier">
+						<img src="__ROOT__/static/index/images/certification.png">
+						认证供应商
+					</div>
+					{else/}
+					<div class="farmer_PI_supplier">
+						<img src="__ROOT__/static/index/images/general_user.png">
+						普通用户
+					</div>
+					{/eq}
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<!-- 时间、报价、标签 -->
+			<div class="right_area label_area">
+				<div class="label_area_time" title="发布时间"><i class="fa fa-hourglass-end"></i>{$subData.time|date="Y-m-d",###}</div>
+				<div class="label_area_arry">
+					<i class="fa fa-tags"></i>
+					<div class="label" title="标签1">{$subData.label1}</div>
+					<div class="label" title="标签2">{$subData.label2}</div>
+					<div class="label" title="标签3">{$subData.label3}</div>
+					<div class="label" title="标签4">{$subData.label4}</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="label_area_quotes" title="初步报价"><i class="fa fa-rmb"></i>初步报价<span style="color: red;">{$subData.quotes}</span></div>
+			</div>
+			<!-- 功能区域 -->
+			<div class="right_area function_area">
+				<ul>
+					{empty name="userMesg"}
+					<li>
+						<i class="fa fa-rmb"></i>
+						<span class="categoryLabel">咨询价钱</span>
+					</li>
+					{else /}
+					<li onclick="sellerSend({$subData.announcer_id},{$userMesg.id},'no','{$qtUserMesg.nick_name}','__ROOT__/{$qtUserMesg.head_image_url}')">
+						<i class="fa fa-rmb"></i>
+						<span class="categoryLabel">咨询价钱</span>
+					</li>
+					{/empty}
+					<li>
+						<a href="#commentshow_box">
+						<i class="fa fa-pencil"></i>
+						<span class="categoryLabel">写评论</span>
+						</a>
+					</li>
+					<li>
+						<a href="#growthshow_box">
+						<i class="fa fa-fire"></i>
+						<span class="categoryLabel">看历程</span>
+						</a>
+					</li>
+					<li onclick="orderShow()">
+						<i class="fa fa-shopping-cart"></i>
+						<span class="categoryLabel">生成订单</span>
+					</li>
+					<div style="clear: both;"></div>
+				</ul>
+			</div>
+			<!-- 买家 -->
+			<div class="right_area buyser_area">
+				<div class="buyser_area_title">已经达成交易用户</div>
+				<ul>
+					{volist name="buyerData" id="buyData"}
+					<li>
+						<a href="__ROOT__/seller/{$buyData.id}" target="_blank"><img class="buyser_data_headImg" src="__ROOT__/{$buyData.head_image_url}"></a>
+						<div class="buyser_data_nick_name">{$buyData.nick_name}</div>
+					</li>
+					{/volist}
+					<div style="clear: both;"></div>
+				</ul>
+			</div>
+
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+
+	<!-- 图片预览 -->
+	<div class="img_preview_box">
+		<div class="img_preview_box_title"><i class="fa fa-close" onclick="Divclose(this)"></i></div>
+		<div class="img_preview">
+			<img src="">
+		</div>
+	</div>
+
+	<!-- 写成长历程 -->
+	<div class="growth_box">
+		<div class="growth_edit">
+			<div class="growth_edit_title">
+				成长历程记录
+				<i class="fa fa-close" onclick="growthClose(this)"></i>
+				<input id="upload_button" required="true" type="button" value="上传" />
+			</div>
+			<form id= "uploadForm">
+				<div class="upload_img">
+					<i class="fa fa-camera"></i>
+					<img src="" id="ImgPr">
+					<input id="imgUplod" type="file" name="cover_image" title="请上传题图"></input>
+				</div>
+			</form>
+			<div class="growth_content">
+				<textarea name="content" required="true" style="width:730px;height:350px;"></textarea>
+				<p style="font-size: 12px;height: 25px;line-height: 25px;text-align: right;">
+					您当前输入了 <span class="word_count1">0</span> 个文符，还可以输入<span class="word_count2">500</span>个字符
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- 生成订单 -->
+	<div class="order_box">
+		<div class="order_content">
+			<div class="order_colse" onclick="orderColse(this)">X</div>
+			{empty name="userMesg"}
+			<div class="order_step order_step1">
+				您还未登录，请先<a href="__ROOT__/login">登录</a>
+			</div>
+			{else /}
+			{eq name="userMesg.id" value="$qtUserMesg.id"}
+			<div class="order_step order_step2">
+				自己不能向自己申请订单
+			</div>
+			{else /}
+			<div class="order_step order_step3" title="在向供应商提交订单前，请先与供应商沟通好！">
+				<img class="order_img1" src="__ROOT__/{$userMesg.head_image_url}">
+				<i class="fa fa-arrow-right"></i>
+				<img class="order_img2" src="__ROOT__/{$qtUserMesg.head_image_url}">
+				<button type="button" class="order_button" onclick="orderSubmit('{$userMesg.id}','{$qtUserMesg.id}','{$substitutes_id}',2,this)">提交</button>
+			</div>
+			<div class="order_step order_step4">
+				订单已经提交，请耐心等待...
+			</div>
+			{/eq}
+			{/empty}
+			</div>
+		</div>
+	</div>
+</body>
+<link rel="stylesheet" href="__ROOT__/static/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__ROOT__/static/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ROOT__/static/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+
+    // 生成订单js
+    function orderShow() {
+    	$(".order_box").fadeIn("slow");
+    }
+    function orderColse(obj) {
+    	$(obj).parent().parent().fadeOut("slow");
+    }
+    function orderSubmit(buyer,seller,commodityId,type,obj) {
+    	$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/orderSubmission",
+		   data: {"buyer":buyer,"seller":seller,"commodityId":commodityId,"type":type},
+		   success: function(msg){
+		     $(obj).parent().fadeOut("slow");
+		     $(obj).parent().parent().find(".order_step4").fadeIn("slow");
+		   }
+		});
+    }
+   
+
+	window.onscroll=function(){
+        subShowOnscroll();
+    }
+
+	// 卖家主页的私信
+    function sellerSend(aimId,myId,beColl,nick_name,head_image_url) {
+		switch( beColl )
+    	{
+			case 'yes':
+			  chatSlid();
+        	  chooseUser(aimId,nick_name,myId);
+			  break;
+			case 'no':
+			  $(".strangerli").remove(".beChoose"+aimId);
+			  var appendData = '<li class="beChoose'+aimId+' strangerli" onclick="chooseUser('+aimId+',\''+nick_name+'\','+myId+')">'+
+				               '<div class="hhead_img"><img src="'+head_image_url+'"></div>'+
+				               '<div class="hnick_name"><span>'+nick_name+'</span></div>'+
+				               '<div class="attention" onclick="attention( \'ur\','+aimId+' )">关注</div>'+
+			                   '</li>';
+			  $("#stranger").append(appendData);
+			  chatSlid();
+        	  chooseUser(aimId,nick_name,myId);
+			  break;
+		}
+	}
+
+	// 让电话号码出现部分星号
+	var phone = $(".farmer_PI_phone_number span").text();
+	$(".farmer_PI_phone_number span").text( phone.replace(/(.{3}).*(.{5})/,"$1******$2") );
+
+	// 成长历程close
+	function growthClose(abj) {
+		$(abj).parent().parent().parent().hide();
+	}
+	// 成长历程show
+	function growthShow() {
+		$(".growth_box").show();
+	}
+
+	KindEditor.ready(function(K) {
+		var editor = K.create('textarea[name="content"]', {
+			afterChange : function() {
+				K('.word_count1').html(this.count('text'));
+				K('.word_count2').html(500 - this.count('text'));
+				if (this.count('text') >= 500) {
+					editor.readonly();  
+				}
+			}
+		}); 
+		// 上传
+		K("#upload_button").click(function(e) {
+			var coverUrl = $(".upload_img").data("coverUrl");
+			var content = editor.html();
+			var substitutes_id = '{$substitutes_id}';
+
+			if (typeof(coverUrl) != "undefined" && content != "") {
+				$.ajax({
+				   type: "POST",
+				   url: "__ROOT__/index/enter/newGrowth",
+				   dataType: "json",
+				   data: {"coverUrl":coverUrl,"content":content,"substitutes_id":substitutes_id},
+				   success: function(msg){
+				   	console.log(msg);
+				     if (msg == 1) {
+				     	location.reload();
+				     }
+				   },
+				   error: function (msg) {
+				   	  console.log("错误");
+				   	  console.log(msg);
+				   }
+				});
+			}else{
+				alert("内容未填写完整！");
+			}
+		});
+	});
+
+	// 评论发表
+	function writeComment() {
+		var formData = new FormData($( "#write_comment_form" )[0]);  
+		// console.log( formData );
+		$.ajax({  
+		  url: '__ROOT__/index/enter/writeSubComment' ,  
+		  type: 'POST',  
+		  data: formData,  
+		  async: false,  
+		  cache: false,  
+		  contentType: false,  
+		  processData: false,  
+		  dataType: "json",
+		  success: function (returndata) { 
+		  	// console.log(returndata);
+			    var appendData = '<li>'+
+						'<div class="publisher_box">'+
+							'<div class="publisher_headerImg_and_nickNmae">'+
+								'<img src="__ROOT__/'+returndata["userMesg"]["head_image_url"]+'" alt="发布者头像">'+
+								'<div class="publisher_nickName">'+returndata["userMesg"]["nick_name"]+'('+returndata["time"]+')'+'</div>'+
+								'<div style="clear: both;"></div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="comment_data">'+returndata["content"]+'</div>'+
+					'</li>';
+				$("#commentData_ul").prepend( appendData );
+		  },  
+		  error: function (returndata) {  
+		      console.log(returndata);  
+		  }  
+		});  
+	}
+
+	function doUpload() {  
+		var formData = new FormData($( "#uploadForm" )[0]);  
+		$.ajax({  
+		  url: '__ROOT__/index/enter/subshow_upload' ,  
+		  type: 'POST',  
+		  data: formData,  
+		  async: false,  
+		  cache: false,  
+		  contentType: false,  
+		  processData: false,  
+		  success: function (returndata) {  
+		      $(".upload_img").data("coverUrl", returndata); 
+		  },  
+		  error: function (returndata) {  
+		      console.log(returndata);  
+		  }  
+		});  
+	}  
+
+	// 上传题图
+	$("#imgUplod").change(function() {
+	    var $file = $(this);
+	    var fileObj = $file[0];
+	    var windowURL = window.URL || window.webkitURL;
+	    var dataURL;
+	    var $img = $("#ImgPr");
+
+	    $(".upload_img .fa").hide();
+	    if(fileObj && fileObj.files && fileObj.files[0]){
+	        dataURL = windowURL.createObjectURL(fileObj.files[0]);
+	        $img.attr('src',dataURL);
+	    }else{
+	    dataURL = $file.val();
+	    var imgObj = document.getElementById("ImgPr");
+	        imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+	        imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+	    }
+	    // 上传
+	    doUpload();
+	});
+
+	// 成长历程文字材料
+    var growth_content = $(".growth_content_text");
+    for(var i=0;i < growth_content.length; i++)
+    {
+       var growth_content_text = $(".growth_content_text:eq("+i+")").text();
+	   $(".growth_content_text:eq("+i+")").html( growth_content_text );   
+    }
+
+     // 向上收取
+    function chargeUp(obj) {
+    	$(obj).parent().hide();
+    	$(obj).parent().parent().find(".growth_show").show();
+
+    	// 高度处理
+    	$(obj).parent().parent().height( 100 );
+    	$(obj).parent().parent().find(".growth_time_box").height( 100 );
+    }
+
+    // 阅读全文
+    function readAll(id,obj) {
+    	$(obj).parent().parent().find(".growth_show_content").show();
+    	$(obj).parent().parent().find(".growth_show").hide();
+
+    	// 高度处理
+    	var height = $(obj).parent().parent().find(".growth_show_content").height();
+    	$(obj).parent().parent().height( height );
+    	$(obj).parent().parent().find(".growth_time_box").height( height );
+    }
+
+    // 全文内容图片点击
+    $(".growth_show_content_content img").click(function () {
+    	var src = $(this).attr("src");
+
+    	$(".img_preview img").attr("src",src);
+    	$(".img_preview_box").show();
+    })
+    // 预览close
+    function Divclose(obj) {
+    	$(obj).parent().parent().hide();
+    }
+    // 查看更多评论
+    function readMoreComent( substitutes_id,page ) {
+    	$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/readMoreComent",
+		   dataType: "json",
+		   data: {"substitutes_id":substitutes_id,"page":page},
+		   success: function(msg)
+		   {
+			   	$("#commentData_ul").parent().find(".view_more .fa").removeClass("fa-chevron-down");
+			   	$("#commentData_ul").parent().find(".view_more .fa").addClass("fa-spinner fa-spin");
+			   	// console.log(msg);
+
+			    if (msg["nextpage"] != 0) 
+			    {
+			     	for (var i =  0; i < msg["data"].length; i++) {
+			     		var appendData = '<li>'+
+							'<div class="publisher_box">'+
+								'<div class="publisher_headerImg_and_nickNmae">'+
+									'<img src="__ROOT__/'+msg["data"][i]["userMesg"]["head_image_url"]+'" alt="发布者头像">'+
+									'<div class="publisher_nickName">'+msg["data"][i]["userMesg"]["nick_name"]+'('+msg["data"][i]["time"]+')'+'</div>'+
+									'<div style="clear: both;"></div>'+
+								'</div>'+
+							'</div>'+
+							'<div class="comment_data">'+msg["data"][i]["content"]+'</div>'+
+						'</li>'+
+						'<div style="clear: both;"></div>';
+			     		$("#commentData_ul").append(appendData);
+			     	}
+
+			     	var appendData2 = '<div class="view_more" onclick="readMoreComent(\'{$substitutes_id}\','+msg["nextpage"]+')">查看更多<i class="fa fa-chevron-down"></i></div>';
+			     	$("#commentData_ul").parent().find(".view_more").remove(".view_more");
+			     	$("#commentData_ul").parent().append( appendData2 );
+			    }else{
+			    	var appendData2 = '<div class="view_more">没有更多了</div>';
+			     	$("#commentData_ul").parent().find(".view_more").remove(".view_more");
+			     	$("#commentData_ul").parent().append( appendData2 );
+			    }
+		    }
+		});
+    }
+    // 查看更多成长记录
+    function readMoreGrowth( substitutes_id,page ) {
+    	$.ajax({
+		   type: "POST",
+		   url: "__ROOT__/index/enter/readMoreGrowth",
+		   dataType: "json",
+		   data: {"substitutes_id":substitutes_id,"page":page},
+		   success: function(msg){
+		   	$("#growthshow_ul").parent().find(".view_more .fa").removeClass("fa-chevron-down");
+		   	$("#growthshow_ul").parent().find(".view_more .fa").addClass("fa-spinner fa-spin");
+
+		    if (msg["nextpage"] != 0) 
+		    {
+		     	for (var i =  0; i < msg["data"].length; i++) {
+		     		var appendData = '<li>'+
+						'<div class="li_div growth_time_box">'+
+							'<div class="growth_time">'+msg["data"][i]["time"]+'</div>'+
+							'<i class="line"></i>'+
+							'<i class="circle"></i>'+
+						'</div>'+
+						'<div class="li_div growth_show">'+
+							'<div class="growth_cover_img">'+
+								'<img src="__ROOT__/'+msg["data"][i]["cover_img"]+'">'+
+							'</div>'+
+							'<div class="growth_content_text" id="add_'+msg["data"][i]["id"]+'">'+msg["data"][i]["content"]+'</div>'+
+							'<div class="read_text" onclick="readAll('+msg["data"][i]["id"]+',this)">阅读全文<i class="fa fa-chevron-down"></i></div>'+
+						'</div>'+
+						'<div class="growth_show_content">'+
+							'<div class="growth_show_content_content">'+msg["data"][i]["content"]+'</div>'+
+							'<div class="read_text" onclick="chargeUp(this)">收取<i class="fa fa-chevron-up"></i></div>'+
+						'</div>'+
+						'<div style="clear: both;"></div>'+
+					'</li>';
+		     		$("#growthshow_ul").append(appendData);
+		     		var text = $("#add_"+msg["data"][i]["id"]).text();
+		     		$("#add_"+msg["data"][i]["id"]).html( text );
+		     	}
+
+		     	var appendData2 = '<div class="view_more" onclick="readMoreGrowth(\'{$substitutes_id}\','+msg["nextpage"]+')">查看更多<i class="fa fa-chevron-down"></i></div>';
+		     	$("#growthshow_ul").parent().find(".view_more").remove(".view_more");
+		     	$("#growthshow_ul").parent().append( appendData2 );
+
+		     	// 全文内容图片点击
+			    $(".growth_show_content_content img").click(function () {
+			    	var src = $(this).attr("src");
+
+			    	$(".img_preview img").attr("src",src);
+			    	$(".img_preview_box").show();
+			    })
+		    }else{
+		    	var appendData2 = '<div class="view_more">没有更多了</div>';
+		     	$("#growthshow_ul").parent().find(".view_more").remove(".view_more");
+		     	$("#growthshow_ul").parent().append( appendData2 );
+		    }
+		   }
+		});
+    }
+</script>
+</html>

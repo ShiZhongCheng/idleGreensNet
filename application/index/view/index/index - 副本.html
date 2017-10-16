@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="__ROOT__/static/index/css/bootstrap.min.css">
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script src="__ROOT__/static/index/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="__ROOT__/static/font-awesome/css/font-awesome.min.css">
+	<style type="text/css">
+	*{margin: 0;padding: 0}
+	/*body{
+		background: #e4ebe9 url("__ROOT__/static/index/images/fancy_deboss.png") repeat top left;
+	}*/
+	/*body{
+		background: url(http://t1.mmonly.cc/uploads/tu/2015tag/乡村.jpg) no-repeat center 72px;
+	}*/
+	body{
+		background: #f2f2f2;
+	}
+    a{
+        cursor: pointer;
+        text-decoration: none;
+    }
+	#sli_box{
+		width: 100%;
+		background: #fff;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		margin-bottom: 10px;
+	}
+	#myCarousel{
+		width: 1024px;
+		height: 300px;
+		margin: 0 auto;
+		position: relative;
+	}
+	.carousel-inner{
+		border-radius: 5px;
+		overflow: hidden;
+        box-shadow: 0 0 3px 1px #eee;
+	}
+	.item{
+		width: 1024px;
+		height: 300px;
+	}
+	.carousel-inner .item img{
+		width: 1024px;
+		border-radius: 5px;
+		overflow: hidden;
+	}
+	.carousel-indicators .active{
+		background-color: #ffda44;
+	}
+	.carousel-indicators {
+	    bottom: 0px;
+	}
+	.carousel-control{
+		border-radius: 5px;
+		overflow: hidden;
+		line-height: 300px;
+		text-align: center;
+		font-size: 50px;
+	}
+	.carousel-control .right {
+		background-color: rgba(0,0,0,0);
+	}
+	.carousel-control .left {
+		background-color: rgba(0,0,0,0);
+	}
+
+	/*活动*/
+	.activety{
+		width: 1024px;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+	
+	.activety li{
+		list-style: none;
+		float: left;
+		width: 189.8px;
+		height: 168px;
+		overflow: hidden;
+		margin-right: 15px;
+		border-radius: 5px;
+		position: relative;
+	}
+	.activety li img{
+		width: 192.8px;
+		border-radius: 5px;
+	}
+	.activety li img:hover{
+        opacity:0.2;
+	}
+	.top1{
+		width: 100%;
+		height:100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: none;
+		text-align: center;
+	}
+	.top2{
+		width: 100%;
+		height:100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: none;
+		text-align: center;
+	}
+	.top3{
+		width: 100%;
+		height:100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: none;
+		text-align: center;
+	}
+	.top4{
+		width: 100%;
+		height:100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: none;
+		text-align: center;
+	}
+	.top5{
+		width: 100%;
+		height:100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		display: none;
+		text-align: center;
+	}
+	.activety li span{
+		font-size: 16px;
+		color: red;
+	}
+	.activety li:nth-child(1):hover .top1{
+		display: inline-block;
+	}
+	.activety li:nth-child(2):hover .top2{
+		display: inline-block;
+	}
+	.activety li:nth-child(3):hover .top3{
+		display: inline-block;
+	}
+	.activety li:nth-child(4):hover .top4{
+		display: inline-block;
+	}
+	.activety li:nth-child(5):hover .top5{
+		display: inline-block;
+	}
+	/*附近供应商*/
+	.nearby_supplier{
+		width: 1024px;
+		/*height: 265px;*/
+		margin: 0 auto;
+		/*background: #fff;*/
+	}
+	.ns_title{
+		height: 40px;
+		padding-left: 45px;
+		/*border-bottom: 1px #aaa solid;*/
+		position: relative;
+	}
+	.ns_title span{
+		float: left;
+	}
+
+	/*数据展示区*/
+	.data_show{
+		width: 1024px;
+		margin: 0 auto;
+		/*padding: 10px;*/
+		margin-top: 10px;
+		/*background: #fff;*/
+		border-radius: 5px;
+		position: relative;
+	}
+	.data_show ul li{
+		list-style-type: none;
+		float: left;
+		width: 147px;
+		margin-left: 50px;
+		margin-top: 20px;
+		position: relative;
+		background: #fff;
+		border-radius: 5px;
+	}
+	.ds_img{
+		width: 147px;
+		height: 147px;
+	}
+	.ds_img img{
+		width: 147px;
+		height: 147px;
+		border-radius: 5px 5px 0 0;
+	}
+	.ds_img img:hover{
+		opacity: 0.8;
+	}
+	.supplier_name{
+		width: 147px;
+		height: 30px;
+		margin-top: 0;
+		line-height: 30px;
+		font-size: 12px;
+		font-family: 微软雅黑;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		border-bottom: 1px #eee solid;
+	}
+	.supplier_mesg{
+		width: 147px;
+		height: 30px;
+		margin-top: 0;
+		line-height: 30px;
+	}
+	.supplier_mesg .supplier_mesg_dis{
+		float: left;
+		width: 33.33%;
+		height: 100%;
+		position: relative;
+		color: #aaa;
+		font-size: 10px;
+		font-family: 微软雅黑;
+		cursor: pointer;
+		text-align: right;
+		position: relative;
+	}
+	.supplier_mesg .supplier_mesg_dis span{
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.supplier_mesg .supplier_mesg_dis div{
+		position: absolute;
+		top: 35px;
+		left: 0;
+		width: 70px;
+		line-height: 20px;
+		font-size: 10px;
+		font-family: 微软雅黑;
+		text-align: center;
+		background: #fff;
+		border: 1px #aaa solid;
+		font-size: 10px;
+		z-index: 9999;
+		display: none;
+	}
+	#no_data{
+		text-align: center;
+		line-height: 204px;
+		font-size: 12px;
+	}
+	/*两侧*/
+	.ns_content_but_left{
+		width: 23px;
+		height: 72px;
+		background: #fff;
+		color: #aaa;
+		line-height: 72px;
+		font-size: 17px;
+		font-weight: bold;
+		font-family: 微软雅黑;
+		text-align: center;
+		position: absolute;
+		top: 43%;
+		left: 0;
+		cursor: pointer;
+		border-radius: 3px;
+	}
+	.ns_content_but_left:hover{
+		background: #ffd100;
+		color: #fff;
+	}
+	.ns_content_but_right:hover{
+		background: #ffd100;
+		color: #fff;
+	}
+	.ns_content_but_right{
+		width: 23px;
+		height: 72px;
+		background: #fff;
+		color: #aaa;
+		line-height: 72px;
+		font-size: 17px;
+		font-weight: bold;
+		font-family: 微软雅黑;
+		text-align: center;
+		position: absolute;
+		top: 43%;
+		right: 0;
+		cursor: pointer;
+		border-radius: 3px;
+	}
+	/*水果蔬菜*/
+	.fruits_vegetables{
+		width: 1024px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+		padding-bottom: 25px;
+		border-radius: 5px;
+	}
+	.fv_titile{
+		height: 40px;
+		padding-left: 24px;
+		border-bottom: 1px #aaa solid;
+		font-size: 16px;
+		font-family: 微软雅黑;
+		line-height: 40px;
+	}
+	.fv_content{
+		width: 1024px;
+		height: 400px;
+		margin-bottom: 20px;
+		position: relative;
+	}
+	.fv_content ul{
+		width: 788px;
+		height: 400px;
+		float: left;
+	}
+	.fv_content ul li{
+		list-style-type: none;
+		float: left;
+		width: 147px;
+		margin-left: 50px;
+		margin-top: 20px;
+	}
+	.fv_li_img,.fv_li_img img{
+		width: 147px;
+		height: 147px;
+	}
+	.fv_mesg{
+		width: 147px;
+		height: 30px;
+		margin-top: 7px;
+		line-height: 30px;
+		font-size: 13px;
+		font-family: 微软雅黑;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.classification a{
+		height: 36px;
+		line-height: 36px;
+		padding: 5px;
+	}
+	.fv_content_right{
+		float: left;
+	    padding-left: 25px;
+	    padding-right: 25px;
+	    padding-top: 10px;
+	    margin-top: 10px;
+	    margin-left: 25px;
+	    border-left: 1px #eee solid;
+	    background: #f7f7f7;
+	}
+	.fv_cr_img{
+		width: 147px;
+		height: 147px;
+	}
+	.fv_cr_img img{
+		width: 147px;
+		height: 147px;
+	}
+	.fv_content_right ul{
+		width: 147px;
+		height: 200px;
+	}
+	.fv_content_right ul li{
+		list-style: none;
+		width: 147px;
+		height: 40px;
+		line-height: 40px;
+		float: left;
+		margin: 0;
+		font-size: 13px;
+		font-family: 微软雅黑;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+     /*动态*/
+    .state{
+        width: 1024px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background: #fff;
+        padding-bottom: 25px;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .state_top{
+        height: 50px;
+        margin: 0 auto;
+        padding-top: 15px;
+        padding-bottom: 50px;
+        background: #fff;
+        border-bottom: 1px #eee solid;
+    }
+    .state_hot{
+        float: left;
+        font-size: 16px;
+    }
+    .state_write{
+        float: right;
+        margin-right: 90px;
+        width: 140px;
+        text-align: center;
+    }
+    .state_add{
+        line-height: 36px;
+        font-size:16px;
+        display: block;
+        height: 36px;
+        background-color: #ff9d00;
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    .state_bottom{
+        width: 1004px;
+        margin: 0 auto;
+        background: #fff;
+    }
+    .state_item{
+        width: 840px;
+        margin: 0 auto;
+        margin-top: 25px;
+        /*margin-left: 30px;*/
+    }
+    .state_item dl{
+        height: 140px;
+        overflow: hidden;
+    }
+    .state_item dd{
+        height:10px;
+    }
+    .state_item dd a{
+        color: #666;
+    }
+    .state_item dt a{
+        color: #666;
+    }
+    .state_image{
+        word-wrap:break-word;
+        float: left;
+    }
+    .state_wrapper{
+        word-wrap:break-word;
+        float: left;
+        width:400px;
+        margin-left: 50px;
+    }
+    .state_extra{
+        width: 100%;
+    }
+    .state_user{
+       float: left;
+    }
+    .state_nums{
+       float: right;
+    }
+	</style>
+</head>
+<body>
+<div id="sli_box">
+	<!-- 轮播图 -->
+	<div id="myCarousel" class="carousel slide">
+		<div class="carousel-inner">
+			<div class="item active">
+				<a href="__ROOT__/more_supplier"><img src="__ROOT__/static/kindeditor/attached/image/need/1.jpg" alt="First slide"></a>
+			</div>
+			<div class="item">
+				<a href="__ROOT__/foster"><img src="__ROOT__/static/kindeditor/attached/image/need/2.jpg" alt="Second slide"></a>
+			</div>
+			<div class="item">
+				<a href="__ROOT__/sell"><img src="__ROOT__/static/kindeditor/attached/image/need/3.jpg" alt="Third slide"></a>
+			</div>
+		</div>
+		<!-- 轮播（Carousel）导航 -->
+		<a class="carousel-control left" href="#myCarousel" 
+		   data-slide="prev">&lsaquo;</a>
+		<a class="carousel-control right" href="#myCarousel" 
+		   data-slide="next">&rsaquo;</a>
+	</div> 
+	<!-- 活动 -->
+	<div class="activety">
+		<span><b>&nbsp&nbsp&nbsp&nbsp&nbsp以下是在本月中供应量最出众的农产品</b></span>
+		<hr>
+		<ul>
+			{volist name="goodSell" id="GS" key="i"}
+			<li>
+				<div class="top{$i}">
+					<br><br>
+					<span><img src="{$GS.userMesg.head_image_url}" style="width: 50px;height: 50px; border-radius: 50px"></span>
+					<br>
+					<span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">供应商：{$GS.userMesg.nick_name}</span>
+					<br>
+					<span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">商品名称：{$GS.product_name}</span>
+				</div>
+				<a href="__ROOT__/gongying/{$GS.product_id}"><img style="width: 192.8px;height: 168px;" src="{$GS.product_url1}thumb.png" ></a>
+			</li>
+			{/volist}
+			
+			<div style="clear: both;"></div>
+		</ul>
+	</div>
+	<div class="nearby_supplier">
+		<div class="ns_title">
+			<span style="font-size: 12px;font-family: 微软雅黑;margin-right: 20px;height: 40px;line-height: 40px;"><span style="font-weight: bold;font-size: 16px;">附近供应商</span>（10公里以内）</span>
+			<span style="padding-top: 15px;font-size: 10px;">登录位置：</span>
+			<span id="loction_text" style="padding-top: 15px;font-size: 10px;"></span>
+			<a href="__ROOT__/index/index/loginLoction"><span style="margin-top: 10px;font-size: 10px; margin-left: 25px; background: #ffd100; text-align: center; padding: 5px 10px 5px 10px;border-radius: 3px;color: #fff;">重新定位</span></a>
+			<div onclick="goToMoreSupplier();" style="cursor: pointer;"><span style="font-size: 10px;margin-top: 10px;margin-left: 25px;background: #ffd100; text-align: center; padding: 5px 10px 5px 10px; border-radius: 3px;color: #fff;">更多</span></div>
+		</div>
+	</div>
+</div>
+	<!-- 附近供应商 -->
+	<div class="nearby_supplier">
+		<div class="data_show">
+			<ul>
+		    	{volist name='page_mesg' id='user'}
+					{present name="user.id"}
+		    		<li>
+			    		<a target="_blank" href="__ROOT__/seller/{$user.id}">
+			    			<div class="ds_img">
+								<img src="__ROOT__/{$user.head_image_url}">
+							</div>
+						</a>
+						<div class="supplier_name">{$user.nick_name}</div>
+						<div class="supplier_mesg">
+							<div class="supplier_mesg_dis">
+								<i class="fa fa-bus"></i>
+								<span>{$user.distance}米</span>
+								<div class="showBox">相距{$user.distance}米</div>
+							</div>
+							<div class="supplier_mesg_dis">
+								<i class="fa fa-random"></i>
+								<span>{$user.provide_count}件</span>
+								<div class="showBox">共{$user.provide_count}件商品</div>
+							</div>
+							<div class="supplier_mesg_dis">
+								<i class="fa fa-commenting-o"></i>
+								<span>{$user.dynamic_count}条</span>
+								<div class="showBox">共{$user.dynamic_count}条动态</div>
+							</div>
+						</div>
+		    		</li>
+		    	   {/present}
+			   {/volist}
+			   {notpresent name="page_mesg[5]"}
+			       <div id="no_data">当前所选位置暂时没有供应商，请您重新选择位置!</div>
+			   {/notpresent}
+			   <div style="clear: both;"></div>
+	    	</ul>
+			<!-- 左右两个按钮 -->
+			<a href="__ROOT__/?page={$page_mesg[0]}"><div class="ns_content_but_left"> < </div></a>
+			<a href="__ROOT__/?page={$page_mesg[1]}"><div class="ns_content_but_right"> > </div></a>
+		</div>
+	</div>
+	<!-- 水果蔬菜 -->
+	<div class="fruits_vegetables">
+		<div class="fv_titile">特色产品</div>
+		<div class="fv_content">
+			<ul>
+				<li class="classification" style="height: 147px; background: #f7f7f7;">
+				    <a href="__ROOT__/sell?type=0101">水果</a><a href="__ROOT__/sell?type=0201">蔬菜</a><a href="__ROOT__/sell?type=0301">水产</a><a href="__ROOT__/sell?type=0401">米面</a>
+					<a href="__ROOT__/sell?type=0401">粮油</a><a href="__ROOT__/sell?type=0501">农副</a><a href="__ROOT__/sell?type=0601">地方特色</a><a href="__ROOT__/sell?type=0701">花卉</a>
+					<a href="__ROOT__/sell?type=0701">苗木</a>
+				</li>
+				{volist name="randProvide" id="provide"}
+				 <li>
+					<a href="__ROOT__/gongying/{$provide.product_id}" target="_blank">
+						<div class="fv_li_img">
+							<img src="__ROOT__/{$provide.product_url1}thumb.png">
+						</div>
+						<div class="fv_mesg">{$provide.product_name}</div>
+					</a>
+				</li>
+				{/volist}
+			</ul>
+			<div class="fv_content_right">
+				<div class="fv_cr_img">
+					<a href="__ROOT__/subshow/{$fosterData[1]['substitutes_id']}">
+						<img src="__ROOT__/{$fosterData[1]['cover_img']}">
+					</a>
+				</div>
+				<ul>
+					{volist name="fosterData" id="FD"}
+					<a href="__ROOT__/subshow/{$FD.substitutes_id}"><li>{$FD.title}</li></a>
+					{/volist}
+				</ul>
+				<div class="fv_right_more"><a href="__ROOT__/foster">查看更多</a></div>
+			</div>
+		</div>
+	</div>
+    <div class="state">
+       <div class="state_top">
+           <div class="state_hot">热门动态</div>
+           <div class="state_write">
+               <a href="__ROOT__/publishdynamic" style="text-decoration: none;">
+                  <div class="state_add">写动态</div>
+               </a>
+           </div>
+           <span></span>
+       </div>
+       <div class="state_bottom">
+            {volist name="hotDy" id="HTD" key="i"}
+            <div class="state_item">
+               <div class="state_image">
+                   <a href="__ROOT__/dynamic_details/{$HTD.id}" target="_blank"><img style="width: 200px;height: 200px;" src="__ROOT__{$HTD.imglist[0]}" alt=""></a>
+               </div>
+               <div class="state_wrapper">
+                   <dl>
+                       <dt>
+                           <a href="#"></a>
+                       </dt>
+                       <br>
+                       <dd>
+                           <a href="__ROOT__/dynamic_details/{$HTD.id}" target="_blank">{$HTD.content}</a>
+                       </dd>
+                   </dl>
+                   <div class="state_extra">
+                       <span class="state_user">
+                          <a href="__ROOT__/seller/{$HTD.userMesg.id}" target="_blank"><img src="__ROOT__/{$HTD.userMesg.head_image_url}" style="width: 30px; height: 30px; border-radius: 30px" alt="">&nbsp;&nbsp;{$HTD.userMesg.nick_name}</a>
+                       </span>
+                       <span class="state_nums">
+                           <i>阅读数：{$HTD.reading_number}</i>
+                       </span>
+                   </div>
+               </div>
+               <div style="clear: both;"></div>
+            </div>
+            {/volist}
+ 
+       </div>
+    </div>
+
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+		$(".m-home").addClass("actived");
+
+		$("#myCarousel").carousel('cycle');          //循环轮播
+
+		getLoction( '{$login_loction}' );
+        // 通过经纬度获取地理编码
+        function getLoction( location ) {
+        	$.ajax({
+			   url: "https://restapi.amap.com/v3/geocode/regeo?key=e221e8b1b9e100e1536a2afc2e5fa30e&location="+location+"&poitype=&radius=&extensions=base&batch=false&roadlevel=0",
+			   dataType: "json",
+			   success: function( msg ){
+				   	// console.log( msg );
+				   	// alert( msg.regeocode.formatted_address );
+				   	document.getElementById('loction_text').innerHTML = msg.regeocode.formatted_address;
+			   }
+			});
+        }
+
+     // 附近供应商hover
+     // 小图标hover
+    $(".supplier_mesg .supplier_mesg_dis").hover(
+	  function () {
+	    $(this).find('div').show();
+	  },
+	  function () {
+	    $(this).find('div').hide();
+	  }
+	);
+
+     // 更多跳转
+    function goToMoreSupplier() {
+	     window.open("__ROOT__/more_supplier?address="+document.getElementById('loction_text').innerHTML); 
+     }
+	</script>    
+</body>
+</html>

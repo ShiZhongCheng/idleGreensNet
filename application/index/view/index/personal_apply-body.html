@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+	<title>{$title}</title>
+	<style type="text/css">
+	.content_box{
+
+	}
+	/*申请成为供应商按钮*/
+	.apply_become_supplier{
+		width: 230px;
+	    height: 50px;
+	    line-height: 50px;
+	    text-align: center;
+	    border-radius: 10px;
+	    margin-left: 50px;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	    background: #FF9800;
+	    color: #fff;
+	    cursor: no-drop;
+	    outline: none;
+	    border: 0;
+	}
+	/*右部*/
+	.basics_id_card{
+		height: 320px;
+		position: relative;
+		margin: 0 auto;
+		margin-top: 20px;
+		border-bottom: 1px #eee solid;
+		padding-bottom: 40px;
+	}
+	.basics_id_card_box{
+		text-align: center;
+		color: #c1c1c1;
+	}
+	.basics_id_card_box .fa{
+		font-size: 255px;
+	};
+	.basics_id_card_box{
+		width: 378.5px;
+		height: 220px;
+		background: #fff;
+		margin-left: 50px;
+		margin-top: 15px;
+		border-radius: 15px;
+		position: relative;
+	}
+	.img_show_div{
+		position: absolute;
+		width: 378.5px;
+		height: 220px;
+	    left: 190px;
+	    top: 17px;
+		text-align: center;
+		border-radius: 5px;
+	}
+	#img_show{
+		max-width: 378.5px;
+		max-height: 220px;
+		margin: 0 auto;
+	}
+	.basics_id_card_box img{
+		width: 120px;
+		height: 120px;
+		position: absolute;
+		left: 129px;
+		top: 50px;
+	}
+	#upload_buttonb{
+		width: 120px;
+		height: 40px;
+		margin-left: 320px;
+		margin-top: 20px;
+		line-height: 20px;
+		text-align: center;
+		color: #fff;
+		background: #FF8000;
+		border: none;
+		outline: none;
+		border-radius: 5px;
+	}
+	#upload_file{
+		position: absolute;
+		width: 120px;
+		height: 40px;
+		bottom: 30px;
+		left: 320px;
+		z-index: 100;
+		opacity: 0;
+	}
+
+	/*基本信息修改*/
+	.essential_information{
+		/*width: 650px;*/
+	}
+	.modify_box{
+		width: 100%;
+	    margin-bottom: 0px;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	    border-bottom: 1px #eee solid;
+	}
+	.modify_box:last-child{
+		border: 0;
+	}
+	.label_text{
+		width: 100px;
+		height: 40px;
+		line-height: 40px;
+		text-align: right;
+		float: left;
+	}
+	.modify_input{
+		width: 450px;
+		height: 40px;
+		line-height: 40px;
+		text-indent: 2em;
+		float: left;
+	}
+	.modify_title{
+		font-size: 15px;
+		font-weight: bold;
+		text-indent: 1em;
+		padding: 20px;
+		border-bottom: 1px #eee solid;
+	}
+	</style>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="__ROOT__/{$userMesg.head_image_url}">
+				</div>
+				<div class="nick_name">{$userMesg.nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<li class="choosed"><i></i><a href="__ROOT__/account">资料与账号</a></li>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<a href="__ROOT__/supplier"><li>我是供应商</li></a>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function" id="supplier_function">
+					<ul>
+						<a href="__ROOT__/account"><li><i></i>个人资料</li></a>
+						<a href="__ROOT__/faceAuth"><li>人脸识别授权</li></a>
+						<a href="__ROOT__/apply"><li class="selected"><i></i>用户认证</li></a>
+						<a href=""><li>账号安全</li></a>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 资料与账号内容区 -->
+				<div class="content_box">
+					<!-- 右侧身份证图片上传 -->
+					<div class="basics_id_card">
+						<div class="basics_id_card_box">
+							<i class="fa fa-id-card"></i>
+						</div>
+						<div class="img_show_div">
+							<img id="img_show" src="">
+						</div>
+						<p style="text-align: center;font-size: 12px;">请上传您的真实省份证照片</p>
+						<input id="upload_file" type="file"></input>
+						<button id="upload_buttonb">上传身份证</button>
+					</div>
+					<div class="essential_information">
+						<div class="modify_title">您上传的身份证信息</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">姓名：</div>
+							<div class="modify_input" id="name">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">身份证：</div>
+							<div class="modify_input" id="idcard">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">地址：</div>
+							<div class="modify_input" id="address">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">生日：</div>
+							<div class="modify_input" id="birthday">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">民族：</div>
+							<div class="modify_input" id="race">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<!--  -->
+						<div class="modify_box">
+							<div class="label_text">性别：</div>
+							<div class="modify_input" id="gender">
+								<span>未获取</span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+				    </div>
+				    <button class="apply_become_supplier">申请</button>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 按钮不可点击
+		$(".apply_become_supplier").attr("disabled","1");
+
+		// 上传身份证代码 
+		document.getElementById("upload_file").onchange = function () {
+                gen_base64();
+            };
+        function $_(id) {
+                return document.getElementById(id);
+        }
+        function gen_base64() {
+            var file = $_('upload_file').files[0];
+            r = new FileReader();  //本地预览
+            r.onload = function(){
+				$_('img_show').src = r.result;
+				var base64 = r.result;
+				$(".basics_id_card_box").css("opacity","0");//图片隐藏
+				$("#upload_buttonb").text("已上传");
+				var imgBase64 = base64.substring(22);      //图片base64编码
+				idCardPost( imgBase64 );                   //base64编码POST
+            }
+            r.readAsDataURL(file);    //Base64
+        }
+        // ajax函数
+        var IDCARD = new Array();
+        function idCardPost( imgBase64 ) {
+        	$.ajax({
+        		url: "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard",
+	            type: "POST",
+	            data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","image_base64": imgBase64,"legality":"1"},
+		        success: function(msg){
+			        // console.log( msg );
+			        var cards = msg.cards;
+			        if ( cards.length != 0) {                            //判断是否检测出证件
+			        	var legality = cards[0].legality["ID Photo"];     //省份证真实性
+			        	if (legality > 0.5) {
+			        		var side = cards[0].side;                    //判断是否为人面证件
+			        		if (side = "front") {
+			        			var address = cards[0].address;
+			        			$("#address span").text(address);
+			        			IDCARD["address"] = address;
+			        			var birthday = cards[0].birthday;
+			        			$("#birthday span").text(birthday);
+			        			IDCARD["birthday"] = birthday;
+			        			var gender = cards[0].gender;
+			        			$("#gender span").text(gender);
+			        			IDCARD["gender"] = gender;
+			        			var id_card_number = cards[0].id_card_number;
+			        			$("#idcard span").text(id_card_number);
+			        			IDCARD["idcard"] = id_card_number;
+			        			var name = cards[0].name;
+			        			$("#name span").text(name);
+			        			IDCARD["name"] = name;
+			        			var race = cards[0].race;
+			        			IDCARD["race"] = race;
+			        			$("#race span").text(race);
+
+			        			$(".apply_become_supplier").removeAttr("disabled");
+			        			$(".apply_become_supplier").css("cursor","pointer");
+			        		}else{
+			        			alert("请上传身份证人面图片");
+			        		}
+			        	}else{
+			        		alert("请上传真实身份证照片！");
+			        	}
+			        }else{
+			        	alert("请上传身份证图片！");
+			        }
+			    }
+        	});
+        }
+
+        // 申请
+        $(".apply_become_supplier").click(function () {
+			// console.log(IDCARD);
+
+			$.ajax({
+                url: "__ROOT__/index/enter/saveApply",
+                type: "post",
+                data: {"address":IDCARD["address"],"birthday":IDCARD["birthday"],"gender":IDCARD["gender"],"idcard":IDCARD["idcard"],"name":IDCARD["name"],"race":IDCARD["race"]},
+                dataType: "json",
+                success: function(msg){
+                    if (msg == -1) {
+                        var alertText = "认证失败";
+                        alert( alertText );
+                    }
+                    // else{
+                    //     console.log(msg);
+                    // }
+                    window.location.href='__ROOT__/supplier';
+                }
+            })
+		});
+	</script>
+</body>
+</html>

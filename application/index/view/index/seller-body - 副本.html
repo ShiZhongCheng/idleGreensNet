@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="https://webapi.amap.com/maps?v=1.3&key=e221e8b1b9e100e1536a2afc2e5fa30e&plugin=AMap.PolyEditor,AMap.CircleEditor"></script>
+    <script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+	<style type="text/css">
+	body{
+		background: #f2f2f2;
+	}
+	/*统计信息*/
+	.seller_statistics{
+		width: 1024px;
+		margin: 0 auto;
+		margin-top: 20px;
+	}
+	/*左侧*/
+	.ss_left{
+		float: left;
+		width: 200px;
+	}
+	.ss_head_img,.ss_head_img img{
+		width: 100px;
+		height: 100px;
+		border-radius: 5px;
+	}
+	.seller_mesg{
+		height: 60px;
+		margin-top: 20px;
+	}
+	.seller_nick_name,.seller_loction{
+		font-size: 13px;
+		line-height: 20px;
+		font-family: 微软雅黑;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	/*右侧*/
+	.ss_right{
+		float: left;
+		width: 700px;
+		height: 170px;
+		border-radius: 20px;
+		background: #fff;
+		margin-left: 120px
+	}
+
+	/*当前提供*/
+	.seller_provide{
+		width: 1024px;
+		margin: 0 auto;
+		margin-top: 20px;
+		background: #fff;
+	}
+	/*传送按钮*/
+	.transfer_button{
+		width: 1024px;
+		height: 44px;
+		background: #e4e4e4;
+	}
+	.transfer_button ul{
+		width: 1024px;
+		height: 40px;
+		border-top: 3px #6abd9e solid;
+		border-bottom: 1px #c5c4c4 solid;
+	}
+	.transfer_button ul li{
+		list-style: none;
+		float: left;
+		width: 165px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		border-left: 1px #c5c4c4 solid;
+		cursor: pointer;
+	}
+	.transfer_button ul li a{
+		text-decoration: none;
+		color: #000;
+	}
+	.choosed{
+		background: #6abd9e;
+		color: #fff;
+	}
+	.choosed a{
+		color: #fff;
+	}
+	/*商品列表*/
+	.product_list{
+		width: 900px;
+		margin: 0 auto;
+		padding-bottom: 20px;
+	}
+	.provide_list_ul{
+		min-height: 56px;
+		text-align: center;
+		font-size: 12px;
+		line-height: 56px;
+	}
+	.product_list .provide_list_ul li{
+		list-style: none;
+		width: 900px;
+		height: 120px;
+		border-bottom: 1px #c5c4c4 solid;
+		padding-bottom: 20px;
+		padding-top: 20px;
+		position: relative;
+	}
+	.pl_img img{
+		max-width: 160px;
+		max-height: 120px;
+	}
+	.pl_img {
+		width: 160px;
+		height: 120px;
+		text-align: center;
+		float: left;
+	}
+	.pl_statement{
+		float: left;
+		height: 120px;
+		margin-left: 15px;
+		width: 150px;
+	}
+	.pl_name{
+		width: 100%;
+		height: 35px;
+		font-size: 15px;
+		line-height: 35px;
+		font-family: 微软雅黑;
+		text-align: left;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.pl_type{
+		width: 100%;
+		height: 35px;
+		font-size: 13px;
+		line-height: 35px;
+		font-family: 微软雅黑;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.pl_type span{
+		color: blue;
+	}
+	.pl_details{
+		position: absolute;
+		bottom: 20px;
+		right: 0;
+		width: 80px;
+		height: 35px;
+		color: #fff;
+		line-height: 35px;
+		text-align: center;
+		background: #6abd9e;
+		border: 0;
+		border-radius: 17px;
+		font-size: 12px;
+		font-family: 微软雅黑;
+		outline: 0;
+	}
+
+	/*商家位置css*/
+	.seller_loction_div{
+		width:  1024px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+	}
+	.sl_title{
+		width: 1024px;
+		height: 40px;
+		text-indent: 2em;
+		line-height: 40px;
+		font-family: 微软雅黑;
+		border-bottom: 2px #c5c4c4 solid;
+	}
+	.sl_content{
+		width: 1024px;
+		height: 500px;
+		position: relative;
+	}
+	#container{
+		width: 650px;
+		height: 500px;
+		float: left;
+		position: relative;
+	}
+	.sl_content_state{
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 370px;
+		height: 500px;
+	}
+	.scs_cont{
+		width: 305px;
+		line-height: 25px;
+		font-size: 14px;
+		margin-top: 5px;
+		padding-left: 35px;
+		padding-right: 30px;
+	}
+	.scs_titile{
+		width: 370px;
+		height: 40px;
+		line-height: 40px;
+		margin-top: 45px;
+		font-size: 18px;
+		text-indent: 2em;
+		color: #00bcd4;
+	}
+
+	/*商家介绍*/
+	.seller_introduce{
+		width:  1024px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+	}
+	.si_title{
+		width: 1024px;
+		height: 40px;
+		text-indent: 2em;
+		line-height: 40px;
+		font-family: 微软雅黑;
+		border-bottom: 2px #c5c4c4 solid;
+	}
+	.si_content{
+		width: 1000px;
+		/*height: 350px;*/
+		padding: 12px;
+	}
+
+	/*用户评价*/
+	.user_comment{
+		width:  1024px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+	}
+	.uc_title{
+		width: 1024px;
+		height: 40px;
+		text-indent: 2em;
+		line-height: 40px;
+		font-family: 微软雅黑;
+		border-bottom: 2px #c5c4c4 solid;
+	}
+	.uc_content{
+		width: 1024px;
+		height: 350px;
+	}
+
+	/*购买须知*/
+	.purchase_notes{
+		width:  1024px;
+		margin: 0 auto;
+		margin-top: 10px;
+		background: #fff;
+	}
+	.pn_title{
+		width: 1024px;
+		height: 40px;
+		text-indent: 2em;
+		line-height: 40px;
+		font-family: 微软雅黑;
+		border-bottom: 2px #c5c4c4 solid;
+	}
+	.pn_content{
+		width: 1024px;
+		height: 350px;
+	}
+
+	/*分页样式*/
+	.pagination{
+		width: 700px;
+		margin: 0 auto;
+		height: 30px;
+		padding: 30px;
+	}
+	.pagination li{
+		list-style: none;
+		float: left;
+		width: 30px;
+		margin: 10px;
+		height: 30px;
+		line-height: 30px;
+		text-align: center;
+		cursor: pointer;
+		border: 1px #aaa solid;
+		margin-right: 6px;
+	}
+	.pagination li a{
+		text-decoration: none;
+		color: #000;
+	}
+	.active{
+		background: #6abd9e;
+		color: #fff;
+	}
+	.pagination li:hover{
+		background: #6abd9e;
+		color: #fff;
+	}
+	.pagination li:hover a{ 
+		color: #fff;
+	}
+	</style>
+</head>
+<body>
+	<!-- 统计信息 -->
+	<div class="seller_statistics">
+		<!-- 左侧 -->
+		<div class="ss_left">
+			<div class="ss_head_img">
+				<img src="__ROOT__/{$qt_head_image_url}">
+			</div>
+			<div class="seller_mesg">
+				<div class="seller_nick_name">{$qt_nick_name}</div>
+				<div class="seller_loction">所在地：<span>下沙高教园区杭州电子科技大学</span></div>
+			</div>
+		</div>
+		<!-- 右侧 -->
+		<div class="ss_right">
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<!-- 当前提供 -->
+	<div class="seller_provide">
+	    <!-- 传送按钮 -->
+		<div class="transfer_button">
+			<ul>
+				<li class="choosed"><a href="#product_list">当前提供</a></li>
+				<li><a href="#seller_loction_div">商家位置</a></li>
+				<li><a href="">商家动态</a></li>
+				<li><a href="#seller_introduce">商家介绍</a></li>
+				<li><a href="#user_comment">用户评价</a></li>
+				<li><a href="#purchase_notes">购买须知</a></li>
+			</ul>
+		</div>
+		<!-- 商家提供列表 -->
+		<div class="product_list">
+		<a name="product_list"></a>
+			<ul class="provide_list_ul">
+				{volist name='list' id='product_id' empty="商家暂时还没有发布商品！"}
+				<li>
+				    <div class="pl_img">
+						<img src="__ROOT__/
+						{$product_id.product_url1}">
+					</div>
+					<div class="pl_statement">
+						<div class="pl_name">{$product_id.product_name}</div>
+						<div class="pl_type">类别：
+						{volist name="classify" id="vi" empty="获取分类失败" }
+							{eq name="$vi.classify_id" value="$product_id.product_type"}
+								<span>{$vi.classify_name}</span>
+							{/eq}
+						{/volist}
+						</div>
+					</div>
+					<a href="__ROOT__/gongying/{$product_id.product_id}" class="pl_details">查看详情</a>
+					<!-- <button class="pl_details">查看详情</button> -->
+				</li>
+				{/volist}
+			</ul>
+			{$page}
+		</div>
+	</div>
+
+	<!-- 商家位置 -->
+	<div class="seller_loction_div">
+	    <a name="seller_loction_div"></a>
+		<div class="sl_title">商家位置</div>
+		<div class="sl_content">
+			<!-- 地图 -->
+			<div id="container"></div>  
+			<!-- 说明 -->
+			<div class="sl_content_state">
+				<div class="scs_titile">商家地址定位：</div>
+				<div class="scs_cont" id="loction_text"></div>
+				<div class="scs_titile">小提示！</div>
+				<div class="scs_cont">只有在左侧图范围内的用户才能在附近供应商里面看到此供应商</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 商家介绍 -->
+	<div class="seller_introduce">
+		<a name="seller_introduce"></a>
+		<div class="si_title">商家介绍</div>
+		<div class="si_content">{$business_introduce}</div>
+	</div>
+
+	<!-- 用户评价 -->
+	<div class="user_comment">
+		<a name="user_comment"></a>
+		<div class="uc_title">用户评价</div>
+		<div class="uc_content">
+
+		</div>
+	</div>
+
+	<!-- 购买须知 -->
+	<div class="purchase_notes">
+		<a name="purchase_notes"></a>
+		<div class="pn_title">购买须知</div>
+		<div class="pn_content">
+
+		</div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 地图js
+		var editorTool, map = new AMap.Map("container", {
+	        resizeEnable: true,
+	        center: [{$loction}],//地图中心点
+	        zoom: 13 //地图显示的缩放级别
+	    });
+	    //在地图上绘制圆
+	    var editor={};
+	    editor._circle=(function(){
+	        var circle = new AMap.Circle({
+	            center: [{$loction}],// 圆心位置
+	            radius: 10000, //半径
+	            strokeColor: "#F33", //线颜色
+	            strokeOpacity: 0.5, //线透明度
+	            strokeWeight: 2, //线粗细度
+	            fillColor: "#ee2200", //填充颜色
+	            fillOpacity: 0.35//填充透明度
+	        });
+	        circle.setMap(map);
+	        return circle;
+	    })();
+	    map.setFitView();
+	    editor._circleEditor= new AMap.CircleEditor(map, editor._circle);
+
+	    editor.startEditCircle=function(){
+	        editor._circleEditor.open();
+	    }
+	    editor.closeEditCircle=function(){
+	        editor._circleEditor.close();
+	    }
+
+		editor.startEditCircle();
+		getLoction( "{$loction}" );
+
+		// 通过经纬度获取地理编码
+        function getLoction( loction ) {
+        	$.ajax({
+			   url: "https://restapi.amap.com/v3/geocode/regeo?key=e221e8b1b9e100e1536a2afc2e5fa30e&location="+loction+"&poitype=&radius=&extensions=base&batch=false&roadlevel=0",
+			   dataType: "json",
+			   success: function( msg ){
+				   	// console.log( msg );
+				   	// alert( msg.regeocode.formatted_address );
+				   	document.getElementById('loction_text').innerHTML = msg.regeocode.formatted_address;
+			   }
+			});
+        }
+	</script>
+</body>
+</html>

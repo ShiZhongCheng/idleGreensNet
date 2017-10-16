@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册界面</title>
+	<style type="text/css">
+	*{padding: 0;margin: 0;}
+	html{background: url("/static/index/images/login_bg.jpg") top center no-repeat !important;}
+	body{width: 1024px; margin: 0 auto;position: relative;}
+	/*头部*/
+	.header{
+		width: 1024px;
+		height: 75px;
+		/*background: #fff;*/
+		position: relative;
+	}
+	.logo{
+		position: absolute;
+		/*width: 186px;*/
+		height: 55px;
+		top: 10px;
+		left: 20px;
+		/*background: #fff;*/     
+	}
+	.logo img{
+		/*width: 186px;*/
+		height: 55px;
+		float: left;
+	}
+	.logo_font{
+		float: left;
+		height: 30px;
+		line-height: 30px;
+		color: #fff;
+		font-size: 24px;
+		padding-left: 20px;
+		margin-left: 20px;
+		margin-top: 15px; 
+		border-left: 1px solid #d5d5d5;
+	}
+	.go_to_index{
+		position: absolute;
+		right: 0;
+		top: 10px;
+		height: 55px;
+		line-height: 55px;
+		color: #fff;
+	}
+	.go_to_index a{
+		color: #fff;
+		text-decoration-line: none;
+	}
+
+	/*注册进度条*/
+	.progress_bar{
+		width: 957px;
+		height: 22px;
+		margin: 0 auto;
+		margin-top: 25px;
+	}
+	.bar{
+		width: 319px;
+		height: 22px;
+		float: left;
+	}
+	.linear{
+		float: left;
+		width: 200px;
+		height: 6px;
+		margin-top: 7px;
+		background: #aaa;
+		border-radius: 3px;
+	}
+	.circular{
+		float: left;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		background: #aaa;
+		margin-left: -3px;
+	}
+	.text{
+		float: left;
+		width: 90px;
+		height: 22px;
+		line-height: 22px;
+		text-align: center;
+		font-size: 15px;
+		color: #aaa;
+	}
+	.bar_clear{
+		clear: both;
+	}
+	/*当前位置*/
+	.loction{
+		background: #DF600F;
+	}
+	.loction_text{
+		color: #DF600F;
+	}
+
+	/*内容区1*/
+	.content{
+		width: 957px;
+		margin: 0 auto;
+		margin-top: 60px;
+		text-align: center;
+	}
+	.basics_title{
+		width: 100%;
+		height: 71px;
+		line-height: 71px;
+		font-size: 25px;
+	}
+	.basics_mesg{
+		width: 50%;
+		float: left;
+	}
+	.basics_id_card{
+		width: 50%;
+		float: left;
+	}
+	/*左侧*/
+	.phone_box,.name_box,.password_box,.password_sure_box{
+		width: 100%;
+		height: 60px;
+		line-height: 60px;
+	}
+	.lab{
+		width: 130px;
+		height: 60px;
+		line-height: 60px;
+		text-align: right;
+		font-size: 14px;
+		float: left;
+	}
+	.input{
+		width: 250px;
+		height: 25px;
+		margin-top: 15px;
+		float: left;
+		text-indent: 1em;
+	}
+	.sure_agreement{
+		width: 300px;
+		height: 15px;
+		margin-left: 130px;
+	}
+	.agreement{
+		width: 15px;
+		height: 15px;
+		float: left;
+	}
+	.sure_agreement div{
+		height: 15px;
+		line-height: 15px;
+		float: left;
+		font-size: 13px;
+		text-indent: 1em;
+	}
+	#next_button_first{
+		width: 150px;
+		height: 40px;
+		margin-left: 130px;
+		margin-top: 25px;
+		line-height: 20px;
+		text-align: center;
+		color: #fff;
+		background: #FF8000;
+		border: none;
+		outline: none;
+	}
+	.id_card_in{
+		display: none;
+	}
+	/*右部*/
+	.basics_id_card{
+		width: 478.5px;
+		height: 320px;
+		position: relative;
+	}
+	.basics_id_card_box{
+		width: 378.5px;
+		height: 220px;
+		background: #fff;
+		margin-left: 50px;
+		margin-top: 15px;
+		border-radius: 15px;
+		position: relative;
+	}
+	.img_show_div{
+		position: absolute;
+		width: 378.5px;
+		height: 220px;
+		left: 50px;
+		top: 15px;
+		text-align: center;
+		border-radius: 15px;
+	}
+	#img_show{
+		max-width: 378.5px;
+		max-height: 220px;
+		margin: 0 auto;
+	}
+	.basics_id_card_box img{
+		width: 120px;
+		height: 120px;
+		position: absolute;
+		left: 129px;
+		top: 50px;
+	}
+	#upload_buttonb{
+		width: 120px;
+		height: 40px;
+		margin-left: 0;
+		margin-top: 25px;
+		line-height: 20px;
+		text-align: center;
+		color: #fff;
+		background: #FF8000;
+		border: none;
+		outline: none;
+	}
+	#upload_file{
+		position: absolute;
+		width: 120px;
+		height: 40px;
+		bottom: 20px;
+		left: 178px;
+		z-index: 100;
+		opacity: 0;
+	}
+
+	/*内容区2*/
+	.content_second{
+		position: relative;
+	}
+	.video_canvas{
+		text-align: center;
+		width: 100;
+		height: 100%;
+		position: relative;
+	}
+	#video{
+		margin: 0 auto;
+	}
+	#canvas{
+		margin: 0 auto;
+	}
+	#tack{
+		width: 50px;
+		height: 50px;
+		position: absolute;
+		bottom: -16px;
+	    left: 455px;
+	}
+	#tack img{
+		width: 50px;
+		height: 50px;
+	}
+
+	/*蒙版*/
+	.moban{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: rgba(0,0,0,0.1);
+		z-index: -100;
+	}
+
+	/*下半部分*/
+	.bottom_box{
+		width: 735px;
+		margin: 0 auto;
+		margin-top: 45px;
+		text-align: center;
+		font-size: 13px;
+		color: #aaa;
+	}
+	.bottom_box a{
+		font-size: 13px;
+		color: #aaa;
+		text-decoration: none;
+	}
+	</style>
+</head>
+<body>
+	<!-- 头部 -->
+	<header class="header">
+		<div class="logo">
+			<img src="/static/index/images/logo_ncpw.png">
+			<div class="logo_font">美丽乡村</div>
+		</div>
+		<div class="go_to_index"><a href="#">返回首页</a></div>
+	</header>
+	<!-- 注册进度条 -->
+	<div class="progress_bar">
+		<!-- 信息填写 -->
+		<div class="bar_mesg_write bar">
+			<div class="bar_mr_linear linear loction"></div>       <!-- 横条 -->
+			<div class="bar_mr_circular circular loction"></div>     <!-- 圆形 -->
+			<span class="bar_mesg_write_text text loction_text">信息填写</span>    <!-- 信息填写 -->
+		</div>
+		<!-- 人脸采取 -->
+		<div class="bar_face_verification bar">
+			<div class="bar_fv_linear linear"></div>
+			<div class="bar_fv_circular circular"></div>
+			<span class="bar_fv_face_text text">人脸采取</span>
+		</div>
+		<!-- 注册成功 -->
+		<div class="bar_verification_success bar">
+			<div class="bar_vs_linear linear"></div>
+			<div class="bar_vs_circular circular"></div>
+			<span class="bar_vs_success_text text">注册成功</span>
+		</div>
+		<!-- 清浮动 -->
+		<div class="bar_clear"></div> 
+	</div>
+
+	<!-- 内容区1 -->
+	<div class="content_first content">
+	    <div class="basics_title">用户注册</div>
+		<div class="basics_mesg">
+			<div class="phone_box">
+				<div class="phone_lab lab">手机号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<input class="phone_input input" type="text" placeholder="手机号必填"></input>
+			</div>
+			<div class="name_box">
+				<div class="name_lab lab">用户名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<input class="nick_name_input input" type="text" placeholder="可用作登录名"></input>
+			</div>
+			<div class="password_box">
+				<div class="password_lab lab">密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<input class="password_input input" type="password"></input>
+			</div>
+			<div class="password_sure_box">
+				<div class="password_sure_lab lab">再次输入密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<input class="password_sure_input input" type="password" placeholder="再次输入密码"></input>
+			</div>
+			<!-- 协议填写 -->
+			<div class="sure_agreement">
+				<input class="agreement" type="checkbox" value="1"></input>
+				<div>我已阅读并同意《<a href="#">服务协议</a>》</div>
+			</div>
+			<!-- 省份证信息 -->
+			<input id="address" class="id_card_in" value=""></input>
+			<input id="birthday" class="id_card_in" value=""></input>
+			<input id="gender" class="id_card_in" value=""></input>
+			<input id="id_card_number" class="id_card_in" value=""></input>
+			<input id="name" class="id_card_in" value=""></input>
+			<input id="race" class="id_card_in" value=""></input>
+			<!-- 下一步 -->
+			<button id="next_button_first">下一步</button>
+		</div>
+		<!-- 右侧身份证图片上传 -->
+		<div class="basics_id_card">
+			<div class="basics_id_card_box">
+				<img src="/static/index/images/id_card.png">
+			</div>
+			<div class="img_show_div">
+				<img id="img_show" src="">
+			</div>
+			<input id="upload_file" type="file"></input>
+			<button id="upload_buttonb">上传</button>
+		</div>
+		<!-- 清浮动 -->
+		<div class="bar_clear"></div> 
+	</div>
+	<!-- 内容区2（人脸信息采集） -->
+	<div class="content_second content" style="display: none;">
+		<div class="video_canvas">
+			<video id="video" width="400" height="300"></video>
+		    <canvas style="display: none;" id='canvas' width='400' height='300'></canvas>
+		</div>
+		<div id="tack">
+			<img src="/static/index/images/camer.png">
+		</div>
+	</div>
+	<!-- 蒙版 -->
+	<div class="moban"></div>
+	<!-- 底部 -->
+	<footer class="bottom_box">
+		<a href="#">©2017美丽乡村网站</a> 浙ICP备17022247号
+	</footer>
+
+	<!-- js部分 -->
+	<script src="/static/jquery/jquery2.1.1.min.js"></script>
+	<script src="/static/jquery/jquery.md5.js"></script>
+	<script type="text/javascript">
+		// 将input和下一步变为不可输入
+		$('.input').attr('disabled',"true");
+		$("#next_button_first").attr('disabled',"true");
+		$("#next_button_first").css("background","#aaa");
+	    // 上传身份证代码 
+		document.getElementById("upload_file").onchange = function () {
+                gen_base64();
+            };
+        function $_(id) {
+                return document.getElementById(id);
+        }
+        function gen_base64() {
+            var file = $_('upload_file').files[0];
+            r = new FileReader();  //本地预览
+            r.onload = function(){
+				$_('img_show').src = r.result;
+				var base64 = r.result;
+				$(".basics_id_card_box img").hide();           //图片隐藏
+				var imgBase64 = base64.substring(22);      //图片base64编码
+				idCardPost( imgBase64 );                   //base64编码POST
+            }
+            r.readAsDataURL(file);    //Base64
+        }
+        // ajax函数
+        function idCardPost( imgBase64 ) {
+        	$.ajax({
+        		url: "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard",
+	            type: "POST",
+	            data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","image_base64": imgBase64,"legality":"1"},
+		        success: function(msg){
+			        // console.log( msg );
+			        var cards = msg.cards;
+			        if ( cards.length != 0) {                            //判断是否检测出证件
+			        	var legality = cards[0].legality["ID Photo"];     //省份证真实性
+			        	if (legality > 0.5) {
+			        		var side = cards[0].side;                    //判断是否为人面证件
+			        		if (side = "front") {
+			        			var address = cards[0].address;
+			        			var birthday = cards[0].birthday;
+			        			var gender = cards[0].gender;
+			        			var id_card_number = cards[0].id_card_number;
+			        			var name = cards[0].name;
+			        			var race = cards[0].race;
+			        			// console.log(name);
+			        			$("#address").val( address );
+			        			$("#birthday").val( birthday );
+			        			$("#gender").val( gender );
+			        			$("#id_card_number").val( id_card_number );
+			        			$("#name").val( name );
+			        			$("#race").val( race );
+			        			// 左侧input可以输入
+			        			$('.input').removeAttr("disabled");
+			        			$('#next_button_first').removeAttr("disabled");
+			        			$("#next_button_first").css("background","#FF8000");
+			        			alert("检测到身份证信息如下：姓名："+name+"|  性别："+gender+"|  身份证号码："+id_card_number);
+			        		}else{
+			        			alert("请上传身份证人面图片");
+			        		}
+			        	}else{
+			        		alert("请上传真实身份证照片！");
+			        	}
+			        }else{
+			        	alert("请上传身份证图片！");
+			        }
+			    }
+        	});
+        }
+        // 下一步点击
+        var video = document.getElementById('video'),
+		        canvas = document.getElementById('canvas'),
+		        snap = document.getElementById('tack'),
+		        vendorUrl = window.URL || window.webkitURL;
+        $("#next_button_first").click(function (){
+        	// 获取表单数据
+        	var address = $("#address").val();
+        	var birthday = $("#birthday").val();
+        	var gender = $("#gender").val();
+        	var id_card_number = $("#id_card_number").val();
+        	var race = $("#race").val();
+        	var name = $("#name").val();
+        	var phone_input = $(".phone_input").val();
+        	var nick_name_input = $(".nick_name_input").val();
+        	var password_input = $(".password_input").val();
+        	var password_sure_input = $(".password_sure_input").val();
+        	var agreement = $(".agreement").is(':checked');  //判断是否为选择状态
+        	// 判断表单填写是否为空
+        	if (phone_input=="" || nick_name_input=="" || password_input=="" || password_sure_input=="") {
+        		alert("请先把表单填写完整！");
+        	}else if (!agreement){
+        		alert("请先同意服务协议");
+        	}else if (password_input != password_sure_input) {
+        		alert("两次输入的密码不正确！");
+        	}else{
+        		alert("一切正常！");
+        		startGetFaceMesg(video,canvas,snap,vendorUrl);       //下一步（人脸信息采集）
+        	}
+        });
+
+
+        // 人脸信息采集js
+        function startGetFaceMesg(video,canvas,snap,vendorUrl) {
+        	$(".content_first").hide();
+        	$(".content_second").show();
+        	// 删掉class
+        	$(".bar_mr_linear").removeClass("loction");
+        	$(".bar_mr_circular").removeClass("loction");
+        	$(".bar_mesg_write_text").removeClass("loction_text");
+        	// 添加class
+        	$(".bar_fv_linear").addClass("loction");
+        	$(".bar_fv_circular").addClass("loction");
+        	$(".bar_fv_face_text").addClass("loction_text");
+		        
+		    //媒体对象
+		    navigator.getMedia = navigator.getUserMedia ||
+		                         navagator.webkitGetUserMedia ||
+		                         navigator.mozGetUserMedia ||
+		                         navigator.msGetUserMedia;
+		    navigator.getMedia({
+		        video: true, //使用摄像头对象
+		        audio: false  //不适用音频
+		    }, function(strem){
+		        console.log(strem);
+		        video.src = vendorUrl.createObjectURL(strem);
+		        video.play();
+		    }, function(error) {
+		        //error.code
+		        console.log(error);
+		    });
+        }
+	    snap.addEventListener('click', function(){      
+	        //绘制canvas图形
+	        canvas.getContext('2d').drawImage(video, 0, 0, 400, 300);
+	        
+	        //把canvas图像转为img图片
+	        var base64 = canvas.toDataURL("image/png");
+	        // img.src = base64;
+	        var imgBase64 = base64.substring(22);
+	        // console.log( imgBase64 );
+
+	        ajaxFun( imgBase64 );       //执行ajaxFun函数
+
+	        $("#video").css("display","none");
+	        $("#canvas").css("display","block");
+	    })
+	    // 获取face_token并画轮廓
+	    function ajaxFun( imgBase64 ) {
+	      var img = imgBase64;
+	      $.ajax({
+	         url: "https://api-cn.faceplusplus.com/facepp/v3/detect",
+	         type: "POST",
+	         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","image_base64": img},
+	         success: function(msg){
+	           console.log( msg );
+	           // faces数组
+	           var faces = msg.faces;
+	           if (faces.length == 0) {
+	            alert("未检测到人脸");
+	            return;
+	           }
+
+	           // addFace
+	           var face_token = msg.faces[0].face_token;
+
+	           addFace( face_token );                //addFace
+
+	           // alert( msg.faces[0].face_token );
+	           // 画轮廓
+	           var top = msg.faces[0].face_rectangle.top;
+	           var left = msg.faces[0].face_rectangle.left;
+	           var height = msg.faces[0].face_rectangle.height;
+	           var width = msg.faces[0].face_rectangle.width;
+
+	           var canvas = document.getElementById("canvas");   
+	           var context = canvas.getContext("2d");  
+	           context.strokeStyle = "#F5270B";   
+	           context.strokeRect(top,left,width,height);  
+	         }
+	      });
+	    }
+	    // addface
+	    function addFace( face_token ) {
+	      $.ajax({
+	        url: "https://api-cn.faceplusplus.com/facepp/v3/faceset/addface",
+	         type: "POST",
+	         data: {"api_key": "3qxRGozwr-Ms3AVL_3ppCX1I33DYZGhZ","api_secret":"QVvGU5NQodqtLbXahvyBixV8hQkv5fgK","faceset_token":"528f602b7ad21bbc29513e8bbe3afbc5","face_tokens": face_token},
+	         success: function(msg){
+	           console.log( msg );
+	           var face_added = msg.face_added;
+	           if (face_added != 0) {
+	              // 注册
+	              register( face_token );
+	           }
+	         }
+	      });
+	    }
+	    // 将face_token存入数据库
+	    function register( face_token ) {
+	      // 获取表单数据
+	      var address = $("#address").val();
+	      var birthday = $("#birthday").val();
+	      var gender = $("#gender").val();
+	      var id_card_number = $("#id_card_number").val();
+	      var race = $("#race").val();
+	      var name = $("#name").val();
+	      var phone_input = $(".phone_input").val();
+	      var nick_name_input = $(".nick_name_input").val();
+	      var password_input = $(".password_input").val();
+	      var password_sure_input = $(".password_sure_input").val();
+	      var agreement = $(".agreement").is(':checked');  //判断是否为选择状态
+	      $.ajax({
+	        url: "https://www.goooooo.top/register/index/registerMesg",
+	        type: "POST",
+	        data: {"face_token": face_token,"address":address,"birthday":birthday,"gender":gender,"id_card_number":id_card_number,"race":race,"name":name,"phone_number":phone_input,"nick_name":nick_name_input,"password":password_sure_input},
+	        success: function ( msg ) {
+	          console.log( msg );
+	          if (msg == 1) {
+	            alert("注册成功");
+	            window.location.href="https://www.goooooo.top?name="+$.md5( nick_name_input )+"&password="+$.md5( password_sure_input );
+	          }else{
+	            alert( msg );
+	          }
+	        }
+	      });
+	    }
+	</script>
+</body>
+</html>

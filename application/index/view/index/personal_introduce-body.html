@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/static/index/css/myneed/personal-body.css">
+    <script charset="utf-8" src="__ROOT__/static/index/js/myneed/windowsOnscroll.js"></script>
+	<style type="text/css">
+	/*在线编辑器*/
+	.form_div{
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	form {
+		margin: 0;
+	}
+	textarea {
+		display: block;
+	}
+	#gethtml{
+		width: 100px;
+		height: 35px;
+		line-height: 35px;
+		border: 0;
+		outline: 0;
+		color: #fff;
+		background: #FF9800;
+		margin-left: 340px;
+		margin-top: 20px;
+		border-radius: 10px;
+	}
+	</style>
+	<link rel="stylesheet" href="__ROOT__/static/kindeditor/themes/default/default.css" />
+	<script charset="utf-8" src="__ROOT__/static/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="__ROOT__/static/kindeditor/lang/zh_CN.js"></script>
+	<script>
+		var editor;
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="content"]', {
+				allowFileManager : true
+			});
+			K('input[name=getHtml]').click(function(e) {
+				// alert(editor.html());
+				// console.log( editor.html() );
+				storageIntroduce( editor.html() );
+			});
+		});
+	</script>
+</head>
+<body>
+	<div class="personal_information">
+		<!-- 左侧 -->
+		<div class="pi_left" id="pi_left">
+			<!-- 头像 -->
+			<div class="head_portrait">
+				<div class="head_img">
+					<img src="{$head_image_url}">
+				</div>
+				<div class="nick_name">{$nick_name}</div>
+			</div>
+			<!-- 功能区 -->
+			<div class="functional_area">
+				<ul>
+					<a href="__ROOT__/account"><li>资料与账号</li></a>
+					<a href=""><li>我的收藏</li></a>
+					<a href="__ROOT__/innerMsg/unread"><li>消息通知</li></a>
+					<a href="__ROOT__/myadpotion/myadpotion"><li>订单消息</li></a>
+					<a href="__ROOT__/publishdynamic"><li>我的动态</li></a>
+					<a href="__ROOT__/substitutes/substitutes"><li>我是代养人</li></a>
+					<li class="choosed"><i></i><a href="supplier">我是供应商</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="pi_right">
+			<!-- 资料与账号 -->
+			<div class="supplier">
+				<!-- 头按钮选择 -->
+				<div class="supplier_function" id="supplier_function">
+					<ul>
+						<li><a href="supplier">发布商品</a></li>
+						<li><a href="loction">我的地址</a></li>
+						<li class="selected"><i></i><a href="introduce">我的介绍</a></li>
+						<!-- 用于清除浮动 -->
+						<div style="clear: both;"></div>
+					</ul>
+				</div>
+				<!-- 资料与账号内容区 -->
+				<div class="form_div">
+				    <form>
+						<textarea name="content" style="width:770px;height: 450px;visibility:hidden;">{$business_introduce}</textarea>
+						<input type="button" id="gethtml" name="getHtml" value="保存" />
+					</form>
+				</div>
+			</div>
+
+		</div>
+		<!-- 用于清除浮动 -->
+		<div style="clear: both;"></div>
+	</div>
+	<script src="__ROOT__/static/jquery/jquery2.1.1.min.js"></script>
+	<script type="text/javascript">
+		$(".actived").removeClass("actived");
+
+		// 保存我的介绍
+		function storageIntroduce( business_introduce ) {
+			$.ajax({
+                url: "__ROOT__/index/personal/storageIntroduce",
+                type: "POST",
+                dataType: "json",
+                data: {"business_introduce":business_introduce},
+                success: function(msg){
+                    console.log(msg);
+                    if (msg == -1) {
+                        var alertText = "保存失败";
+                    }else if (msg == 1) {
+                        var alertText = "保存成功";
+                    }
+                    alert( alertText );
+                }
+            })
+		}
+
+		window.onscroll=function(){
+            personalOnscroll();
+        }
+	</script>
+</body>
+</html>

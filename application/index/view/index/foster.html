@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<style type="text/css">
+	body{
+		background: #f2f2f2;
+	}
+	/*分页*/
+	#classification{
+        width: 1004px;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background: #fff;
+        position: relative;
+        border-radius: 5px;
+    }
+    #classification ul li{
+        list-style: none;
+        float: left;
+        margin: 10px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-right: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+    }
+    .classification_a:hover{
+        background: #ffd100;;
+        color: #fff;
+        border-color: #fff;
+    }
+    .classification_a{
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        cursor: pointer;
+        color: #000;
+    }
+    .form{
+        height: 30px;
+        position: absolute;
+        top: 20px;
+        right: 125px;
+        line-height: 30px;
+        font-size: 14px;
+    }
+    .form_input{
+        width: 50px;
+        height: 20px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+    }
+    .form_button{
+        width: 40px;
+        height: 22px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        font-size: 12px;
+        border: 0;
+        color: #fff;
+        background: #ffd100;;
+    }
+
+    /*认养数据区*/
+    .foster_data{
+    	width: 1004px;
+    	padding: 10px;
+    	margin: 0 auto;
+    	margin-top: 10px;
+    	/*background: #fff;
+    	height: 300px;*/
+    }
+    .foster_data ul li{
+    	list-style: none;
+    	width: 184px;
+    	float: left;
+    	border-radius: 5px;
+    	background: #fff;
+    	padding: 5px;
+    	margin: 3px;
+    }
+    .foster_cover_img img{
+    	width: 184px;
+    	border-radius: 5px;
+    }
+    .foster_cover_img img:hover{
+    	opacity: 0.8;
+    }
+    .foster_title{
+    	font-size: 13px;
+    	font-weight: bold;
+    	color: rgb(133, 144, 166);
+    	text-indent: 10px;
+    	line-height: 20px;
+    	margin-top: 6px;
+    	overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		cursor: pointer;
+    }
+    .foster_title:hover{
+    	color: red;
+    }
+    .label_area_arry{
+    	width: 184px;
+    	height: 20px;
+    	font-size: 12px;
+    	line-height: 20px;
+    	color: rgb(133, 144, 166);
+    	overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		padding-bottom: 5px;
+		border-bottom: 1px #eee solid;
+    }
+    .label_area_arry .fa{
+    	text-indent: 10px;
+    	float: left;
+    	line-height: 20px;
+    }
+    .label{
+    	float: left;
+    	margin-left: 5px;
+        text-decoration: none;
+    }
+    .foster_seller{
+    	padding: 5px 0 5px 0;
+    	cursor: pointer;
+    	position: relative;
+    }
+    .foster_seller:hover .hoverShow{
+    	display: inline-block;
+    }
+    .buyser_data_headImg{
+    	width: 30px;
+    	height: 30px;
+    	float: left;
+    	border-radius: 50%;
+    }
+    .buyser_data_nick_name{
+    	float: left;
+    	line-height: 30px;
+    	font-size: 12px;
+    	margin-left: 5px;
+    	color: rgb(133, 144, 166);
+    }
+    .hoverShow{
+    	display: none;
+    	position: absolute;
+    	bottom: 40px;
+    	right: -5px;
+    	width: 174px;
+    	height: 179px;
+    	background: #fff;
+    	z-index: 9;
+    	padding: 10px;
+    	border-radius: 5px;
+    	box-shadow: 1px 0 15px 2px #aaa;
+    }
+    .Triangle{
+    	width: 20px;
+	    height: 20px;
+	    position: absolute;
+	    bottom: -6px;
+	    left: 30px;
+	    font-size: 25px;
+	    color: #ffffff;
+	    z-index: 10;
+    }
+    .foster_user_headimg,.foster_user_headimg img{
+    	width: 70px;
+    	height: 70px;
+    	border-radius: 50%;
+    }
+    .foster_user_headimg{
+    	margin: 0 auto;
+    	margin-top: 15px;
+    }
+    .foster_user_nick_name{
+    	font-size: 15px;
+    	font-weight: bold;
+    	text-align: center;
+    	line-height: 40px;
+    	margin-top: 10px;
+    }
+    .foster_button{
+    	width: 80px;
+    	margin: 0 auto;
+    }
+    .fost_button1{
+    	width: 80px;
+	    height: 32px;
+    	color: #444;
+	    background: #ffd100;
+	    border: 1px solid #ffd100;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    text-align: center;
+	    outline: none;
+    }
+    .fost_button2{
+    	width: 80px;
+	    height: 32px;
+    	color: #444;
+	    background: #fff;
+	    border: 1px solid #bbb;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    text-align: center;
+	    outline: none;
+	    float: right;
+    }
+	</style>
+</head>
+<body>
+	<div class="foster_data">
+		<ul>
+			{volist name="fosterData.data" id="data" empty="没有数据"}
+			<li>
+				<div class="foster_cover_img">
+                    <a href="__ROOT__/subshow/{$data.substitutes_id}" target="_blank">
+    					<img src="__ROOT__/{$data.cover_img}">
+                    </a>
+				</div>
+                <a href="__ROOT__/subshow/{$data.substitutes_id}" target="_blank" style="text-decoration: none;">
+    				<div class="foster_title">{$data.title}</div>
+                </a>
+				<div class="label_area_arry">
+					<i class="fa fa-tags"></i>
+					<a href="__ROOT__/search?q={$data.label1}" target="_blank"><div class="label" title="标签1">{$data.label1}</div></a>
+					<a href="__ROOT__/search?q={$data.label2}" target="_blank"><div class="label" title="标签2">{$data.label2}</div></a>
+					<a href="__ROOT__/search?q={$data.label3}" target="_blank"><div class="label" title="标签3">{$data.label3}</div></a>
+					<a href="__ROOT__/search?q={$data.label4}" target="_blank"><div class="label" title="标签4">{$data.label4}</div></a>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="foster_seller">
+					<a href="__ROOT__/seller/{$data.announcer_id}" target="_blank">
+						<img class="buyser_data_headImg" src="__ROOT__/{$data.userMesg.head_image_url}">
+					</a>
+					<div class="buyser_data_nick_name">{$data.userMesg.nick_name}</div>
+					<div style="clear: both;"></div>
+					<div class="hoverShow">
+						<div class="Triangle"><i class="fa fa-caret-down"></i></div>
+						<div class="foster_user_headimg">
+							<a href="__ROOT__/seller/{$data.announcer_id}" target="_blank">
+							<img src="__ROOT__/{$data.userMesg.head_image_url}">
+							</a>
+						</div>
+						<div class="foster_user_nick_name">{$data.userMesg.nick_name}</div>
+						<div class="foster_button">
+							<!-- <button class="fost_button1" type="button">关注</button> -->
+                            {empty name="userMesg"}
+                            <button class="fost_button1" type="button">私信</button>
+                            {else /}
+                            <button class="fost_button1" type="button" onclick="sellerSend({$data.userMesg.id},{$userMesg.id},'no','{$data.userMesg.nick_name}','__ROOT__/{$data.userMesg.head_image_url}')">私信</button>
+                            {/empty}
+						</div>
+					</div>
+				</div>
+			</li>
+			{/volist}
+			<div style="clear: both;"></div>
+		</ul>
+	</div>
+	<div id="classification">
+	   	<ul class="pagination">
+	   	   <li>共<span style="color:red;">{$fosterData.allData}</span>件商品</li>
+	   	   <li>共<span style="color:red;">{$fosterData.allPageNumber}</span>页<span style="color:red;"> {$fosterData.nowPage}</span>/<span>{$fosterData.allPageNumber}</span></li>
+		   <a href="__ROOT__/foster?page=1"><li class="classification_a">首页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.lastPage}"><li class="classification_a">上一页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.nextPage}"><li class="classification_a">下一页</li></a>
+		   <a href="__ROOT__/foster?page={$fosterData.allPageNumber}"><li class="classification_a">尾页</li></a>
+		   <div style="clear: both;"></div>
+	   	</ul>
+	   	<form class="form" action="__ROOT__/foster" method="get">
+	        <input class="form_input" type="text" name="page" value="{$fosterData.nowPage}"></input>
+	        <button class="form_button" type="submit">跳转</button>
+	    </form>
+   </div>
+</body>
+<script type="text/javascript">
+	$(".actived").removeClass("actived");
+	$(".m-foster").addClass("actived");
+
+	// 私信
+    function sellerSend(aimId,myId,beColl,nick_name,head_image_url) {
+		switch( beColl )
+    	{
+			case 'yes':
+			  chatSlid();
+        	  chooseUser(aimId,nick_name,myId);
+			  break;
+			case 'no':
+			  $(".strangerli").remove(".beChoose"+aimId);
+			  var appendData = '<li class="beChoose'+aimId+' strangerli" onclick="chooseUser('+aimId+',\''+nick_name+'\','+myId+')">'+
+				               '<div class="hhead_img"><img src="'+head_image_url+'"></div>'+
+				               '<div class="hnick_name"><span>'+nick_name+'</span></div>'+
+				               '<div class="attention" onclick="attention( \'ur\','+aimId+' )">关注</div>'+
+			                   '</li>';
+			  $("#stranger").append(appendData);
+			  chatSlid();
+        	  chooseUser(aimId,nick_name,myId);
+			  break;
+		}
+	}
+</script>
+</html>

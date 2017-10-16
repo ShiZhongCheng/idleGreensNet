@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="__ROOT__/phystatic/js/experimentalRecord-content.js"></script>
+	<link rel="stylesheet" type="text/css" href="__ROOT__/phystatic/css/experimentalRecord-content.css">
+</head>
+<body>
+	<div class="experimentalRecord-content">
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        <h3 class="panel-title">用户数据</h3>
+		    </div>
+		    <table class="table">
+			    <th>实验id</th><th>实验名称</th><th>实验教师</th><th>实验时间</th><th>实验教室</th><th>人数性质</th><th>是否结束</th><th>操作</th>
+			    {volist name="InDa[0]['data']" id="data"}
+				<tr>
+					<td>{$data.ex_id}</td>
+					<td>{$data.phy_name}</td>
+					<td>{$data.teachername}</td>
+					<td>{$data.ex_id|date="y-m-d H:m",###}</td>
+					<td>{$data.classroomnumber}</td>
+					<td>{$data.limite}</td>
+					{if condition="$data.isend == 1"}
+					<td>已结束</td>
+					<td>
+						<div class="btn-group">
+						    <a href="__ROOT__/api/admin/realTime?ex_id={$data.ex_id}&phy_id={$data.phy_id}" type="button" class="btn btn-default">实时情况</a>
+						    <a href="__ROOT__/api/myfunction/exportExcle?ex_id={$data.ex_id}&phy_id={$data.phy_id}" target="_blank" type="button" class="btn btn-default">导出excle</a>
+						</div>
+					</td>
+					{else /} 
+					<td style="color: red;">实验中</td>
+					<td>
+						<div class="btn-group">
+						    <a href="__ROOT__/api/admin/realTime?ex_id={$data.ex_id}&phy_id={$data.phy_id}" type="button" class="btn btn-default">实时情况</a>
+						    <a href="__ROOT__/api/myfunction/exportExcle?ex_id={$data.ex_id}&phy_id={$data.phy_id}" target="_blank" type="button" class="btn btn-default">导出excle</a>
+						    <a href="__ROOT__/api/myfunction/endEx?ex_id={$data.ex_id}&phy_id={$data.phy_id}" type="button" class="btn btn-default">结束此实验</a>
+						</div>
+					</td>
+					{/if}
+				</tr>
+				{/volist}
+			</table>
+			<div class="panel-body">
+		        <div class="btn-group btn-group-lg">
+				    <a id="openid_notall" type="button" class="btn btn-default" href="__ROOT__/api/admin/experimentalRecord?openid={$userMesg.oppenid}">我的记录</a>
+				    <a id="openid_all" type="button" class="btn btn-default" href="__ROOT__/api/admin/experimentalRecord?openid=all">所有记录</a>
+				</div>
+				<ul class="pagination pagination-lg">
+					<li><a href="__ROOT__/api/admin/experimentalRecord?openid={$InDa[0]['openid']}&page={$InDa[0]['homePage']}">首页</a></li>
+				    <li><a href="__ROOT__/api/admin/experimentalRecord?openid={$InDa[0]['openid']}&page={$InDa[0]['lastPage']}">上一页</a></li>
+				    <li><a href="__ROOT__/api/admin/experimentalRecord?openid={$InDa[0]['openid']}&page={$InDa[0]['nextPage']}">下一页</a></li>
+				    <li><a href="__ROOT__/api/admin/experimentalRecord?openid={$InDa[0]['openid']}&page={$InDa[0]['endPage']}">尾页</a></li>
+				</ul>
+				<ol class="breadcrumb mybreadcrumb">
+					<li>共<font style="color: red;">{$InDa[0]['count']}</font>项数据</li>
+					<li>共<font style="color: red;">{$InDa[0]['pageNum']}</font>页</li>
+					<li>当前第<font style="color: red;">{$InDa[0]['page']}</font>页</li>
+				</ol>
+		        <div class="col-lg-6 myform">
+			        <form method="GET" action="__ROOT__/api/admin/experimentalRecord">
+						<div class="input-group input-group-lg">
+							<input name="page" value="{$InDa[0]['page']}" type="text" class="form-control">
+							<input name="openid" value="{$InDa[0]['openid']}" type="hidden"></input>
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-primary" type="button">
+									跳转
+								</button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function()   
+{
+	// 左侧功能区首页选中
+	$(".left .nav-pills li:eq(5) .img-edit:eq(0)").addClass("img-edit-active");
+	
+	// 移除加载
+	loadingRemove();
+
+	// 选中显示类型
+	chooseRole( '{$InDa[0]["openid"]}' );
+})
+</script>
+</html>

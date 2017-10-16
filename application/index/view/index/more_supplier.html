@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$title}</title>
+	<link rel="stylesheet" href="__ROOT__/static/index/js/plugins/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="__ROOT__/static/font-awesome/css/font-awesome.min.css">
+	<style type="text/css">
+	*{margin: 0;padding: 0}
+	body{
+		background: #f2f2f2;
+	}
+	.classify{
+		width: 1024px;
+		margin: 0 auto;
+		padding: 20px 10px 20px 10px;
+		margin-top: 10px;
+		background: #fff;
+		border-radius: 5px;
+	}
+	.col-sm-6 {
+	    width: 60%;
+	    position: relative;
+	}
+	.form-group {
+		margin-bottom: 0;
+	}
+	#look_button{
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 34px;
+		height: 34px;
+		border: 0;
+		text-align: center;
+		border-radius: 0 4px 4px 0;
+		/*background: #ffd100;*/
+		outline: none;
+		color: #fff;
+		font-size: 12px;
+	}
+
+	/*数据展示区*/
+	.data_show{
+		width: 1024px;
+		margin: 0 auto;
+		/*padding: 10px;*/
+		margin-top: 10px;
+		/*background: #fff;*/
+		border-radius: 5px;
+	}
+	.data_show ul li{
+		list-style-type: none;
+		float: left;
+		width: 147px;
+		margin-left: 50px;
+		margin-top: 20px;
+		position: relative;
+		background: #fff;
+		border-radius: 5px;
+	}
+	.ds_img{
+		width: 147px;
+		height: 147px;
+	}
+	.ds_img img{
+		width: 147px;
+		height: 147px;
+		border-radius: 5px 5px 0 0;
+	}
+	.ds_img img:hover{
+		opacity: 0.8;
+	}
+	.supplier_name{
+		width: 147px;
+		height: 30px;
+		margin-top: 0;
+		line-height: 30px;
+		font-size: 12px;
+		font-family: 微软雅黑;
+		text-align: center;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		border-bottom: 1px #eee solid;
+	}
+	.supplier_mesg{
+		width: 147px;
+		height: 30px;
+		margin-top: 0;
+		line-height: 30px;
+	}
+	.supplier_mesg .supplier_mesg_dis{
+		float: left;
+		width: 33.33%;
+		height: 100%;
+		position: relative;
+		color: #aaa;
+		font-size: 10px;
+		font-family: 微软雅黑;
+		cursor: pointer;
+		text-align: right;
+		position: relative;
+	}
+	.supplier_mesg .supplier_mesg_dis span{
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+	}
+	.supplier_mesg .supplier_mesg_dis div{
+		position: absolute;
+		top: 35px;
+		left: 0;
+		width: 70px;
+		line-height: 20px;
+		font-size: 10px;
+		font-family: 微软雅黑;
+		text-align: center;
+		background: #fff;
+		border: 1px #aaa solid;
+		font-size: 10px;
+		z-index: 9999;
+		display: none;
+	}
+	#no_data{
+		text-align: center;
+		line-height: 204px;
+		font-size: 12px;
+	}
+
+	/*分页*/
+	#classification{
+        width: 1004px;
+        padding: 10px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background: #fff;
+        position: relative;
+        border-radius: 5px;
+    }
+    #classification ul{
+    	margin: 0;
+    }
+    #classification ul li{
+        list-style: none;
+        float: left;
+        margin: 10px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        margin-right: 6px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 12px;
+    }
+    .classification_a:hover{
+        background: #ffd100;;
+        color: #fff;
+        border-color: #fff;
+    }
+    .classification_a{
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        cursor: pointer;
+        color: #000;
+    }
+    .form{
+        height: 30px;
+        position: absolute;
+        top: 20px;
+        right: 125px;
+        line-height: 30px;
+        font-size: 14px;
+    }
+    .form_input{
+        width: 50px;
+        height: 21px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+    }
+    .form_button{
+        width: 40px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        border: 1px #aaa solid;
+        border-radius: 3px;
+        font-size: 12px;
+        border: 0;
+        color: #fff;
+        background: #ffd100;
+        outline: none;
+    }
+	</style>
+</head>
+<body>
+   <div class="row classify" ng-controller="appCtrl">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal" action="__ROOT__/more_supplier" method="POST">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">地址选择<span class="text-muted">（附件供应商）</span></label>
+                    <div class="col-sm-6">
+                        <input select-address p="p" c="c" a="a" d="d" ng-model="xxx" placeholder="请选择所在地" type="text" class="form-control" name="address" id="form-control" value="{{ p }}{{ c }}{{ a }}{{d}}" />
+                        <input id="look_button" onclick="consoleM();" type="button" value="查找"></input>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="data_show">
+    	<ul>
+	    	{volist name='page_mesg' id='user'}
+				{present name="user.id"}
+	    		<li>
+		    		<a target="_blank" href="__ROOT__/seller/{$user.id}">
+		    			<div class="ds_img">
+							<img src="__ROOT__/{$user.head_image_url}">
+						</div>
+					</a>
+					<div class="supplier_name">{$user.nick_name}</div>
+					<div class="supplier_mesg">
+						<div class="supplier_mesg_dis">
+							<i class="fa fa-bus"></i>
+							<span>{$user.distance}米</span>
+							<div class="showBox">相距{$user.distance}米</div>
+						</div>
+						<div class="supplier_mesg_dis">
+							<i class="fa fa-random"></i>
+							<span>{$user.provide_count}件</span>
+							<div class="showBox">共{$user.provide_count}件商品</div>
+						</div>
+						<div class="supplier_mesg_dis">
+							<i class="fa fa-commenting-o"></i>
+							<span>{$user.dynamic_count}条</span>
+							<div class="showBox">共{$user.dynamic_count}条动态</div>
+						</div>
+					</div>
+	    		</li>
+	    	   {/present}
+		   {/volist}
+		   {notpresent name="page_mesg[3]"}
+		       <div id="no_data">当前所选位置暂时没有供应商，请您重新选择位置!</div>
+		   {/notpresent}
+		   <div style="clear: both;"></div>
+    	</ul>
+    </div>
+
+    <!-- 分页 -->
+    <div id="classification">
+	   	<ul>
+	   	   <li>附近<span style="color:red;">{$page_mesg[2]}</span>个供应商</li>
+	   	   <li>共<span style="color:red;">{$page_mesg[3]}</span>页<span style="color:red;"> {$page_mesg[4]}</span>/<span>{$page_mesg[3]}</span></li>
+		   <a href="__ROOT__/more_supplier?address={$addres}&page=1"><li class="classification_a">首页</li></a>
+		   <a href="__ROOT__/more_supplier?address={$addres}&page={$page_mesg[0]}"><li class="classification_a">上一页</li></a>
+		   <a href="__ROOT__/more_supplier?address={$addres}&page={$page_mesg[1]}"><li class="classification_a">下一页</li></a>
+		   <a href="__ROOT__/more_supplier?address={$addres}&page={$page_mesg[3]}"><li class="classification_a">尾页</li></a>
+		   <div style="clear: both;"></div>
+	   	</ul>
+	   	<form class="form" action="__ROOT__/sell" method="get">
+	        <input class="form_input" type="text" name="page" value="{$page_mesg[4]}"></input>
+	        <button class="form_button" type="ssubmit">跳转</button>
+	    </form>
+   </div>
+</body>
+<script src="__ROOT__/static/index/js/plugins/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="__ROOT__/static/index/js/plugins/angular/angular.min.js" type="text/javascript"></script>
+<script src="__ROOT__/static/index/js/selectAddress2.js" type="text/javascript"></script>
+<!-- <script src="__ROOT__/static/index/js/index.js"></script> -->
+<script type="text/javascript">
+	$(".actived").removeClass("actived");
+	$(".m-seller").addClass("actived");
+
+	// 用于解决此页面a标签不能跳转问题
+	$("a").click(function () {
+		var href = $(this).attr("href");
+		window.location.href=href;  
+	})
+
+	// 搜索点击
+	$("#search_button").click(function () {
+		var q = $("#input_search").val();
+		if (q!="") {
+			window.location.href="__ROOT__/search?q="+q;  
+		}
+	})
+
+	// 跳转点击
+	$(".form_button").click(function () {
+		var page = $(".form_input").val();
+		if (page!="") {
+			window.location.href="__ROOT__/more_supplier?address={$addres}&page="+page;  
+		}
+	})
+
+	// 查找
+	function consoleM() {
+		var address = $("#form-control").val();
+		if (address != "") {
+			window.location.href="__ROOT__/more_supplier?address="+address;  
+		}
+	}
+
+	// Generated by CoffeeScript 1.7.1
+	(function() {
+	  var app;
+
+	  app = angular.module('app', ['selectAddress']);
+
+	  app.controller('appCtrl', function($scope) {
+
+	  	{present name="address[0]"}
+	    $scope.p = '{$address[0]}';
+	    {/present}
+
+	    {present name="address[1]"}
+	    $scope.c = '{$address[1]}';
+	    {/present}
+
+	    {present name="address[2]"}
+	    $scope.a = '{$address[2]}';
+	    {/present}
+
+	    return {present name="address[3]"} $scope.d = '{$address[3]}'; {/present}
+	  });
+
+	  angular.bootstrap(document, ['app']);
+
+	}).call(this);
+
+    //# sourceMappingURL=index.map
+
+    // 小图标hover
+    $(".supplier_mesg .supplier_mesg_dis").hover(
+	  function () {
+	    $(this).find('div').show();
+	  },
+	  function () {
+	    $(this).find('div').hide();
+	  }
+	);
+</script>
+</html>
